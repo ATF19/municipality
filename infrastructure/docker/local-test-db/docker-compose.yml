@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  municipality-local-test-database:
+    build:
+      context: ../docker-context/database
+      dockerfile: DockerFile
+    container_name: municipality-local-test-database-container
+    ports:
+      - "6999:5432"

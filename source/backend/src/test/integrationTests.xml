@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="IntegrationTests">
+    <test name="Municipality Integration Tests">
+
+        <groups>
+            <run>
+                <include name="integration"/>
+            </run>
+        </groups>
+
+        <packages>
+            <package name="com.municipality.backend.*"></package>
+        </packages>
+
+    </test>
+</suite>
