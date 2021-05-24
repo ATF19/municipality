@@ -13,6 +13,7 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.testng.annotations.Test
+import java.util.*
 
 
 class UserAppServiceTest {
@@ -22,7 +23,8 @@ class UserAppServiceTest {
         // given
         val users = mockk<Users>()
         val passwords = mockk<Passwords>()
-        val appService = UserAppService(users, passwords)
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
         val command = RegisterInternalUserCommand(
             AnonymousUser(),
             Username("ben"),
@@ -49,7 +51,8 @@ class UserAppServiceTest {
         // given
         val users = mockk<Users>()
         val passwords = mockk<Passwords>()
-        val appService = UserAppService(users, passwords)
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
         val command = RegisterInternalUserCommand(
             RegisteredUserBuilder().admin().build(),
             Username("ben"),
@@ -76,7 +79,8 @@ class UserAppServiceTest {
         // given
         val users = mockk<Users>()
         val passwords = mockk<Passwords>()
-        val appService = UserAppService(users, passwords)
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
         val command = RegisterInternalUserCommand(
             RegisteredUserBuilder().admin().build(),
             Username("ben"),
@@ -103,7 +107,8 @@ class UserAppServiceTest {
         // given
         val users = mockk<Users>()
         val passwords = mockk<Passwords>()
-        val appService = UserAppService(users, passwords)
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
         val email = Email("test@gmail.com")
         every { users.exists(email) }.returns(true)
         val command = RegisterInternalUserCommand(
@@ -132,7 +137,8 @@ class UserAppServiceTest {
         // given
         val users = mockk<Users>()
         val passwords = mockk<Passwords>()
-        val appService = UserAppService(users, passwords)
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
         val command = RegisterInternalUserCommand(
             RegisteredUserBuilder().admin().build(),
             Username("ben"),
@@ -159,7 +165,8 @@ class UserAppServiceTest {
         // given
         val users = mockk<Users>(relaxed = true)
         val passwords = mockk<Passwords>()
-        val appService = UserAppService(users, passwords)
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
         val username = Username("ben")
         every { users.exists(username) }.returns(true)
         val command = RegisterInternalUserCommand(
@@ -188,7 +195,8 @@ class UserAppServiceTest {
         // given
         val users = mockk<Users>(relaxed = true)
         val passwords = mockk<Passwords>()
-        val appService = UserAppService(users, passwords)
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
         val email = Email("test@gmail.com")
         val username = Username("ben")
         val unencryptedPassword = UnencryptedPassword("thisISMYStrong@Pass2")
@@ -230,7 +238,8 @@ class UserAppServiceTest {
         // given
         val users = mockk<Users>(relaxed = true)
         val passwords = mockk<Passwords>()
-        val appService = UserAppService(users, passwords)
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
         val email = Email("test@gmail.com")
         val username = Username("ben")
         val unencryptedPassword = UnencryptedPassword("thisISMYStrong@Pass2")
@@ -278,5 +287,98 @@ class UserAppServiceTest {
         assertThat(result.isResponsible(districtId2)).isFalse
         assertThat(result.isAuditor(districtId1)).isFalse
         assertThat(result.isAuditor(districtId2)).isTrue
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_username_was_not_found() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val username = Username("john")
+        var password = UnencryptedPassword("mypass")
+        every { users.by(username) }.returns(Optional.empty())
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.login(username, password) }
+            .isInstanceOf(IncorrectUsernameOrPasswordException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_password_is_incorrect() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val username = Username("john")
+        var password = UnencryptedPassword("mypass")
+        val user = RegisteredUserBuilder().build()
+        every { users.by(username) }.returns(Optional.of(user))
+        every { passwords.areEquals(user.cryptedPassword, password) }.returns(false)
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.login(username, password) }
+            .isInstanceOf(IncorrectUsernameOrPasswordException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun login_user() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val username = Username("john")
+        var password = UnencryptedPassword("mypass")
+        val user = RegisteredUserBuilder().build()
+        val session = Session("myCoolSession")
+        every { users.by(username) }.returns(Optional.of(user))
+        every { passwords.areEquals(user.cryptedPassword, password) }.returns(true)
+        every { sessions.create(user) }.returns(session)
+
+        // when
+        val result = appService.login(username, password)
+
+        // then
+        verify { sessions.create(user) }
+        assertThat(result).isEqualTo(session)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_user_is_not_registered() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = AnonymousUser()
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.profile(user) }
+            .isInstanceOf(InsufficientPermissionException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun return_user_profile() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder().build()
+
+        // when
+        val result = appService.profile(user)
+
+        // then
+        assertThat(result).isEqualTo(user)
     }
 }

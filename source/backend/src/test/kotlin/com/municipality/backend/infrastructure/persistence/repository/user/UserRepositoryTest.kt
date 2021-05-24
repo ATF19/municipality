@@ -66,14 +66,14 @@ class UserRepositoryTest : AbstractIntegrationTest() {
     }
 
     @Test(groups = [TestGroup.INTEGRATION])
-    fun throw_exception_if_username_was_not_found() {
+    fun return_empty_username_was_not_found() {
         // given
 
         // when
+        val result = repository.by(Username("not found"))
 
         // then
-        assertThatThrownBy { repository.by(Username("not found")) }
-            .isInstanceOf(NoSuchElementException::class.java)
+        assertThat(result).isNotPresent
     }
 
     @Test(groups = [TestGroup.INTEGRATION])
@@ -86,7 +86,7 @@ class UserRepositoryTest : AbstractIntegrationTest() {
         val result = repository.by(user.username)
 
         // then
-        assertThat(result).isEqualTo(user)
+        assertThat(result).contains(user)
     }
 
     @Test(groups = [TestGroup.INTEGRATION])

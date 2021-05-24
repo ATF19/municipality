@@ -25,9 +25,7 @@ class UserRepository(
         .orElseThrow { NoSuchElementException("No user is registered with the ID '${userId.rawId}'") }
 
 
-    override fun by(username: Username) = userJpaRepository
-            .findByUsername(username)
-            .orElseThrow { NoSuchElementException("No user is registered with the username '${username.username}'") }
+    override fun by(username: Username) = userJpaRepository.findByUsername(username)
 
     override fun exists(username: Username) = userJpaRepository.existsByUsername(username)
 

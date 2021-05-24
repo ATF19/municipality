@@ -6,6 +6,7 @@ import com.municipality.backend.domain.model.core.error.InsufficientPermissionEx
 import com.municipality.backend.domain.model.core.error.MunicipalityException
 import com.municipality.backend.domain.model.user.Email
 import com.municipality.backend.domain.model.user.RegisteredUser
+import com.municipality.backend.domain.model.user.User
 import com.municipality.backend.domain.model.user.Username
 import com.municipality.backend.domain.model.user.role.*
 import com.municipality.backend.domain.service.user.Users
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Component
 @Component
 class UserAppService(
     private val users: Users,
-    private val passwords: Passwords
+    private val passwords: Passwords,
+    private val sessions: Sessions
 ) {
 
     fun register(command: RegisterInternalUserCommand) {
@@ -41,6 +43,24 @@ class UserAppService(
         command.districtsResponsibleFor.forEach { user.roles.grant(DistrictResponsible(it)) }
         command.districtsAuditorFor.forEach { user.roles.grant(DistrictAuditor(it)) }
         users.register(user)
+    }
+
+    fun login(username: Username, password: UnencryptedPassword): Session {
+        if (username.username == null)
+            throw IncorrectUsernameOrPasswordException()
+
+        val user = users.by(username).orElseThrow { IncorrectUsernameOrPasswordException() }
+        if (!passwords.areEquals(user.cryptedPassword, password))
+            throw IncorrectUsernameOrPasswordException()
+
+        return sessions.create(user)
+    }
+
+    fun profile(user: User<*>): RegisteredUser {
+        if (!user.isRegistered() || user !is RegisteredUser)
+            throw InsufficientPermissionException()
+
+        return user
     }
 
     private fun verifyNoMissingInformation(command: RegisterInternalUserCommand) {
@@ -77,3 +97,4 @@ class WeakPasswordException : MunicipalityException()
 class UsernameAlreadyExistsException : MunicipalityException()
 class EmailAlreadyExistsException : MunicipalityException()
 class InvalidEmailException : MunicipalityException()
+class IncorrectUsernameOrPasswordException : MunicipalityException()
