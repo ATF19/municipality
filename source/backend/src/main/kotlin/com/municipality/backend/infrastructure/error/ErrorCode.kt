@@ -1,0 +1,6 @@
+package com.municipality.backend.infrastructure.error
+
+enum class ErrorCode {
+    INTERNAL_ERROR, UNAUTHORIZED, MISSING_INFORMATION, WEAK_PASSWORD, USERNAME_EXISTS,
+    EMAIL_EXISTS, INVALID_EMAIL, INCORRECT_LOGIN_INFORMATION
+}

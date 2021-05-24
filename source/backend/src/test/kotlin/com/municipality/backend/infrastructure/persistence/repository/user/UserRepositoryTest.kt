@@ -38,7 +38,7 @@ class UserRepositoryTest : AbstractIntegrationTest() {
         repository.register(user)
 
         // then
-        assertThat(repository.by(user.username)).isEqualTo(user)
+        assertThat(repository.by(user.username)).contains(user)
     }
 
     @Test(groups = [TestGroup.INTEGRATION])
