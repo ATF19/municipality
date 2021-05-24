@@ -1,6 +1,8 @@
 package com.municipality.backend.domain.model.user
 
 import com.municipality.backend.domain.model.core.DomainEntity
+import com.municipality.backend.domain.model.municipality.MunicipalityId
+import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.role.Roles
 import javax.persistence.Embeddable
 import javax.persistence.Entity
@@ -12,13 +14,30 @@ class RegisteredUser : DomainEntity<RegisteredUserId>, User<RegisteredUserId> {
     lateinit var cryptedPassword: CryptedPassword
     lateinit var firstName: FirstName
     lateinit var lastName: LastName
-    lateinit var roles: Roles
+    val roles: Roles = Roles.empty()
 
     constructor(): super(RegisteredUserId())
 
     constructor(id: RegisteredUserId): super(id)
 
     override fun id() = id
+
+    override fun isAdmin() = roles.isAdmin()
+
+    override fun isRegistered() = true
+
+    override fun isSystem() = false
+
+    override fun isAnonymous() = false
+
+    override fun isResponsible(municipalityId: MunicipalityId) = roles.isMunicipalityResponsible(municipalityId)
+
+    override fun isResponsible(districtId: DistrictId) = roles.isDistrictResponsible(districtId)
+
+    override fun isAuditor(municipalityId: MunicipalityId) = roles.isMunicipalityAuditor(municipalityId)
+
+    override fun isAuditor(districtId: DistrictId) = roles.isDistrictAuditor(districtId)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

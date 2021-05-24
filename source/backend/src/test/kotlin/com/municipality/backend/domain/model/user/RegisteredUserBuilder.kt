@@ -1,5 +1,6 @@
 package com.municipality.backend.domain.model.user
 
+import com.municipality.backend.domain.model.user.role.Admin
 import com.municipality.backend.domain.model.user.role.Roles
 import java.util.*
 
@@ -13,6 +14,11 @@ class RegisteredUserBuilder {
     var lastName = LastName("Doe")
     var roles = Roles.empty()
 
+    fun admin() : RegisteredUserBuilder {
+        roles.grant(Admin())
+        return this
+    }
+
     fun build(): RegisteredUser {
         val registeredUser = RegisteredUser(id)
         registeredUser.username = username
@@ -20,7 +26,7 @@ class RegisteredUserBuilder {
         registeredUser.cryptedPassword = cryptedPassword
         registeredUser.firstName = firstName
         registeredUser.lastName = lastName
-        registeredUser.roles = roles
+        roles.all().forEach { registeredUser.roles.grant(it) }
         return registeredUser
     }
 }
