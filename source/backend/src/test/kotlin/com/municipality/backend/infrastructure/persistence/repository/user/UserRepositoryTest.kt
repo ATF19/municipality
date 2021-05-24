@@ -11,17 +11,14 @@ import com.municipality.backend.domain.model.user.role.Admin
 import com.municipality.backend.domain.model.user.role.MunicipalityAuditor
 import com.municipality.backend.domain.model.user.role.Roles
 import com.municipality.backend.domain.service.user.Users
-import com.municipality.backend.infrastructure.springboot.MunicipalityBackendApplication
+import com.municipality.backend.shared_code_for_tests.AbstractIntegrationTest
 import com.municipality.backend.shared_code_for_tests.TestGroup
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests
 import org.testng.annotations.Test
 
-@SpringBootTest(classes = [ MunicipalityBackendApplication::class ])
-class UserRepositoryTest : AbstractTestNGSpringContextTests() {
+class UserRepositoryTest : AbstractIntegrationTest() {
 
     @Autowired
     private lateinit var repository: Users

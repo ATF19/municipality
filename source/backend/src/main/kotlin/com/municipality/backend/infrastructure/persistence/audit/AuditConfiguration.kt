@@ -1,6 +1,5 @@
 package com.municipality.backend.infrastructure.persistence.audit
 
-import com.municipality.backend.domain.model.user.AnonymousUser
 import org.hibernate.envers.AuditReader
 import org.hibernate.envers.AuditReaderFactory
 import org.springframework.context.annotation.Bean
@@ -23,12 +22,6 @@ class AuditConfiguration(
     fun auditorAware(): AuditorAware<String> = HttpSessionAuditAware()
 
     private class HttpSessionAuditAware : AuditorAware<String> {
-        override fun getCurrentAuditor(): Optional<String> = Optional.of(name())
-
-        private fun name(): String {
-            if (SecurityContextHolder.getContext() == null || SecurityContextHolder.getContext().authentication == null)
-                return AnonymousUser().name()
-            return SecurityContextHolder.getContext().authentication.name
-        }
+        override fun getCurrentAuditor(): Optional<String> = Optional.of(SecurityContextHolder.getContext().authentication.name)
     }
 }

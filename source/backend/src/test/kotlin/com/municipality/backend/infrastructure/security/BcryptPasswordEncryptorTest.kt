@@ -2,16 +2,13 @@ package com.municipality.backend.infrastructure.security
 
 import com.municipality.backend.application.user.Passwords
 import com.municipality.backend.application.user.UnencryptedPassword
-import com.municipality.backend.infrastructure.springboot.MunicipalityBackendApplication
+import com.municipality.backend.shared_code_for_tests.AbstractIntegrationTest
 import com.municipality.backend.shared_code_for_tests.TestGroup
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests
 import org.testng.annotations.Test
 
-@SpringBootTest(classes = [ MunicipalityBackendApplication::class ])
-class BcryptPasswordEncryptorTest : AbstractTestNGSpringContextTests() {
+class BcryptPasswordEncryptorTest : AbstractIntegrationTest() {
 
     @Autowired
     private lateinit var passwords: Passwords

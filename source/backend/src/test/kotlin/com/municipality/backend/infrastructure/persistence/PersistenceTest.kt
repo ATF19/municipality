@@ -3,17 +3,14 @@ package com.municipality.backend.infrastructure.persistence
 import com.municipality.backend.domain.model.core.DummyEntity
 import com.municipality.backend.domain.model.core.DummyName
 import com.municipality.backend.domain.model.core.DummyNumber
-import com.municipality.backend.infrastructure.springboot.MunicipalityBackendApplication
+import com.municipality.backend.shared_code_for_tests.AbstractIntegrationTest
 import com.municipality.backend.shared_code_for_tests.TestGroup
 import org.assertj.core.api.Assertions.assertThat
 import org.hibernate.envers.AuditReader
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests
 import org.testng.annotations.Test
 
-@SpringBootTest(classes = [ MunicipalityBackendApplication::class ])
-class PersistenceTest : AbstractTestNGSpringContextTests() {
+class PersistenceTest : AbstractIntegrationTest() {
 
     @Autowired
     private lateinit var repository: DummyEntityJpaRepository

@@ -6,7 +6,7 @@ import com.municipality.backend.domain.model.core.error.InsufficientPermissionEx
 import com.municipality.backend.domain.model.user.RegisteredUserBuilder
 import com.municipality.backend.domain.model.user.RegisteredUserId
 import com.municipality.backend.domain.service.user.Users
-import com.municipality.backend.infrastructure.springboot.MunicipalityBackendApplication
+import com.municipality.backend.shared_code_for_tests.AbstractIntegrationTest
 import com.municipality.backend.shared_code_for_tests.TestGroup
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -14,16 +14,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests
 import org.testng.annotations.Test
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
 
 
-@SpringBootTest(classes = [ MunicipalityBackendApplication::class ])
-class JwtSessionProviderTest : AbstractTestNGSpringContextTests() {
+class JwtSessionProviderTest : AbstractIntegrationTest() {
 
     @Autowired
     private lateinit var sessions: Sessions
