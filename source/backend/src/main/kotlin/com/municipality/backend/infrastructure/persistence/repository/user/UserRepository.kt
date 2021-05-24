@@ -1,6 +1,5 @@
 package com.municipality.backend.infrastructure.persistence.repository.user
 
-import com.municipality.backend.domain.model.core.DEFAULT_PAGE_SIZE
 import com.municipality.backend.domain.model.core.PageNumber
 import com.municipality.backend.domain.model.user.Email
 import com.municipality.backend.domain.model.user.RegisteredUser
@@ -21,8 +20,12 @@ class UserRepository(
 
     override fun all(page: PageNumber) = userJpaRepository.findAll(PageBuilder.builder.build(page)).content
 
-    override fun by(username: Username) =
-        userJpaRepository
+    override fun by(userId: RegisteredUserId) = userJpaRepository
+        .findById(userId)
+        .orElseThrow { NoSuchElementException("No user is registered with the ID '${userId.rawId}'") }
+
+
+    override fun by(username: Username) = userJpaRepository
             .findByUsername(username)
             .orElseThrow { NoSuchElementException("No user is registered with the username '${username.username}'") }
 

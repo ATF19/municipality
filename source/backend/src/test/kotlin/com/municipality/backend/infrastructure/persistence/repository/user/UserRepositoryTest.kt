@@ -5,6 +5,7 @@ import com.municipality.backend.domain.model.core.PageNumber
 import com.municipality.backend.domain.model.municipality.MunicipalityId
 import com.municipality.backend.domain.model.user.Email
 import com.municipality.backend.domain.model.user.RegisteredUserBuilder
+import com.municipality.backend.domain.model.user.RegisteredUserId
 import com.municipality.backend.domain.model.user.Username
 import com.municipality.backend.domain.model.user.role.Admin
 import com.municipality.backend.domain.model.user.role.MunicipalityAuditor
@@ -41,6 +42,30 @@ class UserRepositoryTest : AbstractTestNGSpringContextTests() {
 
         // then
         assertThat(repository.by(user.username)).isEqualTo(user)
+    }
+
+    @Test(groups = [TestGroup.INTEGRATION])
+    fun throw_exception_if_id_was_not_found() {
+        // given
+
+        // when
+
+        // then
+        assertThatThrownBy { repository.by(RegisteredUserId()) }
+            .isInstanceOf(NoSuchElementException::class.java)
+    }
+
+    @Test(groups = [TestGroup.INTEGRATION])
+    fun find_by_id() {
+        // given
+        val user = RegisteredUserBuilder().build()
+        repository.register(user)
+
+        // when
+        val result = repository.by(user.id)
+
+        // then
+        assertThat(result).isEqualTo(user)
     }
 
     @Test(groups = [TestGroup.INTEGRATION])

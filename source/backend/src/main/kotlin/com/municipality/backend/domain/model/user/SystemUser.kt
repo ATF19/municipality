@@ -6,6 +6,8 @@ import com.municipality.backend.domain.model.municipality.district.DistrictId
 class SystemUser : User<SystemUserId> {
     override fun id() = SystemUserId.instance
 
+    override fun name() = "SYS--_"
+
     override fun isAdmin() = false
 
     override fun isRegistered() = false

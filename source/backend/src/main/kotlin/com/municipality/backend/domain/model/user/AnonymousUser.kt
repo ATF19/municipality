@@ -6,6 +6,8 @@ import com.municipality.backend.domain.model.municipality.district.DistrictId
 class AnonymousUser : User<AnonymousUserId> {
     override fun id() = AnonymousUserId.instance
 
+    override fun name() = ""
+
     override fun isAdmin() = false
 
     override fun isRegistered() = false
@@ -21,5 +23,4 @@ class AnonymousUser : User<AnonymousUserId> {
     override fun isAuditor(municipalityId: MunicipalityId) = false
 
     override fun isAuditor(districtId: DistrictId) = false
-
 }

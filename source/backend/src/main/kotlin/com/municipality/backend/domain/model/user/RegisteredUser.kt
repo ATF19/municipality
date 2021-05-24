@@ -22,6 +22,8 @@ class RegisteredUser : DomainEntity<RegisteredUserId>, User<RegisteredUserId> {
 
     override fun id() = id
 
+    override fun name() = username.username.orEmpty()
+
     override fun isAdmin() = roles.isAdmin()
 
     override fun isRegistered() = true

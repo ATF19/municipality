@@ -4,7 +4,8 @@ import com.municipality.backend.domain.model.municipality.MunicipalityId
 import com.municipality.backend.domain.model.municipality.district.DistrictId
 
 interface User<T : UserId> {
-    fun id() : T
+    fun id(): T
+    fun name(): String
     fun isAdmin(): Boolean
     fun isRegistered(): Boolean
     fun isSystem(): Boolean
