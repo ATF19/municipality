@@ -4,9 +4,9 @@ import com.municipality.backend.application.user.LoggedInUserResolver
 import com.municipality.backend.domain.model.user.AnonymousUser
 import com.municipality.backend.domain.model.user.User
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.context.annotation.RequestScope
+import org.springframework.stereotype.Component
 
-@RequestScope
+@Component
 class HttpSessionLoggedInUserResolver : LoggedInUserResolver {
 
     override fun loggedIn(): User<*> {

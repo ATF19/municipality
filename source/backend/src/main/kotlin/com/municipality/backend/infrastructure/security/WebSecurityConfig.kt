@@ -17,7 +17,7 @@ class WebSecurityConfig(
 
     override fun configure(httpSecurity: HttpSecurity) {
         // We use app level authentication/authorization
-        httpSecurity.authorizeRequests().antMatchers("/**").permitAll()
+        httpSecurity.csrf().disable().authorizeRequests().antMatchers("/**").permitAll()
         httpSecurity.addFilterBefore(sessionFilter, UsernamePasswordAuthenticationFilter::class.java)
     }
 }

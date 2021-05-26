@@ -14,10 +14,7 @@ import com.municipality.backend.domain.model.user.role.MunicipalityResponsible
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
@@ -31,7 +28,7 @@ class UserRestService(
 ) {
 
     @PostMapping
-    fun login(loginRequest: LoginRequest, httpServletResponse: HttpServletResponse): ResponseEntity<String> {
+    fun login(@RequestBody loginRequest: LoginRequest, httpServletResponse: HttpServletResponse): ResponseEntity<String> {
         val session = userAppService.login(Username(loginRequest.username),
             UnencryptedPassword(loginRequest.password))
         val cookie = Cookie(sessionCookieName, session.code)
@@ -41,8 +38,8 @@ class UserRestService(
         return ResponseEntity.ok().build()
     }
 
-    @PostMapping
-    fun registerInternal(request: RegisterRequest): ResponseEntity<String> {
+    @PutMapping
+    fun registerInternal(@RequestBody request: RegisterRequest): ResponseEntity<String> {
         val command = RegisterInternalUserCommand(loggedInUserResolver.loggedIn(), Username(request.username), Email(request.email),
         UnencryptedPassword(request.password), FirstName(request.firstName), LastName(request.lastName),
             request.isAdmin, request.municipalitiesResponsible.map { MunicipalityId(it) }.toSet(), request.municipalitiesAuditor.map { MunicipalityId(it) }.toSet(),
@@ -51,7 +48,7 @@ class UserRestService(
         return ResponseEntity.ok().build()
     }
 
-    @PostMapping
+    @PostMapping("logout")
     fun logout(httpServletResponse: HttpServletResponse): ResponseEntity<String> {
         val cookie = Cookie(sessionCookieName, null)
         cookie.isHttpOnly = true

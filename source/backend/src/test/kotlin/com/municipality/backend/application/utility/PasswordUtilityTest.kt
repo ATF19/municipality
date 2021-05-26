@@ -16,7 +16,7 @@ class PasswordUtilityTest {
         val result = PasswordUtility.isStrong(password)
 
         // then
-        assertThat(result).isFalse()
+        assertThat(result).isFalse
     }
 
     @Test(groups = [TestGroup.UNIT])
@@ -28,7 +28,7 @@ class PasswordUtilityTest {
         val result = PasswordUtility.isStrong(password)
 
         // then
-        assertThat(result).isFalse()
+        assertThat(result).isFalse
     }
 
     @Test(groups = [TestGroup.UNIT])
@@ -40,7 +40,7 @@ class PasswordUtilityTest {
         val result = PasswordUtility.isStrong(password)
 
         // then
-        assertThat(result).isFalse()
+        assertThat(result).isFalse
     }
 
     @Test(groups = [TestGroup.UNIT])
@@ -52,19 +52,7 @@ class PasswordUtilityTest {
         val result = PasswordUtility.isStrong(password)
 
         // then
-        assertThat(result).isFalse()
-    }
-
-    @Test(groups = [TestGroup.UNIT])
-    fun return_false_if_password_does_not_contain_special_character() {
-        // given
-        val password = UnencryptedPassword("LDS94380XdD1BqaQ")
-
-        // when
-        val result = PasswordUtility.isStrong(password)
-
-        // then
-        assertThat(result).isFalse()
+        assertThat(result).isFalse
     }
 
     @Test(groups = [TestGroup.UNIT])
@@ -76,7 +64,7 @@ class PasswordUtilityTest {
         val result = PasswordUtility.isStrong(password)
 
         // then
-        assertThat(result).isFalse()
+        assertThat(result).isFalse
     }
 
     @Test(groups = [TestGroup.UNIT])
@@ -88,6 +76,6 @@ class PasswordUtilityTest {
         val result = PasswordUtility.isStrong(password)
 
         // then
-        assertThat(result).isTrue()
+        assertThat(result).isTrue
     }
 }

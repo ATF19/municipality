@@ -1,10 +1,9 @@
 package com.municipality.backend.application.utility
 
 import com.municipality.backend.application.user.UnencryptedPassword
-import com.municipality.backend.domain.model.user.Email
 import java.util.regex.Pattern
 
-private val VALID_PASSWORD_ADDRESS_REGEX = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
+private val VALID_PASSWORD_ADDRESS_REGEX = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+\$).{8,}\$")
 
 class PasswordUtility private constructor(){
     companion object {
