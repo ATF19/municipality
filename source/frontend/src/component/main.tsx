@@ -1,5 +1,8 @@
+import React from "react";
+import Login from "../page/login";
+
 const Main = () => (
-    <h1>Hello world</h1>
+    <Login />
 )
 
 export default Main;

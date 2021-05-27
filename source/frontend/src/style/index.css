@@ -1,0 +1,205 @@
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: transparent;
+}
+
+ .button-trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+ .button-trigger:hover {
+    color: #1890ff;
+  }
+  
+  .header-logo {
+    height: 32px;
+    margin: 16px;
+  }
+
+  .no-margin {
+    margin: 0 !important;
+}
+
+.login-container {
+    display: table;
+    background-color: #f8f8f8;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+.login-content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    height: 500px;
+    display: flex;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 7px 29px 3px rgba(0,0,0,0.06);
+    -moz-box-shadow: 0px 7px 29px 3px rgba(0,0,0,0.06);
+    box-shadow: 0px 7px 29px 3px rgba(0,0,0,0.06);
+}
+
+.login-row {
+    width: 100%;
+}
+
+.login-bg {
+    background-image: url('../img/login-bg.jpg');
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+}
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 500px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.main-logo {
+    width: 160px;
+}
+
+.separator {
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+    height: 1px;
+    width: 70%;
+    border: 0;
+    border-top: 1px solid rgba(204, 204, 204, 0.3);
+    padding: 0; 
+}
+
+.logo-container:hover {
+    cursor: default;
+    border-bottom-color: transparent !important;
+}
+
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 30%;
+    left: 0;
+    bottom: 20%;
+    right: 0;
+}
+
+.pageheader-with-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content {
+    background-color: #fff;
+    padding: 24px;
+    margin: 0;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 7px 29px 3px rgba(0,0,0,0.02);
+    -moz-box-shadow: 0px 7px 29px 3px rgba(0,0,0,0.02);
+    box-shadow: 0px 7px 29px 3px rgba(0,0,0,0.02);
+}
+
+.app-card {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.add-new-card {
+    height: 100%;
+    min-height: 170px;
+    border-radius: 10px;
+    border-width: 1.5px;
+    border-style: dashed;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+}
+
+.app-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.app-icon-empty {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.app-title-container {
+    margin-left: 15px;
+}
+
+.ant-card-body {
+    height: 75%;
+}
+
+.add-new-card .ant-card-body {
+    height: auto;
+}
+
+.ant-card-actions {
+    height: 25%;
+    border-top-style: dashed;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.app-tags {
+    margin-top: 8px;
+}
+
+.tag {
+    margin-top: 7px;
+}
+
+.asset-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.application-asset-img {
+    width: 150px;
+    margin-bottom: 20px;
+}
