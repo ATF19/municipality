@@ -25,6 +25,8 @@ import { LoginRequest } from '../dto';
 // @ts-ignore
 import { RegisterRequest } from '../dto';
 // @ts-ignore
+import { UpdateProfileRequest } from '../dto';
+// @ts-ignore
 import { UserDto } from '../dto';
 /**
  * UserRestServiceApi - axios parameter creator
@@ -160,6 +162,41 @@ export const UserRestServiceApiAxiosParamCreator = function (configuration?: Con
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {UpdateProfileRequest} updateProfileRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProfile: async (updateProfileRequest: UpdateProfileRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateProfileRequest' is not null or undefined
+            assertParamExists('updateProfile', 'updateProfileRequest', updateProfileRequest)
+            const localVarPath = `/user/update`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateProfileRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -208,6 +245,16 @@ export const UserRestServiceApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.registerInternal(registerRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {UpdateProfileRequest} updateProfileRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateProfile(updateProfileRequest: UpdateProfileRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProfile(updateProfileRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -252,6 +299,15 @@ export const UserRestServiceApiFactory = function (configuration?: Configuration
         registerInternal(registerRequest: RegisterRequest, options?: any): AxiosPromise<string> {
             return localVarFp.registerInternal(registerRequest, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {UpdateProfileRequest} updateProfileRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProfile(updateProfileRequest: UpdateProfileRequest, options?: any): AxiosPromise<string> {
+            return localVarFp.updateProfile(updateProfileRequest, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -294,6 +350,15 @@ export interface UserRestServiceApiInterface {
      * @memberof UserRestServiceApiInterface
      */
     registerInternal(registerRequest: RegisterRequest, options?: any): AxiosPromise<string>;
+
+    /**
+     * 
+     * @param {UpdateProfileRequest} updateProfileRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserRestServiceApiInterface
+     */
+    updateProfile(updateProfileRequest: UpdateProfileRequest, options?: any): AxiosPromise<string>;
 
 }
 
@@ -344,5 +409,16 @@ export class UserRestServiceApi extends BaseAPI implements UserRestServiceApiInt
      */
     public registerInternal(registerRequest: RegisterRequest, options?: any) {
         return UserRestServiceApiFp(this.configuration).registerInternal(registerRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UpdateProfileRequest} updateProfileRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserRestServiceApi
+     */
+    public updateProfile(updateProfileRequest: UpdateProfileRequest, options?: any) {
+        return UserRestServiceApiFp(this.configuration).updateProfile(updateProfileRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }

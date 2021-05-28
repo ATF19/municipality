@@ -63,6 +63,33 @@ class UserAppService(
         return user
     }
 
+    fun updateProfile(command: UpdateProfileCommand) {
+        if (!command.user.isRegistered())
+            throw InsufficientPermissionException()
+
+        verifyMissingUpdateInformation(command)
+        val user = command.user as RegisteredUser
+        if (user.email != command.email)
+            verifyEmailValidAndDoesNotExists(command.email)
+        user.email = command.email
+        if (command.unencryptedPassword.isPresent) {
+            verifyPasswordIsNotWeak(command.unencryptedPassword.get())
+            user.cryptedPassword = passwords.encrypt(command.unencryptedPassword.get())
+        }
+        user.firstName = command.firstName
+        user.lastName = command.lastName
+        users.update(user)
+    }
+
+    private fun verifyMissingUpdateInformation(command: UpdateProfileCommand) {
+        if (command.email.email == null || command.email.email.isEmpty() ||
+            (command.unencryptedPassword.isPresent && command.unencryptedPassword.get().password.isEmpty()) ||
+            command.firstName.firstName == null || command.firstName.firstName.isEmpty()||
+            command.lastName.lastName == null || command.lastName.lastName.isEmpty()
+        )
+            throw MissingInformationException()
+    }
+
     private fun verifyNoMissingInformation(command: RegisterInternalUserCommand) {
         if (command.email.email == null || command.email.email.isEmpty() ||
             command.username.username == null || command.username.username.isEmpty() ||

@@ -14,4 +14,5 @@ interface Users {
     fun by(username: Username): Optional<RegisteredUser>
     fun exists(username: Username): Boolean
     fun exists(email: Email): Boolean
+    fun update(user: RegisteredUser)
 }

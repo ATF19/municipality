@@ -6,6 +6,11 @@ import java.util.*
 
 
 class RegisteredUserBuilder {
+
+    companion object {
+        val DEFAULT = RegisteredUserBuilder().build()
+    }
+
     var id = RegisteredUserId()
     var username = Username(UUID.randomUUID().toString())
     var email = Email("${UUID.randomUUID()}@test.com")

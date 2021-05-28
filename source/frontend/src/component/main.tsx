@@ -1,7 +1,7 @@
-import { HeartTwoTone, LogoutOutlined } from "@ant-design/icons";
+import { HeartTwoTone, LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, message, Modal } from "antd";
 import { Content, Footer } from "antd/lib/layout/layout";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Link } from 'react-router-dom';
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import ApiConfig from "../configuration/apiConfig";
 import Login from "../page/login";
@@ -30,7 +30,7 @@ const Main = () => {
         return <Loading />
     if (user)
         return (
-            <Context.Provider value={{user, toggleGlobalLoading}}>
+            <Context.Provider value={{user, toggleGlobalLoading, setLoggedinUser}}>
                 <MainContainer user={user} />
             </Context.Provider>
         )
@@ -65,10 +65,12 @@ const MainContainer = ({user}: MainContainerProps) => {
 
     let selectedElement = "1";
     const location = window.location.pathname;
-    if(location.indexOf("subscriptions") > -1)
-      selectedElement = "2";
+    if(location.indexOf("profil") > -1)
+      selectedElement = "profil";
     else if(location.indexOf("trials") > -1)
       selectedElement = "3";
+    else if(location.indexOf("404") > -1)
+      selectedElement = "-1";
 
     return (
         <BrowserRouter>
@@ -81,6 +83,12 @@ const MainContainer = ({user}: MainContainerProps) => {
                 >
                     <Menu.Item key="logo" className="logo-container">
                         <img src="/img/logo.png" alt="logo" className="header-logo" />
+                    </Menu.Item>
+                    <Menu.Item key="profil">
+                        <Link to="/profil">
+                            <UserOutlined className="menu-icon" />
+                            Mon Profil
+                        </Link>
                     </Menu.Item>
                     <Menu.Item key="logout" onClick={showLogoutConfirm}>
                         <LogoutOutlined className="menu-icon" />

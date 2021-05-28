@@ -18,9 +18,9 @@ class UserRepository(
         userJpaRepository.save(user)
     }
 
-    override fun all(page: PageNumber) = userJpaRepository.findAll(PageBuilder.builder.build(page)).content
+    override fun all(page: PageNumber): List<RegisteredUser> = userJpaRepository.findAll(PageBuilder.builder.build(page)).content
 
-    override fun by(userId: RegisteredUserId) = userJpaRepository
+    override fun by(userId: RegisteredUserId): RegisteredUser = userJpaRepository
         .findById(userId)
         .orElseThrow { NoSuchElementException("No user is registered with the ID '${userId.rawId}'") }
 
@@ -30,4 +30,8 @@ class UserRepository(
     override fun exists(username: Username) = userJpaRepository.existsByUsername(username)
 
     override fun exists(email: Email) = userJpaRepository.existsByEmail(email)
+
+    override fun update(user: RegisteredUser) {
+        userJpaRepository.save(user)
+    }
 }

@@ -381,4 +381,177 @@ class UserAppServiceTest {
         // then
         assertThat(result).isEqualTo(user)
     }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_user_is_not_registered_and_tries_to_update_profile() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = AnonymousUser()
+        val command = UpdateProfileCommand(
+            user,
+            Email("newEmail@test.com"),
+            Optional.of(UnencryptedPassword("myStrongP1ss")),
+            FirstName("John"),
+            LastName("Doe")
+        )
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.updateProfile(command) }
+            .isInstanceOf(InsufficientPermissionException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_not_all_information_are_provided_when_updating_profile() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder.DEFAULT
+        val command = UpdateProfileCommand(
+            user,
+            Email("newEmail@test.com"),
+            Optional.of(UnencryptedPassword("myStrongP1ss")),
+            FirstName(null),
+            LastName("Doe")
+        )
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.updateProfile(command) }
+            .isInstanceOf(MissingInformationException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_a_weak_password_is_provided_when_updating_profile() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder.DEFAULT
+        val command = UpdateProfileCommand(
+            user,
+            Email("newEmail@test.com"),
+            Optional.of(UnencryptedPassword("weak")),
+            FirstName("John"),
+            LastName("Doe")
+        )
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.updateProfile(command) }
+            .isInstanceOf(WeakPasswordException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_a_invalid_email_is_provided_when_updating_profile() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder.DEFAULT
+        val command = UpdateProfileCommand(
+            user,
+            Email("newEmail"),
+            Optional.of(UnencryptedPassword("strong@1Pass")),
+            FirstName("John"),
+            LastName("Doe")
+        )
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.updateProfile(command) }
+            .isInstanceOf(InvalidEmailException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_a_existing_email_is_provided_when_updating_profile() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder.DEFAULT
+        val email = Email("email@gmail.com")
+        every { users.exists(email) }.returns(true)
+        val command = UpdateProfileCommand(
+            user,
+            email,
+            Optional.of(UnencryptedPassword("strong@1Pass")),
+            FirstName("John"),
+            LastName("Doe")
+        )
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.updateProfile(command) }
+            .isInstanceOf(EmailAlreadyExistsException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun udpate_user_profile() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder.DEFAULT
+        val email = Email("newEmail@gmail.com")
+        every { users.exists(email) }.returns(false)
+        val password = UnencryptedPassword("strong@1Pass")
+        val encryptedPassword = CryptedPassword("cryptedPass")
+        every { passwords.encrypt(password) }.returns(encryptedPassword)
+        val firstName = FirstName("John")
+        val lastName = LastName("Doe")
+        val command = UpdateProfileCommand(user, email, Optional.of(password), firstName, lastName)
+
+        // when
+        appService.updateProfile(command)
+
+        // then
+        val captor = slot<RegisteredUser>()
+        verify { users.update(capture(captor)) }
+        val result = captor.captured
+        assertThat(result.id).isEqualTo(user.id)
+        assertThat(result.username).isEqualTo(user.username)
+        assertThat(result.email).isEqualTo(email)
+        assertThat(result.cryptedPassword).isEqualTo(encryptedPassword)
+        assertThat(result.firstName).isEqualTo(firstName)
+        assertThat(result.lastName).isEqualTo(lastName)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun udpate_user_profile_without_password() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder.DEFAULT
+        val email = Email("newEmail@gmail.com")
+        every { users.exists(email) }.returns(false)
+        val firstName = FirstName("John")
+        val lastName = LastName("Doe")
+        val command = UpdateProfileCommand(user, email, Optional.empty(), firstName, lastName)
+
+        // when
+        appService.updateProfile(command)
+
+        // then
+        val captor = slot<RegisteredUser>()
+        verify { users.update(capture(captor)) }
+        val result = captor.captured
+        assertThat(result.cryptedPassword).isEqualTo(user.cryptedPassword)
+    }
 }

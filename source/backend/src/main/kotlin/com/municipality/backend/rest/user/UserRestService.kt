@@ -1,9 +1,6 @@
 package com.municipality.backend.rest.user
 
-import com.municipality.backend.application.user.LoggedInUserResolver
-import com.municipality.backend.application.user.RegisterInternalUserCommand
-import com.municipality.backend.application.user.UnencryptedPassword
-import com.municipality.backend.application.user.UserAppService
+import com.municipality.backend.application.user.*
 import com.municipality.backend.domain.model.municipality.MunicipalityId
 import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.*
@@ -14,12 +11,15 @@ import com.municipality.backend.domain.model.user.role.MunicipalityResponsible
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
+import java.util.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping("/user")
+@Transactional
 class UserRestService(
     @Value("\${municipality.session.cookie}")
     val sessionCookieName: String,
@@ -61,10 +61,17 @@ class UserRestService(
     @GetMapping
     fun me(): ResponseEntity<UserDto> {
         val loggedIn = loggedInUserResolver.loggedIn()
-        if (loggedIn is RegisteredUser)
-            return ResponseEntity.ok(toDto(loggedIn))
+        return ResponseEntity.ok(toDto(userAppService.profile(loggedIn)))
+    }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+    @PostMapping("update")
+    fun updateProfile(@RequestBody request: UpdateProfileRequest): ResponseEntity<String> {
+        var password: Optional<UnencryptedPassword> = Optional.empty()
+        if (request.password != null)
+            password = Optional.of(UnencryptedPassword(request.password))
+        val command = UpdateProfileCommand(loggedInUserResolver.loggedIn(), Email(request.email), password, FirstName(request.firstName), LastName(request.lastName))
+        userAppService.updateProfile(command)
+        return ResponseEntity.ok().build()
     }
 
     private fun toDto(user: RegisteredUser): UserDto {
@@ -96,3 +103,4 @@ data class UserDto(val id: String, val username: String, val email: String,
                    val firstName: String, val lastName: String, val isAdmin: Boolean,
                    val municipalitiesResponsible: Set<String>, val municipalitiesAuditor: Set<String>,
                    val districtsResponsible: Set<String>, val districtsAuditor: Set<String>)
+data class UpdateProfileRequest(val email: String, val password: String?, val firstName: String, val lastName: String)

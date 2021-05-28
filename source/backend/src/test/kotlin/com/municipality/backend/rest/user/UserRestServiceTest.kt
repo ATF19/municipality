@@ -78,6 +78,7 @@ class UserRestServiceTest {
         val restService = UserRestService(cookieName, userAppService, loggedInUserResolver)
         val registeredUser = RegisteredUserBuilder().build()
         every { loggedInUserResolver.loggedIn() }.returns(registeredUser)
+        every { userAppService.profile(loggedInUserResolver.loggedIn()) }.returns(registeredUser)
 
         // when
         val response = restService.me()
@@ -126,5 +127,51 @@ class UserRestServiceTest {
         assertThat(result.municipalitiesAuditorFor).containsOnly(municipalityId3)
         assertThat(result.districtsResponsibleFor).containsExactlyInAnyOrder(districtId1, districtId2)
         assertThat(result.districtsAuditorFor).isEmpty()
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun update_profile() {
+        // given
+        val userAppService = mockk<UserAppService>(relaxed = true)
+        val cookieName = "TestCookie"
+        val loggedInUserResolver = LoggedInUserForTest()
+        val restService = UserRestService(cookieName, userAppService, loggedInUserResolver)
+        val request = UpdateProfileRequest("demo@test.com", "myStrongPass",
+            "John", "Doe")
+
+        // when
+        val response = restService.updateProfile(request)
+
+        // then
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        val captureSlot = slot<UpdateProfileCommand>()
+        verify { userAppService.updateProfile(capture(captureSlot)) }
+        val result = captureSlot.captured
+        assertThat(result.user).isEqualTo(loggedInUserResolver.loggedIn())
+        assertThat(result.email.email).isEqualTo(request.email)
+        assertThat(result.unencryptedPassword).contains(UnencryptedPassword(request.password!!))
+        assertThat(result.firstName.firstName).isEqualTo(request.firstName)
+        assertThat(result.lastName.lastName).isEqualTo(request.lastName)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun update_profile_without_password() {
+        // given
+        val userAppService = mockk<UserAppService>(relaxed = true)
+        val cookieName = "TestCookie"
+        val loggedInUserResolver = LoggedInUserForTest()
+        val restService = UserRestService(cookieName, userAppService, loggedInUserResolver)
+        val request = UpdateProfileRequest("demo@test.com", null,
+            "John", "Doe")
+
+        // when
+        val response = restService.updateProfile(request)
+
+        // then
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        val captureSlot = slot<UpdateProfileCommand>()
+        verify { userAppService.updateProfile(capture(captureSlot)) }
+        val result = captureSlot.captured
+        assertThat(result.unencryptedPassword).isEmpty
     }
 }

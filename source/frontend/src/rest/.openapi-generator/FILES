@@ -7,5 +7,6 @@ configuration.ts
 dto/index.ts
 dto/login-request.ts
 dto/register-request.ts
+dto/update-profile-request.ts
 dto/user-dto.ts
 index.ts

@@ -177,4 +177,23 @@ class UserRepositoryTest : AbstractIntegrationTest() {
         assertThat(secondPage).containsExactlyInAnyOrder(user2, user1)
         assertThat(thirdPage).isEmpty()
     }
+
+    @Test(groups = [TestGroup.INTEGRATION])
+    fun update_user() {
+        // given
+        val builder = RegisteredUserBuilder()
+        builder.roles = Roles.of(Admin(), MunicipalityAuditor(MunicipalityId()))
+        val user = builder.build()
+        repository.register(user)
+        val newEmail = Email("newEmail@test.com")
+        user.email = newEmail
+
+        // when
+        repository.update(user)
+
+        // then
+        val by = repository.by(user.id)
+        assertThat(by.email).isEqualTo(newEmail)
+        assertThat(by).isEqualTo(user)
+    }
 }
