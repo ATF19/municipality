@@ -3,6 +3,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import React, { Fragment, useState } from "react";
 import ApiConfig from "../configuration/apiConfig";
 import { LoginRequest, UserRestServiceApi } from "../rest";
+import ErrorCode from "../error/errorCode";
 
 const Login = () => {
     const [username, changeUsername] = useState("");
@@ -10,6 +11,7 @@ const Login = () => {
     const [btnLoading, toggleLoading] = useState(false);
     const [hasError, toggleError] = useState(false);
     const [errorMessage, changeErrorMessage] = useState("");
+    const userApi = new UserRestServiceApi(ApiConfig());
 
     const login = () => {
         if (username.length < 3 || password.length < 3) {
@@ -18,15 +20,17 @@ const Login = () => {
             return;
         }
         toggleLoading(true);
-        const userApi = new UserRestServiceApi(ApiConfig());
         const loginRequest: LoginRequest = {username, password};
         userApi.login(loginRequest)
         .then(response => {
-            console.log(response)
+            window.location.reload()
         })
         .catch(error => {
-            if (error.response && error.response.data)
-                console.log(error.response.data.code)
+            if (error?.response?.data?.code === ErrorCode.INCORRECT_LOGIN)
+                changeErrorMessage("Nom d'utilisateur et/ou mot de passe erronés.")
+            else
+                changeErrorMessage("Une erreur inconnue s'est produite. Veuillez réessayer.")
+            toggleError(true);
         })
         .finally(() => toggleLoading(false));
     }
@@ -41,7 +45,7 @@ const Login = () => {
                         </Col>
                         <Col md={12} sm={24}>
                             <div className="login-form-container">
-                                <h2 className="logo">Municipalité</h2>
+                                <img src="/img/logo.png" alt="logo" className="login-logo" />
                                 <span className="separator"></span>
                                 <Form onFinish={login} className="login-form">
                                     <Form.Item>

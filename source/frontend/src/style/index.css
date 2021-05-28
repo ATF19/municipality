@@ -1,3 +1,7 @@
+body {
+    background-color: #f0f2f5;
+}
+
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
     background-color: transparent;
 }
@@ -73,13 +77,22 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     height: 500px;
     padding-left: 20px;
     padding-right: 20px;
 }
 
+.login-form {
+    width: 100%;
+}
+
 .main-logo {
     width: 160px;
+}
+
+.login-logo {
+    width: 200px;
 }
 
 .separator {
@@ -128,41 +141,10 @@
     box-shadow: 0px 7px 29px 3px rgba(0,0,0,0.02);
 }
 
-.app-card {
-    height: 100%;
-    border-radius: 10px;
-}
-
-.add-new-card {
-    height: 100%;
-    min-height: 170px;
-    border-radius: 10px;
-    border-width: 1.5px;
-    border-style: dashed;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .card-header {
     display: flex;
     align-items: center;
-}
-
-.app-icon {
-    width: 50px;
-    height: 50px;
-}
-
-.app-icon-empty {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;   
-    border-radius: 5px;
-    font-size: 18px;
 }
 
 .app-title-container {
@@ -184,22 +166,8 @@
     border-bottom-right-radius: 10px;
 }
 
-.app-tags {
-    margin-top: 8px;
-}
 
-.tag {
-    margin-top: 7px;
-}
-
-.asset-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.application-asset-img {
-    width: 150px;
-    margin-bottom: 20px;
+.menu-icon {
+    margin-right: 5px;
+    font-size: 16px;
 }

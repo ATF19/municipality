@@ -8,5 +8,5 @@ ReactDOM.render(
   <React.StrictMode>
     <Main />
   </React.StrictMode>,
-  document.getElementById('municipality-app')
+  document.getElementById('communaute-app')
 );

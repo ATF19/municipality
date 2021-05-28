@@ -1,1 +1,1 @@
-# Municipality Frontend Application
+# Communauté Frontend Application
