@@ -4,8 +4,6 @@ import com.municipality.backend.application.user.*
 import com.municipality.backend.domain.model.core.DEFAULT_PAGE_SIZE
 import com.municipality.backend.domain.model.core.FIRST_PAGE
 import com.municipality.backend.domain.model.core.PageNumber
-import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.*
 import com.municipality.backend.domain.model.user.role.DistrictAuditor
 import com.municipality.backend.domain.model.user.role.DistrictResponsible
@@ -13,7 +11,6 @@ import com.municipality.backend.domain.model.user.role.MunicipalityAuditor
 import com.municipality.backend.domain.model.user.role.MunicipalityResponsible
 import com.municipality.backend.rest.core.PageDto
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*

@@ -5,8 +5,8 @@ import com.municipality.backend.domain.model.core.Page
 import com.municipality.backend.domain.model.core.PageNumber
 import com.municipality.backend.domain.model.core.PageSize
 import com.municipality.backend.domain.model.core.error.InsufficientPermissionException
+import com.municipality.backend.domain.model.district.DistrictId
 import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.*
 import com.municipality.backend.domain.service.user.Users
 import com.municipality.backend.shared_code_for_tests.TestGroup

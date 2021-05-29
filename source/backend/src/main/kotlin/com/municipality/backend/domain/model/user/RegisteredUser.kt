@@ -1,8 +1,8 @@
 package com.municipality.backend.domain.model.user
 
 import com.municipality.backend.domain.model.core.DomainEntity
+import com.municipality.backend.domain.model.district.DistrictId
 import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.role.Roles
 import javax.persistence.Embeddable
 import javax.persistence.Entity
@@ -39,6 +39,14 @@ class RegisteredUser : DomainEntity<RegisteredUserId>, User<RegisteredUserId> {
     override fun isAuditor(municipalityId: MunicipalityId) = roles.isMunicipalityAuditor(municipalityId)
 
     override fun isAuditor(districtId: DistrictId) = roles.isDistrictAuditor(districtId)
+
+    override fun isMunicipalityResponsible() = roles.isMunicipalityResponsible()
+
+    override fun isMunicipalityAuditor() = roles.isMunicipalityAuditor()
+
+    override fun isDistrictResponsible() = roles.isDistrictResponsible()
+
+    override fun isDistrictAuditor() = roles.isDistrictAuditor()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -1,8 +1,6 @@
 package com.municipality.backend.application.user
 
 import com.municipality.backend.application.Command
-import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.*
 import java.util.*
 

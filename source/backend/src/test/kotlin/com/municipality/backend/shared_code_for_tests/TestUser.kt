@@ -1,7 +1,7 @@
 package com.municipality.backend.shared_code_for_tests
 
+import com.municipality.backend.domain.model.district.DistrictId
 import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.User
 import com.municipality.backend.domain.model.user.UserId
 import java.util.*
@@ -26,6 +26,14 @@ class TestUser : User<TestUserId> {
     override fun isAuditor(municipalityId: MunicipalityId) = false
 
     override fun isAuditor(districtId: DistrictId) = false
+
+    override fun isMunicipalityResponsible() = false
+
+    override fun isMunicipalityAuditor() = false
+
+    override fun isDistrictResponsible() = false
+
+    override fun isDistrictAuditor() = false
 }
 
 class TestUserId : UserId(UUID.nameUUIDFromBytes("TEST".toByteArray()))

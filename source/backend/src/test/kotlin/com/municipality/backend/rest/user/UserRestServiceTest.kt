@@ -1,9 +1,9 @@
 package com.municipality.backend.rest.user
 
 import com.municipality.backend.application.user.*
-import com.municipality.backend.domain.model.core.*
-import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
+import com.municipality.backend.domain.model.core.DEFAULT_PAGE_SIZE
+import com.municipality.backend.domain.model.core.FIRST_PAGE
+import com.municipality.backend.domain.model.core.Page
 import com.municipality.backend.domain.model.user.RegisteredUserBuilder
 import com.municipality.backend.domain.model.user.RegisteredUserId
 import com.municipality.backend.domain.model.user.Username

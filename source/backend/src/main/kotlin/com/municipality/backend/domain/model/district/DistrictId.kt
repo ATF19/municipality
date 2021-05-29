@@ -1,4 +1,4 @@
-package com.municipality.backend.domain.model.municipality.district
+package com.municipality.backend.domain.model.district
 
 import com.municipality.backend.domain.model.core.Id
 import javax.persistence.Embeddable

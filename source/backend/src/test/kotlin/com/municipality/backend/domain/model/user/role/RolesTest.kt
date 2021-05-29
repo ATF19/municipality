@@ -1,7 +1,7 @@
 package com.municipality.backend.domain.model.user.role
 
+import com.municipality.backend.domain.model.district.DistrictId
 import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.shared_code_for_tests.TestGroup
 import org.assertj.core.api.Assertions.assertThat
 import org.testng.annotations.Test
@@ -224,5 +224,42 @@ class RolesTest {
 
         // then
         assertThat(result).isFalse
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun get_municipalities_ids() {
+        // given
+        val admin = Admin()
+        val mResponsible = MunicipalityResponsible(MunicipalityId())
+        val mAuditor1 = MunicipalityAuditor(MunicipalityId())
+        val mAuditor2 = MunicipalityAuditor(MunicipalityId())
+        val dResponsible = DistrictResponsible(DistrictId())
+        val dAuditor = DistrictAuditor(DistrictId())
+        val roles = Roles.of(admin, mAuditor1, mAuditor2, mResponsible, dResponsible, dAuditor)
+
+        // when
+        val result = roles.municipalities()
+
+        // then
+        assertThat(result).containsExactlyInAnyOrder(mResponsible.municipalityId, mAuditor1.municipalityId,
+            mAuditor2.municipalityId)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun get_districts_ids() {
+        // given
+        val admin = Admin()
+        val mResponsible = MunicipalityResponsible(MunicipalityId())
+        val mAuditor1 = MunicipalityAuditor(MunicipalityId())
+        val mAuditor2 = MunicipalityAuditor(MunicipalityId())
+        val dResponsible = DistrictResponsible(DistrictId())
+        val dAuditor = DistrictAuditor(DistrictId())
+        val roles = Roles.of(admin, mAuditor1, mAuditor2, mResponsible, dResponsible, dAuditor)
+
+        // when
+        val result = roles.districts()
+
+        // then
+        assertThat(result).containsExactlyInAnyOrder(dResponsible.districtId, dAuditor.districtId)
     }
 }

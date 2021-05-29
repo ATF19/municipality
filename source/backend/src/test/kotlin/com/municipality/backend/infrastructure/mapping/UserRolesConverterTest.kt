@@ -1,7 +1,7 @@
 package com.municipality.backend.infrastructure.mapping
 
+import com.municipality.backend.domain.model.district.DistrictId
 import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.role.*
 import com.municipality.backend.shared_code_for_tests.TestGroup
 import org.assertj.core.api.Assertions.assertThat

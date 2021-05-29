@@ -1,7 +1,7 @@
 package com.municipality.backend.domain.model.user.role
 
+import com.municipality.backend.domain.model.district.DistrictId
 import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
 
 interface Role
 

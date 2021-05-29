@@ -1,8 +1,8 @@
 package com.municipality.backend.infrastructure.mapping
 
 import com.municipality.backend.domain.model.core.Id
+import com.municipality.backend.domain.model.district.DistrictId
 import com.municipality.backend.domain.model.municipality.MunicipalityId
-import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.role.*
 import java.util.*
 import javax.persistence.AttributeConverter
