@@ -1,4 +1,4 @@
-import { HeartTwoTone, LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { HeartTwoTone, LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, message, Modal } from "antd";
 import { Content, Footer } from "antd/lib/layout/layout";
 import { BrowserRouter, Link } from 'react-router-dom';
@@ -67,8 +67,8 @@ const MainContainer = ({user}: MainContainerProps) => {
     const location = window.location.pathname;
     if(location.indexOf("profil") > -1)
       selectedElement = "profil";
-    else if(location.indexOf("trials") > -1)
-      selectedElement = "3";
+    else if(location.indexOf("users") > -1)
+      selectedElement = "users";
     else if(location.indexOf("404") > -1)
       selectedElement = "-1";
 
@@ -84,6 +84,16 @@ const MainContainer = ({user}: MainContainerProps) => {
                     <Menu.Item key="logo" className="logo-container">
                         <img src="/img/logo.png" alt="logo" className="header-logo" />
                     </Menu.Item>
+                    {
+                        user.isAdmin && (
+                            <Menu.Item key="users">
+                                <Link to="/users">
+                                    <UsergroupAddOutlined className="menu-icon" />
+                                    Utilisateurs
+                                </Link>
+                            </Menu.Item>
+                        )
+                    }
                     <Menu.Item key="profil">
                         <Link to="/profil">
                             <UserOutlined className="menu-icon" />

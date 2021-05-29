@@ -166,8 +166,13 @@ body {
     border-bottom-right-radius: 10px;
 }
 
-
 .menu-icon {
     margin-right: 5px;
     font-size: 16px;
+}
+
+.header-with-button-on-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

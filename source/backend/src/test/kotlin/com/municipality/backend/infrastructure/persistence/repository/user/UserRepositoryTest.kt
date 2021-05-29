@@ -1,5 +1,6 @@
 package com.municipality.backend.infrastructure.persistence.repository.user
 
+import com.municipality.backend.domain.model.core.DEFAULT_PAGE_SIZE
 import com.municipality.backend.domain.model.core.FIRST_PAGE
 import com.municipality.backend.domain.model.core.PageNumber
 import com.municipality.backend.domain.model.municipality.MunicipalityId
@@ -167,15 +168,21 @@ class UserRepositoryTest : AbstractIntegrationTest() {
         repository.register(user12)
 
         // when
-        val firstPage = repository.all(FIRST_PAGE)
-        val secondPage = repository.all(PageNumber(2))
-        val thirdPage = repository.all(PageNumber(3))
+        val firstPage = repository.all(FIRST_PAGE, DEFAULT_PAGE_SIZE)
+        val secondPage = repository.all(PageNumber(2), DEFAULT_PAGE_SIZE)
+        val thirdPage = repository.all(PageNumber(3), DEFAULT_PAGE_SIZE)
 
         // then
-        assertThat(firstPage).containsExactlyInAnyOrder(user12, user11, user10, user9, user8, user7,
+        assertThat(firstPage.elements).containsExactlyInAnyOrder(user12, user11, user10, user9, user8, user7,
         user6, user5, user4, user3)
-        assertThat(secondPage).containsExactlyInAnyOrder(user2, user1)
-        assertThat(thirdPage).isEmpty()
+        assertThat(firstPage.pageNumber.number).isEqualTo(1)
+        assertThat(firstPage.totalPages).isEqualTo(2)
+        assertThat(secondPage.elements).containsExactlyInAnyOrder(user2, user1)
+        assertThat(secondPage.pageNumber.number).isEqualTo(2)
+        assertThat(secondPage.totalPages).isEqualTo(2)
+        assertThat(thirdPage.elements).isEmpty()
+        assertThat(thirdPage.pageNumber.number).isEqualTo(3)
+        assertThat(thirdPage.totalPages).isEqualTo(2)
     }
 
     @Test(groups = [TestGroup.INTEGRATION])
@@ -195,5 +202,21 @@ class UserRepositoryTest : AbstractIntegrationTest() {
         val by = repository.by(user.id)
         assertThat(by.email).isEqualTo(newEmail)
         assertThat(by).isEqualTo(user)
+    }
+
+    @Test(groups = [TestGroup.INTEGRATION])
+    fun delete_user() {
+        // given
+        val builder = RegisteredUserBuilder()
+        builder.roles = Roles.of(Admin(), MunicipalityAuditor(MunicipalityId()))
+        val user = builder.build()
+        repository.register(user)
+
+        // when
+        repository.delete(user)
+
+        // then
+        assertThatThrownBy { repository.by(user.id) }
+            .isInstanceOf(NoSuchElementException::class.java)
     }
 }

@@ -13,6 +13,4 @@ class PageBuilder private constructor() {
 
     fun build(pageNumber: PageNumber, pageSize: PageSize) = PageRequest
         .of(pageNumber.number - 1, pageSize.size, Sort.by("createdAt").descending())
-
-    fun build(pageNumber: PageNumber) = build(pageNumber, DEFAULT_PAGE_SIZE)
 }

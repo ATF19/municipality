@@ -17,45 +17,33 @@
 /**
  * 
  * @export
- * @interface RegisterRequest
+ * @interface RegisteredUserId
  */
-export interface RegisterRequest {
+export interface RegisteredUserId {
     /**
      * 
      * @type {string}
-     * @memberof RegisterRequest
+     * @memberof RegisteredUserId
      */
-    username: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RegisterRequest
-     */
-    email: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RegisterRequest
-     */
-    password: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RegisterRequest
-     */
-    firstName: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RegisterRequest
-     */
-    lastName: string;
+    rawId: string;
     /**
      * 
      * @type {boolean}
-     * @memberof RegisterRequest
+     * @memberof RegisteredUserId
      */
-    isAdmin: boolean;
+    anonymousId: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RegisteredUserId
+     */
+    systemId: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RegisteredUserId
+     */
+    registeredUserId: boolean;
 }
 
 

@@ -1,6 +1,9 @@
 package com.municipality.backend.rest.user
 
 import com.municipality.backend.application.user.*
+import com.municipality.backend.domain.model.core.DEFAULT_PAGE_SIZE
+import com.municipality.backend.domain.model.core.FIRST_PAGE
+import com.municipality.backend.domain.model.core.PageNumber
 import com.municipality.backend.domain.model.municipality.MunicipalityId
 import com.municipality.backend.domain.model.municipality.district.DistrictId
 import com.municipality.backend.domain.model.user.*
@@ -8,6 +11,7 @@ import com.municipality.backend.domain.model.user.role.DistrictAuditor
 import com.municipality.backend.domain.model.user.role.DistrictResponsible
 import com.municipality.backend.domain.model.user.role.MunicipalityAuditor
 import com.municipality.backend.domain.model.user.role.MunicipalityResponsible
+import com.municipality.backend.rest.core.PageDto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -42,8 +46,7 @@ class UserRestService(
     fun registerInternal(@RequestBody request: RegisterRequest): ResponseEntity<String> {
         val command = RegisterInternalUserCommand(loggedInUserResolver.loggedIn(), Username(request.username), Email(request.email),
         UnencryptedPassword(request.password), FirstName(request.firstName), LastName(request.lastName),
-            request.isAdmin, request.municipalitiesResponsible.map { MunicipalityId(it) }.toSet(), request.municipalitiesAuditor.map { MunicipalityId(it) }.toSet(),
-            request.districtsResponsible.map { DistrictId(it) }.toSet(), request.districtsAuditor.map { DistrictId(it) }.toSet())
+            request.isAdmin)
         userAppService.register(command)
         return ResponseEntity.ok().build()
     }
@@ -74,6 +77,29 @@ class UserRestService(
         return ResponseEntity.ok().build()
     }
 
+    @GetMapping("all")
+    fun all(@RequestParam("page") page: Int?): ResponseEntity<PageDto<RegisteredUser, UserDto>> {
+        val all = userAppService.all(loggedInUserResolver.loggedIn(), if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE)
+        return ResponseEntity.ok(PageDto(all, ::toDto))
+    }
+
+    @PostMapping("update-internal")
+    fun updateInternalUser(@RequestBody request: UpdateInternalUserRequest): ResponseEntity<String> {
+        var password: Optional<UnencryptedPassword> = Optional.empty()
+        if (request.password != null)
+            password = Optional.of(UnencryptedPassword(request.password))
+        val command = UpdateInternalUserCommand(loggedInUserResolver.loggedIn(), Email(request.email), password,
+            FirstName(request.firstName), LastName(request.lastName), request.isAdmin)
+        userAppService.updateInternalUser(command)
+        return ResponseEntity.ok().build()
+    }
+
+    @DeleteMapping("{userId}")
+    fun delete(@PathVariable("userId") registeredUserId: String): ResponseEntity<String> {
+        userAppService.deleteUser(DeleteUserCommand(loggedInUserResolver.loggedIn(), RegisteredUserId(registeredUserId)))
+        return ResponseEntity.ok().build()
+    }
+
     private fun toDto(user: RegisteredUser): UserDto {
         val municipalitiesResponsible = hashSetOf<String>()
         val municipalitiesAuditor = hashSetOf<String>()
@@ -97,10 +123,10 @@ class UserRestService(
 
 data class LoginRequest(val username: String, val password: String)
 data class RegisterRequest(val username: String, val email: String, val password: String, val firstName: String, val lastName: String,
-                           val isAdmin: Boolean, val municipalitiesResponsible: Set<String>, val municipalitiesAuditor: Set<String>,
-                           val districtsResponsible: Set<String>, val districtsAuditor: Set<String>)
+                           val isAdmin: Boolean)
 data class UserDto(val id: String, val username: String, val email: String,
                    val firstName: String, val lastName: String, val isAdmin: Boolean,
                    val municipalitiesResponsible: Set<String>, val municipalitiesAuditor: Set<String>,
                    val districtsResponsible: Set<String>, val districtsAuditor: Set<String>)
 data class UpdateProfileRequest(val email: String, val password: String?, val firstName: String, val lastName: String)
+data class UpdateInternalUserRequest(val email: String, val password: String?, val firstName: String, val lastName: String, val isAdmin: Boolean)

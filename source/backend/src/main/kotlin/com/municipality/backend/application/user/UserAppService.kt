@@ -2,6 +2,9 @@ package com.municipality.backend.application.user
 
 import com.municipality.backend.application.utility.EmailUtility
 import com.municipality.backend.application.utility.PasswordUtility
+import com.municipality.backend.domain.model.core.Page
+import com.municipality.backend.domain.model.core.PageNumber
+import com.municipality.backend.domain.model.core.PageSize
 import com.municipality.backend.domain.model.core.error.InsufficientPermissionException
 import com.municipality.backend.domain.model.core.error.MunicipalityException
 import com.municipality.backend.domain.model.user.Email
@@ -38,10 +41,6 @@ class UserAppService(
         user.lastName = command.lastName
         if (command.isAdmin)
             user.roles.grant(Admin())
-        command.municipalitiesResponsibleFor.forEach { user.roles.grant(MunicipalityResponsible(it)) }
-        command.municipalitiesAuditorFor.forEach { user.roles.grant(MunicipalityAuditor(it)) }
-        command.districtsResponsibleFor.forEach { user.roles.grant(DistrictResponsible(it)) }
-        command.districtsAuditorFor.forEach { user.roles.grant(DistrictAuditor(it)) }
         users.register(user)
     }
 
@@ -81,7 +80,50 @@ class UserAppService(
         users.update(user)
     }
 
+    fun all(user: User<*>, pageNumber: PageNumber, pageSize: PageSize): Page<RegisteredUser> {
+        if (!user.isAdmin())
+            throw InsufficientPermissionException()
+
+        return users.all(pageNumber, pageSize)
+    }
+
+    fun updateInternalUser(command: UpdateInternalUserCommand) {
+        if (!command.user.isAdmin())
+            throw InsufficientPermissionException()
+
+        verifyMissingUpdateInformation(command)
+        val user = command.user as RegisteredUser
+        if (user.email != command.email)
+            verifyEmailValidAndDoesNotExists(command.email)
+        user.email = command.email
+        if (command.unencryptedPassword.isPresent) {
+            verifyPasswordIsNotWeak(command.unencryptedPassword.get())
+            user.cryptedPassword = passwords.encrypt(command.unencryptedPassword.get())
+        }
+        user.firstName = command.firstName
+        user.lastName = command.lastName
+        if (command.isAdmin) user.roles.grant(Admin()) else user.roles.revoke(Admin())
+        users.update(user)
+    }
+
+    fun deleteUser(command: DeleteUserCommand) {
+        if (!command.user.isAdmin())
+            throw InsufficientPermissionException()
+
+        val user = users.by(command.userId)
+        users.delete(user)
+    }
+
     private fun verifyMissingUpdateInformation(command: UpdateProfileCommand) {
+        if (command.email.email == null || command.email.email.isEmpty() ||
+            (command.unencryptedPassword.isPresent && command.unencryptedPassword.get().password.isEmpty()) ||
+            command.firstName.firstName == null || command.firstName.firstName.isEmpty()||
+            command.lastName.lastName == null || command.lastName.lastName.isEmpty()
+        )
+            throw MissingInformationException()
+    }
+
+    private fun verifyMissingUpdateInformation(command: UpdateInternalUserCommand) {
         if (command.email.email == null || command.email.email.isEmpty() ||
             (command.unencryptedPassword.isPresent && command.unencryptedPassword.get().password.isEmpty()) ||
             command.firstName.firstName == null || command.firstName.firstName.isEmpty()||

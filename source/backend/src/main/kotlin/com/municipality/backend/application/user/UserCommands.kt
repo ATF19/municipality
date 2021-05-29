@@ -13,11 +13,7 @@ data class RegisterInternalUserCommand(
     val unencryptedPassword: UnencryptedPassword,
     val firstName: FirstName,
     val lastName: LastName,
-    val isAdmin: Boolean,
-    val municipalitiesResponsibleFor: Set<MunicipalityId>,
-    val municipalitiesAuditorFor: Set<MunicipalityId>,
-    val districtsResponsibleFor: Set<DistrictId>,
-    val districtsAuditorFor: Set<DistrictId>
+    val isAdmin: Boolean
 ) : Command()
 
 data class UpdateProfileCommand(
@@ -26,4 +22,18 @@ data class UpdateProfileCommand(
     val unencryptedPassword: Optional<UnencryptedPassword>,
     val firstName: FirstName,
     val lastName: LastName
+) : Command()
+
+data class UpdateInternalUserCommand(
+    override val user: User<*>,
+    val email: Email,
+    val unencryptedPassword: Optional<UnencryptedPassword>,
+    val firstName: FirstName,
+    val lastName: LastName,
+    val isAdmin: Boolean
+) : Command()
+
+data class DeleteUserCommand(
+    override val user: User<*>,
+    val userId: RegisteredUserId
 ) : Command()

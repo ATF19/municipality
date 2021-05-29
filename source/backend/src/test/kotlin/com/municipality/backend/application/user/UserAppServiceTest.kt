@@ -1,5 +1,9 @@
 package com.municipality.backend.application.user
 
+import com.municipality.backend.domain.model.core.DEFAULT_PAGE_SIZE
+import com.municipality.backend.domain.model.core.Page
+import com.municipality.backend.domain.model.core.PageNumber
+import com.municipality.backend.domain.model.core.PageSize
 import com.municipality.backend.domain.model.core.error.InsufficientPermissionException
 import com.municipality.backend.domain.model.municipality.MunicipalityId
 import com.municipality.backend.domain.model.municipality.district.DistrictId
@@ -32,11 +36,7 @@ class UserAppServiceTest {
             UnencryptedPassword("thisISMYStrong@Pass2"),
             FirstName("Ben"),
             LastName("Doe"),
-            false,
-            emptySet(),
-            emptySet(),
-            emptySet(),
-            emptySet()
+            false
         )
 
         // when
@@ -60,11 +60,7 @@ class UserAppServiceTest {
             UnencryptedPassword("thisISMYStrong@Pass2"),
             FirstName(null),
             LastName("Doe"),
-            false,
-            emptySet(),
-            emptySet(),
-            emptySet(),
-            emptySet()
+            false
         )
 
         // when
@@ -88,11 +84,7 @@ class UserAppServiceTest {
             UnencryptedPassword("thisISMYStrong@Pass2"),
             FirstName("Jogn"),
             LastName("Doe"),
-            false,
-            emptySet(),
-            emptySet(),
-            emptySet(),
-            emptySet()
+            false
         )
 
         // when
@@ -118,11 +110,7 @@ class UserAppServiceTest {
             UnencryptedPassword("thisISMYStrong@Pass2"),
             FirstName("Jogn"),
             LastName("Doe"),
-            false,
-            emptySet(),
-            emptySet(),
-            emptySet(),
-            emptySet()
+            false
         )
 
         // when
@@ -146,11 +134,7 @@ class UserAppServiceTest {
             UnencryptedPassword("weak"),
             FirstName("Jogn"),
             LastName("Doe"),
-            false,
-            emptySet(),
-            emptySet(),
-            emptySet(),
-            emptySet()
+            false
         )
 
         // when
@@ -176,11 +160,7 @@ class UserAppServiceTest {
             UnencryptedPassword("thisISMYStrong@Pass2"),
             FirstName("Jogn"),
             LastName("Doe"),
-            false,
-            emptySet(),
-            emptySet(),
-            emptySet(),
-            emptySet()
+            false
         )
 
         // when
@@ -211,11 +191,7 @@ class UserAppServiceTest {
             unencryptedPassword,
             FirstName("John"),
             LastName("Doe"),
-            false,
-            emptySet(),
-            emptySet(),
-            emptySet(),
-            emptySet()
+            false
         )
 
         // when
@@ -259,11 +235,7 @@ class UserAppServiceTest {
             unencryptedPassword,
             FirstName("John"),
             LastName("Doe"),
-            true,
-            setOf(municipalityId1, municipalityId2),
-            setOf(municipalityId3),
-            setOf(districtId1),
-            setOf(districtId2)
+            true
         )
 
         // when
@@ -279,14 +251,6 @@ class UserAppServiceTest {
         assertThat(result.firstName).isEqualTo(command.firstName)
         assertThat(result.lastName).isEqualTo(command.lastName)
         assertThat(result.isAdmin()).isTrue
-        assertThat(result.isResponsible(municipalityId1)).isTrue
-        assertThat(result.isResponsible(municipalityId2)).isTrue
-        assertThat(result.isResponsible(municipalityId3)).isFalse
-        assertThat(result.isAuditor(municipalityId3)).isTrue
-        assertThat(result.isResponsible(districtId1)).isTrue
-        assertThat(result.isResponsible(districtId2)).isFalse
-        assertThat(result.isAuditor(districtId1)).isFalse
-        assertThat(result.isAuditor(districtId2)).isTrue
     }
 
     @Test(groups = [TestGroup.UNIT])
@@ -553,5 +517,134 @@ class UserAppServiceTest {
         verify { users.update(capture(captor)) }
         val result = captor.captured
         assertThat(result.cryptedPassword).isEqualTo(user.cryptedPassword)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_non_admin_tries_to_load_all_users() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = SystemUser()
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.all(user, PageNumber(0), PageSize(10))}
+            .isInstanceOf(InsufficientPermissionException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun get_all_users() {
+        // given
+        val users = mockk<Users>()
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder().admin().build()
+        val user1 = RegisteredUserBuilder().build()
+        val user2 = RegisteredUserBuilder().build()
+        val user3 = RegisteredUserBuilder().build()
+        val user4 = RegisteredUserBuilder().build()
+        val page = Page(
+            listOf(user1, user2, user3, user4),
+            PageNumber(0), DEFAULT_PAGE_SIZE, 10
+        )
+        every { users.all(PageNumber(0), DEFAULT_PAGE_SIZE) }.returns(page)
+
+        // when
+        val all = appService.all(user, PageNumber(0), DEFAULT_PAGE_SIZE)
+
+        // then
+        assertThat(all).isEqualTo(page)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_non_admin_tries_to_update_internal_user() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = SystemUser()
+        val email = Email("newEmail@gmail.com")
+        every { users.exists(email) }.returns(false)
+        val password = UnencryptedPassword("strong@1Pass")
+        val encryptedPassword = CryptedPassword("cryptedPass")
+        every { passwords.encrypt(password) }.returns(encryptedPassword)
+        val firstName = FirstName("John")
+        val lastName = LastName("Doe")
+        val command = UpdateInternalUserCommand(user, email, Optional.of(password), firstName, lastName, true)
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.updateInternalUser(command)}
+            .isInstanceOf(InsufficientPermissionException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun update_internal_user() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder().admin().build()
+        val email = Email("newEmail@gmail.com")
+        every { users.exists(email) }.returns(false)
+        val password = UnencryptedPassword("strong@1Pass")
+        val encryptedPassword = CryptedPassword("cryptedPass")
+        every { passwords.encrypt(password) }.returns(encryptedPassword)
+        val firstName = FirstName("John")
+        val lastName = LastName("Doe")
+        val command = UpdateInternalUserCommand(user, email, Optional.of(password), firstName, lastName, true)
+
+        // when
+        appService.updateInternalUser(command)
+
+        // then
+        val captor = slot<RegisteredUser>()
+        verify { users.update(capture(captor)) }
+        val result = captor.captured
+        assertThat(result.isAdmin()).isTrue
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun throw_exception_if_no_admin_tries_to_delete_a_user() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = SystemUser()
+        val toDelete = RegisteredUserBuilder().build()
+        val command = DeleteUserCommand(user, toDelete.id)
+
+        // when
+
+        // then
+        assertThatThrownBy { appService.deleteUser(command)}
+            .isInstanceOf(InsufficientPermissionException::class.java)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun delete_a_user() {
+        // given
+        val users = mockk<Users>(relaxed = true)
+        val passwords = mockk<Passwords>()
+        val sessions = mockk<Sessions>()
+        val appService = UserAppService(users, passwords, sessions)
+        val user = RegisteredUserBuilder().admin().build()
+        val toDelete = RegisteredUserBuilder().build()
+        val command = DeleteUserCommand(user, toDelete.id)
+        every { users.by(toDelete.id) }.returns(toDelete)
+
+        // when
+        appService.deleteUser(command)
+
+        // then
+        verify { users.delete(toDelete) }
     }
 }

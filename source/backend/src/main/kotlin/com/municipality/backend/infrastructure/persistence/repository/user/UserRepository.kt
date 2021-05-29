@@ -1,6 +1,8 @@
 package com.municipality.backend.infrastructure.persistence.repository.user
 
+import com.municipality.backend.domain.model.core.Page
 import com.municipality.backend.domain.model.core.PageNumber
+import com.municipality.backend.domain.model.core.PageSize
 import com.municipality.backend.domain.model.user.Email
 import com.municipality.backend.domain.model.user.RegisteredUser
 import com.municipality.backend.domain.model.user.RegisteredUserId
@@ -18,7 +20,10 @@ class UserRepository(
         userJpaRepository.save(user)
     }
 
-    override fun all(page: PageNumber): List<RegisteredUser> = userJpaRepository.findAll(PageBuilder.builder.build(page)).content
+    override fun all(pageNumber: PageNumber, pageSize: PageSize): Page<RegisteredUser> {
+        val all = userJpaRepository.findAll(PageBuilder.builder.build(pageNumber, pageSize))
+        return Page(all.content, pageNumber, pageSize, all.totalPages)
+    }
 
     override fun by(userId: RegisteredUserId): RegisteredUser = userJpaRepository
         .findById(userId)
@@ -33,5 +38,9 @@ class UserRepository(
 
     override fun update(user: RegisteredUser) {
         userJpaRepository.save(user)
+    }
+
+    override fun delete(user: RegisteredUser) {
+        userJpaRepository.delete(user)
     }
 }

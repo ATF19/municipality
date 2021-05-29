@@ -17,43 +17,37 @@
 /**
  * 
  * @export
- * @interface RegisterRequest
+ * @interface UpdateInternalUserRequest
  */
-export interface RegisterRequest {
+export interface UpdateInternalUserRequest {
     /**
      * 
      * @type {string}
-     * @memberof RegisterRequest
-     */
-    username: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RegisterRequest
+     * @memberof UpdateInternalUserRequest
      */
     email: string;
     /**
      * 
      * @type {string}
-     * @memberof RegisterRequest
+     * @memberof UpdateInternalUserRequest
      */
-    password: string;
+    password?: string;
     /**
      * 
      * @type {string}
-     * @memberof RegisterRequest
+     * @memberof UpdateInternalUserRequest
      */
     firstName: string;
     /**
      * 
      * @type {string}
-     * @memberof RegisterRequest
+     * @memberof UpdateInternalUserRequest
      */
     lastName: string;
     /**
      * 
      * @type {boolean}
-     * @memberof RegisterRequest
+     * @memberof UpdateInternalUserRequest
      */
     isAdmin: boolean;
 }
