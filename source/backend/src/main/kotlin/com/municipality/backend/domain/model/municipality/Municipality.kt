@@ -1,14 +1,17 @@
 package com.municipality.backend.domain.model.municipality
 
 import com.municipality.backend.domain.model.core.DomainEntity
-import javax.persistence.Embeddable
-import javax.persistence.Entity
+import com.municipality.backend.domain.model.district.District
+import javax.persistence.*
 
 @Entity
 class Municipality : DomainEntity<MunicipalityId> {
 
     lateinit var name: MunicipalityName
     lateinit var nameInArabic: MunicipalityNameInArabic
+    @OneToMany(mappedBy="municipality",
+        cascade = [(CascadeType.ALL)], fetch = FetchType.EAGER)
+    var districts: List<District> = mutableListOf()
 
     constructor(): super(MunicipalityId())
     constructor(id: MunicipalityId): super(id)
