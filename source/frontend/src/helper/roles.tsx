@@ -1,11 +1,11 @@
 import { UserDto } from "../rest";
 
-const haveMunicipalityRole = (user: UserDto): Boolean =>  
-    user.municipalitiesResponsible.size > 0 || user.municipalitiesAuditor.size > 0
+const haveMunicipalityRole = (user: UserDto): Boolean => 
+    Array.from(user.municipalitiesResponsible).length > 0 || Array.from(user.municipalitiesAuditor).length > 0
 
 
 const haveDistrictRole = (user: UserDto): Boolean => 
-    user.districtsResponsible.size > 0 || user.districtsAuditor.size > 0
+    Array.from(user.districtsResponsible).length > 0 || Array.from(user.districtsAuditor).length > 0
 
 const canSeeMunicipalities = (user: UserDto): Boolean => {
     if (user.isAdmin)
