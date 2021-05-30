@@ -1,4 +1,4 @@
-import { ApartmentOutlined, BankOutlined, HeartTwoTone, LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
+import { AlertOutlined, ApartmentOutlined, BankOutlined, HeartTwoTone, LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, message, Modal } from "antd";
 import { Content, Footer } from "antd/lib/layout/layout";
 import { BrowserRouter, Link } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { UserDto, UserRestServiceApi } from "../rest";
 import Context from "./context";
 import Loading from "./loading";
 import Routes from "./routes";
+import { canSeeComplaints, canSeeDistricts, canSeeMunicipalities, userHomePage } from "../helper/roles";
 
 const Main = () => {
     const [user, setLoggedinUser] = useState<UserDto>();
@@ -62,19 +63,23 @@ const MainContainer = ({user}: MainContainerProps) => {
           }
         })
       }
-
+    
     let selectedElement = "1";
     const location = window.location.pathname;
     if(location.indexOf("profil") > -1)
       selectedElement = "profil";
     else if(location.indexOf("utilisateurs") > -1)
-      selectedElement = "users";
+      selectedElement = "utilisateurs";
     else if(location.indexOf("arrondissements") > -1)
-      selectedElement = "districts";
+      selectedElement = "arrondissements";
     else if(location.indexOf("municipalites") > -1)
       selectedElement = "municipalites";
+    else if(location.indexOf("plaintes") > -1)
+      selectedElement = "plaintes";
     else if(location.indexOf("404") > -1)
       selectedElement = "-1";
+    else
+        selectedElement = userHomePage(user);
 
     return (
         <BrowserRouter>
@@ -89,8 +94,18 @@ const MainContainer = ({user}: MainContainerProps) => {
                         <img src="/img/logo.png" alt="logo" className="header-logo" />
                     </Menu.Item>
                     {
+                        canSeeComplaints(user) && (
+                            <Menu.Item key="plaintes">
+                                <Link to="/plaintes">
+                                    <AlertOutlined className="menu-icon" />
+                                    Plaintes
+                                </Link>
+                            </Menu.Item>
+                        )
+                    }
+                    {
                         canSeeDistricts(user) && (
-                            <Menu.Item key="districts">
+                            <Menu.Item key="arrondissements">
                                 <Link to="/arrondissements">
                                     <ApartmentOutlined className="menu-icon" />
                                     Arrondissements
@@ -110,7 +125,7 @@ const MainContainer = ({user}: MainContainerProps) => {
                     }
                     {
                         user.isAdmin && (
-                            <Menu.Item key="users">
+                            <Menu.Item key="utilisateurs">
                                 <Link to="/utilisateurs">
                                     <UsergroupAddOutlined className="menu-icon" />
                                     Utilisateurs
@@ -145,19 +160,5 @@ const MainContainer = ({user}: MainContainerProps) => {
 }
 
 type MainContainerProps = {user: UserDto}
-
-const canSeeMunicipalities = (user: UserDto): Boolean => {
-    if (user.isAdmin)
-        return true;
-    
-    return user.municipalitiesResponsible.size > 0 || user.municipalitiesAuditor.size > 0;
-}
-
-const canSeeDistricts = (user: UserDto): Boolean => {
-    if (canSeeMunicipalities(user))
-        return true;
-    
-    return user.districtsResponsible.size > 0 || user.districtsAuditor.size > 0;
-}
 
 export default Main;

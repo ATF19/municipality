@@ -1,9 +1,13 @@
 import { Divider, Layout, message, Table, TablePaginationConfig } from "antd"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useContext, useEffect, useState } from "react"
+import { Redirect } from "react-router-dom"
+import Context from "../component/context"
 import ApiConfig from "../configuration/apiConfig"
+import { canSeeDistricts } from "../helper/roles"
 import { DistrictDto, DistrictRestServiceApi } from "../rest"
 
 const Districts = () => {
+    const { user } = useContext(Context)
     const [districs, setDistricts] = useState<DistrictDto[]>([])
     const [currentPage, setCurrentPage] = useState(1)
     const [totalElements, setTotalElements] = useState(0)
@@ -28,6 +32,9 @@ const Districts = () => {
     }
 
     useEffect(() => { loadDistricts(1) }, [loadDistricts])
+
+    if (!user || !canSeeDistricts(user))
+        return <Redirect to="/404" />
 
     return(
         <Layout.Content className="content">

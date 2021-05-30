@@ -1,9 +1,13 @@
 import { Divider, Layout, message, Table, TablePaginationConfig } from "antd";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
+import Context from "../component/context";
 import ApiConfig from "../configuration/apiConfig";
+import { canSeeMunicipalities } from "../helper/roles";
 import { MunicipalityDto, MunicipalityRestServiceApi } from "../rest";
 
 const Municipalities = () => {
+    const { user } = useContext(Context)
     const [municipalities, setMunicipalities] = useState<MunicipalityDto[]>([])
     const [currentPage, setCurrentPage] = useState(1)
     const [totalElements, setTotalElements] = useState(0)
@@ -28,6 +32,9 @@ const Municipalities = () => {
     }
 
     useEffect(() => { loadMunicipalities(1) }, [loadMunicipalities])
+
+    if (!user || !canSeeMunicipalities(user))
+        return <Redirect to="/404" />
 
     return(
         <Layout.Content className="content">
