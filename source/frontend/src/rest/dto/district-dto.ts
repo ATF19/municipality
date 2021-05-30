@@ -17,45 +17,45 @@
 /**
  * 
  * @export
- * @interface Roles
+ * @interface DistrictDto
  */
-export interface Roles {
+export interface DistrictDto {
     /**
      * 
-     * @type {Set<object>}
-     * @memberof Roles
+     * @type {string}
+     * @memberof DistrictDto
      */
-    listOfRoles?: Set<object>;
+    id: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof Roles
+     * @type {string}
+     * @memberof DistrictDto
      */
-    admin: boolean;
+    name: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof Roles
+     * @type {string}
+     * @memberof DistrictDto
      */
-    municipalityResponsible: boolean;
+    nameInArabic: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof Roles
+     * @type {string}
+     * @memberof DistrictDto
      */
-    municipalityAuditor: boolean;
+    municipalityId: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof Roles
+     * @type {string}
+     * @memberof DistrictDto
      */
-    districtResponsible: boolean;
+    municipalityName: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof Roles
+     * @type {string}
+     * @memberof DistrictDto
      */
-    districtAuditor: boolean;
+    municipalityNameInArabic: string;
 }
 
 

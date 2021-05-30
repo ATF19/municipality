@@ -14,8 +14,18 @@
 
 
 
-export * from './api/district-rest-service-api';
-export * from './api/health-rest-service-api';
-export * from './api/municipality-rest-service-api';
-export * from './api/user-rest-service-api';
+/**
+ * 
+ * @export
+ * @interface DistrictNameInArabic
+ */
+export interface DistrictNameInArabic {
+    /**
+     * 
+     * @type {string}
+     * @memberof DistrictNameInArabic
+     */
+    nameInArabic?: string;
+}
+
 

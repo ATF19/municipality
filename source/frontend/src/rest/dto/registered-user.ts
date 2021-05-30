@@ -110,6 +110,36 @@ export interface RegisteredUser {
      * @type {boolean}
      * @memberof RegisteredUser
      */
+    admin: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RegisteredUser
+     */
+    municipalityResponsible: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RegisteredUser
+     */
+    municipalityAuditor: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RegisteredUser
+     */
+    districtResponsible: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RegisteredUser
+     */
+    districtAuditor: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RegisteredUser
+     */
     system: boolean;
     /**
      * 
@@ -117,12 +147,6 @@ export interface RegisteredUser {
      * @memberof RegisteredUser
      */
     anonymous: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUser
-     */
-    admin: boolean;
 }
 
 

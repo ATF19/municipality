@@ -14,8 +14,30 @@
 
 
 
-export * from './api/district-rest-service-api';
-export * from './api/health-rest-service-api';
-export * from './api/municipality-rest-service-api';
-export * from './api/user-rest-service-api';
+/**
+ * 
+ * @export
+ * @interface MunicipalityDto
+ */
+export interface MunicipalityDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof MunicipalityDto
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MunicipalityDto
+     */
+    name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MunicipalityDto
+     */
+    nameInArabic: string;
+}
+
 

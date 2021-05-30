@@ -14,8 +14,18 @@
 
 
 
-export * from './api/district-rest-service-api';
-export * from './api/health-rest-service-api';
-export * from './api/municipality-rest-service-api';
-export * from './api/user-rest-service-api';
+/**
+ * 
+ * @export
+ * @interface DistrictId
+ */
+export interface DistrictId {
+    /**
+     * 
+     * @type {string}
+     * @memberof DistrictId
+     */
+    rawId: string;
+}
+
 

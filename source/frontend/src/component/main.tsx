@@ -1,4 +1,4 @@
-import { HeartTwoTone, LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
+import { ApartmentOutlined, BankOutlined, HeartTwoTone, LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, message, Modal } from "antd";
 import { Content, Footer } from "antd/lib/layout/layout";
 import { BrowserRouter, Link } from 'react-router-dom';
@@ -67,8 +67,12 @@ const MainContainer = ({user}: MainContainerProps) => {
     const location = window.location.pathname;
     if(location.indexOf("profil") > -1)
       selectedElement = "profil";
-    else if(location.indexOf("users") > -1)
+    else if(location.indexOf("utilisateurs") > -1)
       selectedElement = "users";
+    else if(location.indexOf("arrondissements") > -1)
+      selectedElement = "districts";
+    else if(location.indexOf("municipalites") > -1)
+      selectedElement = "municipalites";
     else if(location.indexOf("404") > -1)
       selectedElement = "-1";
 
@@ -85,9 +89,29 @@ const MainContainer = ({user}: MainContainerProps) => {
                         <img src="/img/logo.png" alt="logo" className="header-logo" />
                     </Menu.Item>
                     {
+                        canSeeDistricts(user) && (
+                            <Menu.Item key="districts">
+                                <Link to="/arrondissements">
+                                    <ApartmentOutlined className="menu-icon" />
+                                    Arrondissements
+                                </Link>
+                            </Menu.Item>
+                        )
+                    }
+                    {
+                        canSeeMunicipalities(user) && (
+                            <Menu.Item key="municipalites">
+                                <Link to="/municipalites">
+                                    <BankOutlined className="menu-icon" />
+                                    Municipalités
+                                </Link>
+                            </Menu.Item>
+                        )
+                    }
+                    {
                         user.isAdmin && (
                             <Menu.Item key="users">
-                                <Link to="/users">
+                                <Link to="/utilisateurs">
                                     <UsergroupAddOutlined className="menu-icon" />
                                     Utilisateurs
                                 </Link>
@@ -121,5 +145,19 @@ const MainContainer = ({user}: MainContainerProps) => {
 }
 
 type MainContainerProps = {user: UserDto}
+
+const canSeeMunicipalities = (user: UserDto): Boolean => {
+    if (user.isAdmin)
+        return true;
+    
+    return user.municipalitiesResponsible.size > 0 || user.municipalitiesAuditor.size > 0;
+}
+
+const canSeeDistricts = (user: UserDto): Boolean => {
+    if (canSeeMunicipalities(user))
+        return true;
+    
+    return user.districtsResponsible.size > 0 || user.districtsAuditor.size > 0;
+}
 
 export default Main;
