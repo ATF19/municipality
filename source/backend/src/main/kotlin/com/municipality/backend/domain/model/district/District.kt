@@ -1,5 +1,6 @@
 package com.municipality.backend.domain.model.district
 
+import com.municipality.backend.domain.model.complaint.Complaint
 import com.municipality.backend.domain.model.core.DomainEntity
 import com.municipality.backend.domain.model.municipality.Municipality
 import javax.persistence.*
@@ -12,6 +13,10 @@ class District : DomainEntity<DistrictId> {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="municipality_id", nullable=false)
     lateinit var municipality: Municipality
+
+    @OneToMany(mappedBy="district",
+        cascade = [(CascadeType.ALL)], fetch = FetchType.EAGER)
+    var complaints: List<Complaint> = mutableListOf()
 
     constructor() : super(DistrictId())
     constructor(id: DistrictId) : super(id)

@@ -6,6 +6,7 @@ import com.municipality.backend.domain.model.district.DistrictBuilder
 import com.municipality.backend.domain.model.district.DistrictId
 import com.municipality.backend.domain.service.district.Districts
 import com.municipality.backend.domain.service.municipality.Municipalities
+import com.municipality.backend.infrastructure.persistence.repository.municipality.MunicipalityJpaRepository
 import com.municipality.backend.shared_code_for_tests.AbstractIntegrationTest
 import com.municipality.backend.shared_code_for_tests.TestGroup
 import org.assertj.core.api.Assertions
@@ -19,6 +20,9 @@ class DistrictRepositoryTest : AbstractIntegrationTest() {
 
     @Autowired
     private lateinit var municipalities: Municipalities
+
+    @Autowired
+    private lateinit var municipalityJpaRepository: MunicipalityJpaRepository
 
     @Autowired
     private lateinit var districtJpaRepository: DistrictJpaRepository
@@ -68,7 +72,7 @@ class DistrictRepositoryTest : AbstractIntegrationTest() {
     @Test(groups = [TestGroup.INTEGRATION])
     fun find_all() {
         // given
-        districtJpaRepository.deleteAll()
+        municipalityJpaRepository.deleteAll()
         val district = DistrictBuilder().build()
         municipalities.create(district.municipality)
         districtJpaRepository.save(district)
