@@ -16,7 +16,7 @@ const Municipalities = () => {
     const loadMunicipalities = useCallback((pageNumber: number) => {
         toggleLoading(true)
         const municipalityApi = new MunicipalityRestServiceApi(ApiConfig())
-        municipalityApi.all1(pageNumber)
+        municipalityApi.allMunicipalities(pageNumber)
         .then(response => {
             setMunicipalities(response.data.elements)
             setTotalElements(response.data.totalPages * response.data.size)

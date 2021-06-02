@@ -21,7 +21,9 @@ class MunicipalityAppService(
         if (user.isAdmin())
             return municipalities.all(pageNumber, pageSize)
 
-        user as RegisteredUser
+        if (user !is RegisteredUser)
+            throw InsufficientPermissionException()
+
         return municipalities.by(user.roles.municipalities(), pageNumber, pageSize)
     }
 }

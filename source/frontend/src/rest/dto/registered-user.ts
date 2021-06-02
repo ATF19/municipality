@@ -110,7 +110,7 @@ export interface RegisteredUser {
      * @type {boolean}
      * @memberof RegisteredUser
      */
-    admin: boolean;
+    system: boolean;
     /**
      * 
      * @type {boolean}
@@ -140,7 +140,7 @@ export interface RegisteredUser {
      * @type {boolean}
      * @memberof RegisteredUser
      */
-    system: boolean;
+    admin: boolean;
     /**
      * 
      * @type {boolean}

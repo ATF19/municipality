@@ -1,6 +1,7 @@
 package com.municipality.backend.domain.model.complaint
 
 import com.municipality.backend.domain.model.district.DistrictBuilder
+import com.municipality.backend.domain.model.file.File
 
 class ComplaintBuilder {
     var id = ComplaintId()
@@ -8,7 +9,7 @@ class ComplaintBuilder {
     var comment = Comment("Complaint comment")
     var address = Address("21 bis rue de la Tripe")
     var personalInfo = PersonalInfo(null, null, null, null)
-    var picture = Picture("http://demo.com/img.png")
+    var picture = File()
     var position = Position(null, null)
     var status = Status.CREATED
     var resultComment = ResultComment(null)

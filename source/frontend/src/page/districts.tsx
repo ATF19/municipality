@@ -16,7 +16,7 @@ const Districts = () => {
     const loadDistricts = useCallback((pageNumber: number) => {
         toggleLoading(true)
         const districtApi = new DistrictRestServiceApi(ApiConfig())
-        districtApi.all2(pageNumber)
+        districtApi.allDistricts(pageNumber)
         .then(response => {
             setDistricts(response.data.elements)
             setTotalElements(response.data.totalPages * response.data.size)

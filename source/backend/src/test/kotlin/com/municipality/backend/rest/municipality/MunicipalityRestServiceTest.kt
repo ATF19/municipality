@@ -28,7 +28,7 @@ class MunicipalityRestServiceTest {
         every { municipalityAppService.all(loggedInUserResolver.loggedIn(), PageNumber(1), DEFAULT_PAGE_SIZE) }.returns(page)
 
         // when
-        val response = restService.all(1)
+        val response = restService.allMunicipalities(1)
 
         // then
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)

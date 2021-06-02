@@ -40,44 +40,11 @@ export const UserRestServiceApiAxiosParamCreator = function (configuration?: Con
     return {
         /**
          * 
-         * @param {string} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        _delete: async (userId: string, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('_delete', 'userId', userId)
-            const localVarPath = `/user/{userId}`
-                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        all: async (page?: number, options: any = {}): Promise<RequestArgs> => {
+        allUsers: async (page?: number, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/user/all`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -93,6 +60,39 @@ export const UserRestServiceApiAxiosParamCreator = function (configuration?: Con
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
             }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUser: async (userId: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('deleteUser', 'userId', userId)
+            const localVarPath = `/user/{userId}`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
 
     
@@ -315,22 +315,22 @@ export const UserRestServiceApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async _delete(userId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator._delete(userId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async all(page?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageDtoRegisteredUserUserDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.all(page, options);
+        async allUsers(page?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageDtoRegisteredUserUserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.allUsers(page, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteUser(userId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(userId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -403,21 +403,21 @@ export const UserRestServiceApiFactory = function (configuration?: Configuration
     return {
         /**
          * 
-         * @param {string} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        _delete(userId: string, options?: any): AxiosPromise<string> {
-            return localVarFp._delete(userId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        all(page?: number, options?: any): AxiosPromise<PageDtoRegisteredUserUserDto> {
-            return localVarFp.all(page, options).then((request) => request(axios, basePath));
+        allUsers(page?: number, options?: any): AxiosPromise<PageDtoRegisteredUserUserDto> {
+            return localVarFp.allUsers(page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUser(userId: string, options?: any): AxiosPromise<string> {
+            return localVarFp.deleteUser(userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -482,21 +482,21 @@ export const UserRestServiceApiFactory = function (configuration?: Configuration
 export interface UserRestServiceApiInterface {
     /**
      * 
-     * @param {string} userId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserRestServiceApiInterface
-     */
-    _delete(userId: string, options?: any): AxiosPromise<string>;
-
-    /**
-     * 
      * @param {number} [page] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserRestServiceApiInterface
      */
-    all(page?: number, options?: any): AxiosPromise<PageDtoRegisteredUserUserDto>;
+    allUsers(page?: number, options?: any): AxiosPromise<PageDtoRegisteredUserUserDto>;
+
+    /**
+     * 
+     * @param {string} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserRestServiceApiInterface
+     */
+    deleteUser(userId: string, options?: any): AxiosPromise<string>;
 
     /**
      * 
@@ -561,24 +561,24 @@ export interface UserRestServiceApiInterface {
 export class UserRestServiceApi extends BaseAPI implements UserRestServiceApiInterface {
     /**
      * 
-     * @param {string} userId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserRestServiceApi
-     */
-    public _delete(userId: string, options?: any) {
-        return UserRestServiceApiFp(this.configuration)._delete(userId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @param {number} [page] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserRestServiceApi
      */
-    public all(page?: number, options?: any) {
-        return UserRestServiceApiFp(this.configuration).all(page, options).then((request) => request(this.axios, this.basePath));
+    public allUsers(page?: number, options?: any) {
+        return UserRestServiceApiFp(this.configuration).allUsers(page, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserRestServiceApi
+     */
+    public deleteUser(userId: string, options?: any) {
+        return UserRestServiceApiFp(this.configuration).deleteUser(userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

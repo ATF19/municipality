@@ -13,6 +13,7 @@
  */
 
 
+import { Complaint } from './complaint';
 import { DistrictId } from './district-id';
 import { DistrictName } from './district-name';
 import { DistrictNameInArabic } from './district-name-in-arabic';
@@ -78,6 +79,12 @@ export interface District {
      * @memberof District
      */
     municipality: Municipality;
+    /**
+     * 
+     * @type {Array<Complaint>}
+     * @memberof District
+     */
+    complaints: Array<Complaint>;
 }
 
 

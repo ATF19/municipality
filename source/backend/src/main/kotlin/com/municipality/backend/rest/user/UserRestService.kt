@@ -75,7 +75,7 @@ class UserRestService(
     }
 
     @GetMapping("all")
-    fun all(@RequestParam("page") page: Int?): ResponseEntity<PageDto<RegisteredUser, UserDto>> {
+    fun allUsers(@RequestParam("page") page: Int?): ResponseEntity<PageDto<RegisteredUser, UserDto>> {
         val all = userAppService.all(loggedInUserResolver.loggedIn(), if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE)
         return ResponseEntity.ok(PageDto(all, ::toDto))
     }
@@ -92,7 +92,7 @@ class UserRestService(
     }
 
     @DeleteMapping("{userId}")
-    fun delete(@PathVariable("userId") registeredUserId: String): ResponseEntity<String> {
+    fun deleteUser(@PathVariable("userId") registeredUserId: String): ResponseEntity<String> {
         userAppService.deleteUser(DeleteUserCommand(loggedInUserResolver.loggedIn(), RegisteredUserId(registeredUserId)))
         return ResponseEntity.ok().build()
     }

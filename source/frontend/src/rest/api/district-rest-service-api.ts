@@ -34,7 +34,7 @@ export const DistrictRestServiceApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        all2: async (page?: number, options: any = {}): Promise<RequestArgs> => {
+        allDistricts: async (page?: number, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/district`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -78,8 +78,8 @@ export const DistrictRestServiceApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async all2(page?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageDtoDistrictDistrictDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.all2(page, options);
+        async allDistricts(page?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageDtoDistrictDistrictDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.allDistricts(page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -98,8 +98,8 @@ export const DistrictRestServiceApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        all2(page?: number, options?: any): AxiosPromise<PageDtoDistrictDistrictDto> {
-            return localVarFp.all2(page, options).then((request) => request(axios, basePath));
+        allDistricts(page?: number, options?: any): AxiosPromise<PageDtoDistrictDistrictDto> {
+            return localVarFp.allDistricts(page, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -117,7 +117,7 @@ export interface DistrictRestServiceApiInterface {
      * @throws {RequiredError}
      * @memberof DistrictRestServiceApiInterface
      */
-    all2(page?: number, options?: any): AxiosPromise<PageDtoDistrictDistrictDto>;
+    allDistricts(page?: number, options?: any): AxiosPromise<PageDtoDistrictDistrictDto>;
 
 }
 
@@ -135,7 +135,7 @@ export class DistrictRestServiceApi extends BaseAPI implements DistrictRestServi
      * @throws {RequiredError}
      * @memberof DistrictRestServiceApi
      */
-    public all2(page?: number, options?: any) {
-        return DistrictRestServiceApiFp(this.configuration).all2(page, options).then((request) => request(this.axios, this.basePath));
+    public allDistricts(page?: number, options?: any) {
+        return DistrictRestServiceApiFp(this.configuration).allDistricts(page, options).then((request) => request(this.axios, this.basePath));
     }
 }

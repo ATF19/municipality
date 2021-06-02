@@ -63,21 +63,20 @@ class UserAppService(
     }
 
     fun updateProfile(command: UpdateProfileCommand) {
-        if (!command.user.isRegistered())
+        if (!command.user.isRegistered() || command.user !is RegisteredUser)
             throw InsufficientPermissionException()
 
         verifyMissingUpdateInformation(command)
-        val user = command.user as RegisteredUser
-        if (user.email != command.email)
+        if (command.user.email != command.email)
             verifyEmailValidAndDoesNotExists(command.email)
-        user.email = command.email
+        command.user.email = command.email
         if (command.unencryptedPassword.isPresent) {
             verifyPasswordIsNotWeak(command.unencryptedPassword.get())
-            user.cryptedPassword = passwords.encrypt(command.unencryptedPassword.get())
+            command.user.cryptedPassword = passwords.encrypt(command.unencryptedPassword.get())
         }
-        user.firstName = command.firstName
-        user.lastName = command.lastName
-        users.update(user)
+        command.user.firstName = command.firstName
+        command.user.lastName = command.lastName
+        users.update(command.user)
     }
 
     fun all(user: User<*>, pageNumber: PageNumber, pageSize: PageSize): Page<RegisteredUser> {
@@ -88,22 +87,21 @@ class UserAppService(
     }
 
     fun updateInternalUser(command: UpdateInternalUserCommand) {
-        if (!command.user.isAdmin())
+        if (!command.user.isAdmin() || command.user !is RegisteredUser)
             throw InsufficientPermissionException()
 
         verifyMissingUpdateInformation(command)
-        val user = command.user as RegisteredUser
-        if (user.email != command.email)
+        if (command.user.email != command.email)
             verifyEmailValidAndDoesNotExists(command.email)
-        user.email = command.email
+        command.user.email = command.email
         if (command.unencryptedPassword.isPresent) {
             verifyPasswordIsNotWeak(command.unencryptedPassword.get())
-            user.cryptedPassword = passwords.encrypt(command.unencryptedPassword.get())
+            command.user.cryptedPassword = passwords.encrypt(command.unencryptedPassword.get())
         }
-        user.firstName = command.firstName
-        user.lastName = command.lastName
-        if (command.isAdmin) user.roles.grant(Admin()) else user.roles.revoke(Admin())
-        users.update(user)
+        command.user.firstName = command.firstName
+        command.user.lastName = command.lastName
+        if (command.isAdmin) command.user.roles.grant(Admin()) else command.user.roles.revoke(Admin())
+        users.update(command.user)
     }
 
     fun deleteUser(command: DeleteUserCommand) {

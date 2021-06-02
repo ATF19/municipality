@@ -1,6 +1,8 @@
 package com.municipality.backend.domain.model.user
 
+import com.municipality.backend.domain.model.municipality.MunicipalityId
 import com.municipality.backend.domain.model.user.role.Admin
+import com.municipality.backend.domain.model.user.role.MunicipalityResponsible
 import com.municipality.backend.domain.model.user.role.Roles
 import java.util.*
 
@@ -21,6 +23,13 @@ class RegisteredUserBuilder {
 
     fun admin() : RegisteredUserBuilder {
         roles.grant(Admin())
+        return this
+    }
+
+    fun municipalityResponsible() = municipalityResponsible(MunicipalityId())
+
+    fun municipalityResponsible(municipalityId: MunicipalityId) : RegisteredUserBuilder {
+        roles.grant(MunicipalityResponsible(municipalityId))
         return this
     }
 

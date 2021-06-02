@@ -207,7 +207,7 @@ class UserRestServiceTest {
         every { userAppService.all(loggedInUserResolver.loggedIn(), FIRST_PAGE, DEFAULT_PAGE_SIZE) }.returns(page)
 
         // when
-        val response = restService.all(null)
+        val response = restService.allUsers(null)
 
         // then
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
@@ -229,7 +229,7 @@ class UserRestServiceTest {
         val registeredUserId = RegisteredUserId()
 
         // when
-        val response = restService.delete(registeredUserId.rawId.toString())
+        val response = restService.deleteUser(registeredUserId.rawId.toString())
 
         // then
         verify { userAppService.deleteUser(DeleteUserCommand(loggedInUserResolver.loggedIn(), registeredUserId)) }

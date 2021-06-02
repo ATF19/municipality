@@ -29,7 +29,7 @@ const Users = () => {
     const loadUsers = useCallback((pageNumber: number) => {
         toggleLoading(true)
         const userApi = new UserRestServiceApi(ApiConfig());
-        userApi.all(pageNumber)
+        userApi.allUsers(pageNumber)
             .then(response => {
                 setUsers(response.data.elements)
                 setTotalElements(response.data.totalPages * response.data.size)
@@ -122,7 +122,7 @@ const Users = () => {
     const deleteUser = (userId: string) => {
         const userApi = new UserRestServiceApi(ApiConfig());
         toggleLoading(true)
-        userApi._delete(userId)
+        userApi.deleteUser(userId)
             .then(() => message.success("L'utilisateur a été supprimé avec succès."))
             .catch(() => message.error("Il y a eu une erreur en supprimant l'utilisateur. Veuillez réessayer."))
             .finally(() => loadUsers(currentPage || 1))

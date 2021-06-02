@@ -22,7 +22,9 @@ class DistrictAppService(
         if (user.isAdmin())
             return districts.all(pageNumber, pageSize)
 
-        user as RegisteredUser
+        if (user !is RegisteredUser)
+            throw InsufficientPermissionException()
+
         return districts.by(user.roles.districts(), user.roles.municipalities(), pageNumber, pageSize)
     }
 }

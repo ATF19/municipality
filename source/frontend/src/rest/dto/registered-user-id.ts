@@ -31,13 +31,13 @@ export interface RegisteredUserId {
      * @type {boolean}
      * @memberof RegisteredUserId
      */
-    anonymousId: boolean;
+    systemId: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof RegisteredUserId
      */
-    systemId: boolean;
+    anonymousId: boolean;
     /**
      * 
      * @type {boolean}

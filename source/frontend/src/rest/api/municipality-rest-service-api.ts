@@ -34,7 +34,7 @@ export const MunicipalityRestServiceApiAxiosParamCreator = function (configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        all1: async (page?: number, options: any = {}): Promise<RequestArgs> => {
+        allMunicipalities: async (page?: number, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/municipality`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -78,8 +78,8 @@ export const MunicipalityRestServiceApiFp = function(configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async all1(page?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageDtoMunicipalityMunicipalityDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.all1(page, options);
+        async allMunicipalities(page?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageDtoMunicipalityMunicipalityDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.allMunicipalities(page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -98,8 +98,8 @@ export const MunicipalityRestServiceApiFactory = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        all1(page?: number, options?: any): AxiosPromise<PageDtoMunicipalityMunicipalityDto> {
-            return localVarFp.all1(page, options).then((request) => request(axios, basePath));
+        allMunicipalities(page?: number, options?: any): AxiosPromise<PageDtoMunicipalityMunicipalityDto> {
+            return localVarFp.allMunicipalities(page, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -117,7 +117,7 @@ export interface MunicipalityRestServiceApiInterface {
      * @throws {RequiredError}
      * @memberof MunicipalityRestServiceApiInterface
      */
-    all1(page?: number, options?: any): AxiosPromise<PageDtoMunicipalityMunicipalityDto>;
+    allMunicipalities(page?: number, options?: any): AxiosPromise<PageDtoMunicipalityMunicipalityDto>;
 
 }
 
@@ -135,7 +135,7 @@ export class MunicipalityRestServiceApi extends BaseAPI implements MunicipalityR
      * @throws {RequiredError}
      * @memberof MunicipalityRestServiceApi
      */
-    public all1(page?: number, options?: any) {
-        return MunicipalityRestServiceApiFp(this.configuration).all1(page, options).then((request) => request(this.axios, this.basePath));
+    public allMunicipalities(page?: number, options?: any) {
+        return MunicipalityRestServiceApiFp(this.configuration).allMunicipalities(page, options).then((request) => request(this.axios, this.basePath));
     }
 }

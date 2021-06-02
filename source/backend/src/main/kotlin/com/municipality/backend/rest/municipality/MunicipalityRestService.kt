@@ -22,7 +22,7 @@ class MunicipalityRestService(
     private val loggedInUserResolver: LoggedInUserResolver
 ) {
     @GetMapping
-    fun all(@RequestParam("page") page: Int?): ResponseEntity<PageDto<Municipality, MunicipalityDto>> {
+    fun allMunicipalities(@RequestParam("page") page: Int?): ResponseEntity<PageDto<Municipality, MunicipalityDto>> {
         val all = municipalityAppService.all(
             loggedInUserResolver.loggedIn(),
             if (page == null) FIRST_PAGE else PageNumber(page),

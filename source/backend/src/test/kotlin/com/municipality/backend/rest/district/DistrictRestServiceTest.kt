@@ -28,7 +28,7 @@ class DistrictRestServiceTest {
         every { appService.all(loggedInUserResolver.loggedIn(), PageNumber(1), DEFAULT_PAGE_SIZE) }.returns(page)
 
         // when
-        val response = restService.all(1)
+        val response = restService.allDistricts(1)
 
         // then
         Assertions.assertThat(response.statusCode).isEqualTo(HttpStatus.OK)

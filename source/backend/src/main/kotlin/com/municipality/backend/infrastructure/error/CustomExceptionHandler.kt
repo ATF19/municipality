@@ -16,8 +16,8 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(RuntimeException::class)
     fun handleAll(exception: Exception, request: WebRequest?): ResponseEntity<Any> {
-        var status: HttpStatus
-        var error: ErrorCode
+        val status: HttpStatus
+        val error: ErrorCode
 
         when(exception) {
             is InsufficientPermissionException -> {
@@ -53,6 +53,11 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
             is IncorrectUsernameOrPasswordException -> {
                 status = HttpStatus.BAD_REQUEST
                 error = ErrorCode.INCORRECT_LOGIN_INFORMATION
+            }
+
+            is NoSuchElementException -> {
+                status = HttpStatus.NOT_FOUND
+                error = ErrorCode.NO_SUCH_ELEMENT
             }
 
             else -> {

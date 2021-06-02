@@ -2,6 +2,7 @@ package com.municipality.backend.domain.model.complaint
 
 import com.municipality.backend.domain.model.core.DomainEntity
 import com.municipality.backend.domain.model.district.District
+import com.municipality.backend.domain.model.file.File
 import com.municipality.backend.domain.model.user.Email
 import com.municipality.backend.domain.model.user.FirstName
 import com.municipality.backend.domain.model.user.LastName
@@ -15,7 +16,9 @@ class Complaint : DomainEntity<ComplaintId> {
     var comment: Comment? = null
     lateinit var address: Address
     var personalInfo: PersonalInfo? = null
-    lateinit var picture: Picture
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "file_id", referencedColumnName = "id")
+    lateinit var picture: File
     var position: Position? = null
     @Enumerated(EnumType.STRING)
     lateinit var status: Status
@@ -77,9 +80,6 @@ data class Comment(val comment: String? = null)
 
 @Embeddable
 data class Address(val address: String? = null)
-
-@Embeddable
-data class Picture(val pictureUrl: String? = null)
 
 @Embeddable
 data class PersonalInfo(val firstName: FirstName? = null, val lastName: LastName? = null,
