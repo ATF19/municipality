@@ -1,0 +1,2 @@
+CREATE INDEX MUNI_COMPLAINT_STATUS_IDX ON muni.complaint (status);
+CREATE INDEX MUNI_COMPLAINT_DISTRICT_IDX ON muni.complaint (district_id);
