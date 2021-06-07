@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Component
 import java.util.*
-import kotlin.NoSuchElementException
 
 @Component
 class ComplaintRepository(
@@ -49,6 +48,12 @@ class ComplaintRepository(
         .findById(complaintId)
         .orElseThrow { NoSuchElementException("No complaint exists with the ID '${complaintId.rawId}'") }
 
+    override fun by(complaintIds: List<ComplaintId>, pageNumber: PageNumber, pageSize: PageSize): Page<Complaint> {
+        val page = PageBuilder.builder.build(pageNumber, pageSize)
+        val complaints = complaintJpaRepository.findAllByIdIn(complaintIds, page)
+        return Page(complaints.content, pageNumber, pageSize, complaints.totalPages)
+    }
+
     override fun by(complaintCode: ComplaintCode): Complaint = complaintJpaRepository
         .findFirstByCode(complaintCode)
         .orElseThrow { NoSuchElementException("No complaint exists with the code '${complaintCode.code}'") }
@@ -71,5 +76,6 @@ class ComplaintRepository(
 interface ComplaintJpaRepository: JpaRepository<Complaint, ComplaintId> {
     fun existsByCode(complaintCode: ComplaintCode): Boolean
     fun findAllByStatusIn(status: Set<Status>, pageable: Pageable): org.springframework.data.domain.Page<Complaint>
+    fun findAllByIdIn(complaintIds: List<ComplaintId>, pageable: Pageable): org.springframework.data.domain.Page<Complaint>
     fun findFirstByCode(complaintCode: ComplaintCode): Optional<Complaint>
 }

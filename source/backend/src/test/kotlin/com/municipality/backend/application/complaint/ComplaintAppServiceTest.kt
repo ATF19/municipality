@@ -269,4 +269,27 @@ class ComplaintAppServiceTest {
         assertThat(result.status).isEqualTo(Status.IN_PROGRESS)
         assertThat(result.resultComment).isEqualTo(resultComment)
     }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun get_all_by_ids() {
+        // given
+        val complaints = mockk<Complaints>(relaxed = true)
+        val districts = mockk<Districts>()
+        val complaintCodeGenerator = mockk<ComplaintCodeGenerator>()
+        val appService = ComplaintAppService(complaints, districts, complaintCodeGenerator)
+        val pageSize = DEFAULT_PAGE_SIZE
+        val pageNumber = PageNumber(1)
+        val complaint1 = ComplaintBuilder().build()
+        val complaint2 = ComplaintBuilder().build()
+        val page = Page(listOf(complaint1, complaint2), pageNumber, pageSize, 1)
+        every { complaints.by(listOf(complaint1.id, complaint2.id), pageNumber, pageSize) }.returns(page)
+
+        // when
+        val all = appService.by(listOf(complaint1.id, complaint2.id), pageNumber, pageSize)
+
+        // then
+        assertThat(all.elements).containsExactlyInAnyOrder(complaint1, complaint2)
+        assertThat(all.pageNumber).isEqualTo(pageNumber)
+        assertThat(all.pageSize).isEqualTo(pageSize)
+    }
 }

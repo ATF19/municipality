@@ -1,6 +1,5 @@
 package com.municipality.backend.rest.complaint
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.municipality.backend.application.complaint.ComplaintAppService
 import com.municipality.backend.application.complaint.CreateComplaintCommand
 import com.municipality.backend.application.complaint.UpdateComplaintCommand
@@ -22,12 +21,8 @@ import com.municipality.backend.shared_code_for_tests.TestGroup
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.http.HttpStatus
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
-import org.springframework.mock.web.MockMultipartFile
-import org.springframework.web.multipart.MultipartFile
 import org.testng.annotations.Test
 
 class ComplaintRestServiceTest {
@@ -186,5 +181,31 @@ class ComplaintRestServiceTest {
         // then
         verify { appService.update(expectedCommand) }
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun get_all_complaints_by_ids() {
+        // given
+        val loggedInUserResolver = mockk<LoggedInUserResolver>()
+        every { loggedInUserResolver.loggedIn() }.returns(LoggedInUserForTest.user)
+        val appService = mockk<ComplaintAppService>()
+        val files = mockk<Files>()
+        val fileUtility = mockk<FileUtility>(relaxed = true)
+        val restService = ComplaintRestService(appService, files, fileUtility, loggedInUserResolver)
+        val pageNumber = PageNumber(2)
+        val complaint1 = ComplaintBuilder().build()
+        val complaint2 = ComplaintBuilder().build()
+        val complaint3 = ComplaintBuilder().build()
+        val page = Page(listOf(complaint1, complaint2, complaint3), pageNumber, DEFAULT_PAGE_SIZE, 1)
+        every { appService.by(listOf(complaint1.id, complaint2.id, complaint3.id), pageNumber, DEFAULT_PAGE_SIZE) }.returns(page)
+
+        // when
+        val response = restService.complaintsByIds(listOf(complaint1.id, complaint2.id, complaint3.id), pageNumber.number)
+
+        // then
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response.body!!.elements).hasSize(3)
+        assertThat(response.body!!.elements.map { it.id })
+            .containsExactlyInAnyOrder(complaint1.id.rawId.toString(), complaint2.id.rawId.toString(), complaint3.id.rawId.toString())
     }
 }

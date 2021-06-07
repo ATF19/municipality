@@ -13,7 +13,6 @@ import com.municipality.backend.shared_code_for_tests.AbstractIntegrationTest
 import com.municipality.backend.shared_code_for_tests.TestGroup
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
-import org.testng.annotations.BeforeTest
 import org.testng.annotations.Test
 
 class ComplaintRepositoryTest : AbstractIntegrationTest() {
@@ -173,5 +172,28 @@ class ComplaintRepositoryTest : AbstractIntegrationTest() {
 
         // then
         assertThat(complaints.by(complaint.id).comment).isEqualTo(comment)
+    }
+
+    @Test(groups = [TestGroup.INTEGRATION])
+    fun find_by_ids() {
+        // given
+        val complaint1 = ComplaintBuilder().build()
+        val complaint2 = ComplaintBuilder().build()
+        val complaint3 = ComplaintBuilder().build()
+        municipalityJpaRepository.save(complaint1.district.municipality)
+        municipalityJpaRepository.save(complaint2.district.municipality)
+        municipalityJpaRepository.save(complaint3.district.municipality)
+        districtJpaRepository.save(complaint1.district)
+        districtJpaRepository.save(complaint2.district)
+        districtJpaRepository.save(complaint3.district)
+        complaints.create(complaint1)
+        complaints.create(complaint2)
+        complaints.create(complaint3)
+
+        // when
+        val result = complaints.by(listOf(complaint1.id, complaint2.id), PageNumber(1), DEFAULT_PAGE_SIZE)
+
+        // then
+        assertThat(result.elements.map { it.id }).containsExactlyInAnyOrder(complaint1.id, complaint2.id)
     }
 }

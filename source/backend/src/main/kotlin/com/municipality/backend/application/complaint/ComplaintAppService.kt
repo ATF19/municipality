@@ -66,6 +66,9 @@ class ComplaintAppService(
 
     fun by(complaintCode: ComplaintCode): Complaint = complaints.by(complaintCode)
 
+    fun by(complaintIds: List<ComplaintId>, pageNumber: PageNumber, pageSize: PageSize): Page<Complaint> = complaints
+        .by(complaintIds, pageNumber, pageSize)
+
     fun update(command: UpdateComplaintCommand) {
         if (!command.user.isMunicipalityResponsible() && !command.user.isMunicipalityAuditor() && !command.user.isDistrictResponsible() && !command.user.isDistrictAuditor())
             throw InsufficientPermissionException()

@@ -1,6 +1,5 @@
 package com.municipality.backend.rest.complaint
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.municipality.backend.application.complaint.ComplaintAppService
 import com.municipality.backend.application.complaint.CreateComplaintCommand
 import com.municipality.backend.application.complaint.UpdateComplaintCommand
@@ -16,12 +15,9 @@ import com.municipality.backend.domain.model.user.LastName
 import com.municipality.backend.domain.service.file.Files
 import com.municipality.backend.infrastructure.file.FileUtility
 import com.municipality.backend.rest.core.PageDto
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/complaint")
@@ -70,6 +66,13 @@ class ComplaintRestService(
     @GetMapping("code/{complaintCode}")
     fun complaintByCode(@PathVariable("complaintCode") code: String): ResponseEntity<ComplaintDto> =
         ResponseEntity.ok(toDto(complaintAppService.by(ComplaintCode(code))))
+
+    @GetMapping("byIds")
+    fun complaintsByIds(@RequestParam("complaintId") complaintIds: List<ComplaintId>, @RequestParam("page") page: Int?): ResponseEntity<PageDto<Complaint, ComplaintDto>> {
+        val complaints = complaintAppService.by(complaintIds,
+            if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE)
+        return ResponseEntity.ok(PageDto(complaints) {toDto(it)})
+    }
 
     @PutMapping("{complaintId}")
     fun updateComplaint(@PathVariable("complaintId") id: String, @RequestBody request: UpdateComplaintRequest): ResponseEntity<String> {
