@@ -17,33 +17,33 @@
 /**
  * 
  * @export
- * @interface RegisteredUserId
+ * @interface PersonalInfoDto
  */
-export interface RegisteredUserId {
+export interface PersonalInfoDto {
     /**
      * 
      * @type {string}
-     * @memberof RegisteredUserId
+     * @memberof PersonalInfoDto
      */
-    rawId: string;
+    firstName?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
+     * @type {string}
+     * @memberof PersonalInfoDto
      */
-    anonymousId: boolean;
+    lastName?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
+     * @type {string}
+     * @memberof PersonalInfoDto
      */
-    systemId: boolean;
+    email?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
+     * @type {string}
+     * @memberof PersonalInfoDto
      */
-    registeredUserId: boolean;
+    phone?: string;
 }
 
 

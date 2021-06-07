@@ -23,7 +23,7 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 // @ts-ignore
 import { ComplaintDto } from '../dto';
 // @ts-ignore
-import { InlineObject } from '../dto';
+import { CreateComplaintRequest } from '../dto';
 // @ts-ignore
 import { PageDtoComplaintComplaintDto } from '../dto';
 // @ts-ignore
@@ -136,11 +136,13 @@ export const ComplaintRestServiceApiAxiosParamCreator = function (configuration?
         },
         /**
          * 
-         * @param {InlineObject} [inlineObject] 
+         * @param {CreateComplaintRequest} createComplaintRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createComplaint: async (inlineObject?: InlineObject, options: any = {}): Promise<RequestArgs> => {
+        createComplaint: async (createComplaintRequest: CreateComplaintRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createComplaintRequest' is not null or undefined
+            assertParamExists('createComplaint', 'createComplaintRequest', createComplaintRequest)
             const localVarPath = `/complaint`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -160,7 +162,7 @@ export const ComplaintRestServiceApiAxiosParamCreator = function (configuration?
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(inlineObject, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(createComplaintRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -282,12 +284,12 @@ export const ComplaintRestServiceApiFp = function(configuration?: Configuration)
         },
         /**
          * 
-         * @param {InlineObject} [inlineObject] 
+         * @param {CreateComplaintRequest} createComplaintRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createComplaint(inlineObject?: InlineObject, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ComplaintDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createComplaint(inlineObject, options);
+        async createComplaint(createComplaintRequest: CreateComplaintRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ComplaintDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createComplaint(createComplaintRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -350,12 +352,12 @@ export const ComplaintRestServiceApiFactory = function (configuration?: Configur
         },
         /**
          * 
-         * @param {InlineObject} [inlineObject] 
+         * @param {CreateComplaintRequest} createComplaintRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createComplaint(inlineObject?: InlineObject, options?: any): AxiosPromise<ComplaintDto> {
-            return localVarFp.createComplaint(inlineObject, options).then((request) => request(axios, basePath));
+        createComplaint(createComplaintRequest: CreateComplaintRequest, options?: any): AxiosPromise<ComplaintDto> {
+            return localVarFp.createComplaint(createComplaintRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -414,12 +416,12 @@ export interface ComplaintRestServiceApiInterface {
 
     /**
      * 
-     * @param {InlineObject} [inlineObject] 
+     * @param {CreateComplaintRequest} createComplaintRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ComplaintRestServiceApiInterface
      */
-    createComplaint(inlineObject?: InlineObject, options?: any): AxiosPromise<ComplaintDto>;
+    createComplaint(createComplaintRequest: CreateComplaintRequest, options?: any): AxiosPromise<ComplaintDto>;
 
     /**
      * 
@@ -484,13 +486,13 @@ export class ComplaintRestServiceApi extends BaseAPI implements ComplaintRestSer
 
     /**
      * 
-     * @param {InlineObject} [inlineObject] 
+     * @param {CreateComplaintRequest} createComplaintRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ComplaintRestServiceApi
      */
-    public createComplaint(inlineObject?: InlineObject, options?: any) {
-        return ComplaintRestServiceApiFp(this.configuration).createComplaint(inlineObject, options).then((request) => request(this.axios, this.basePath));
+    public createComplaint(createComplaintRequest: CreateComplaintRequest, options?: any) {
+        return ComplaintRestServiceApiFp(this.configuration).createComplaint(createComplaintRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

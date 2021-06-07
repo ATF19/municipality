@@ -1,5 +1,6 @@
 package com.municipality.backend.rest.complaint
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.municipality.backend.application.complaint.ComplaintAppService
 import com.municipality.backend.application.complaint.CreateComplaintCommand
 import com.municipality.backend.application.complaint.UpdateComplaintCommand
@@ -11,6 +12,9 @@ import com.municipality.backend.domain.model.core.PageNumber
 import com.municipality.backend.domain.model.file.ContentType
 import com.municipality.backend.domain.model.file.File
 import com.municipality.backend.domain.model.file.FileName
+import com.municipality.backend.domain.model.user.Email
+import com.municipality.backend.domain.model.user.FirstName
+import com.municipality.backend.domain.model.user.LastName
 import com.municipality.backend.domain.service.file.Files
 import com.municipality.backend.infrastructure.file.FileUtility
 import com.municipality.backend.shared_code_for_tests.LoggedInUserForTest
@@ -21,6 +25,7 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.http.HttpStatus
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.web.multipart.MultipartFile
 import org.testng.annotations.Test
@@ -38,26 +43,27 @@ class ComplaintRestServiceTest {
         val restService = ComplaintRestService(appService, files, fileUtility, loggedInUserResolver)
         val fileName = "Name"
         val content = "DummyContent"
-        val file: MultipartFile = MockMultipartFile(fileName, fileName, null, content.encodeToByteArray())
-        val request = CreateComplaintRequest("demo address", "comment", null, null)
+        val request = CreateComplaintRequest("photoBase64", "demo address", "comment", null, null)
         val url = "dummyUrl"
         val dummyFile = File()
         dummyFile.fileName = FileName(fileName)
-        dummyFile.contentType = ContentType("PNG")
+        val contentType = ContentType("image/jpeg")
+        dummyFile.contentType = contentType
         dummyFile.blob = content.encodeToByteArray()
-        every { fileUtility.create(file) }.returns(dummyFile)
+        every { fileUtility.create(request.photo, contentType) }.returns(dummyFile)
         val expectedCommand = CreateComplaintCommand(loggedInUserResolver.loggedIn(), Address(request.address), dummyFile,
-            Comment(request.comment), null, null)
+            Comment(request.comment), null, PersonalInfo(FirstName(), LastName(), Phone(), Email())
+        )
         val complaint = ComplaintBuilder().build()
         complaint.picture = dummyFile
         every { appService.create(expectedCommand) }.returns(complaint)
         every { fileUtility.asUrl(complaint.picture) }.returns(url)
 
         // when
-        val response = restService.createComplaint(request, file)
+        val response = restService.createComplaint(request)
 
         // then
-        verify { fileUtility.create(file) }
+        verify { fileUtility.create(request.photo, contentType) }
         verify { files.save(dummyFile) }
         verify { appService.create(expectedCommand) }
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)

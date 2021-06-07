@@ -3,6 +3,7 @@ package com.municipality.backend.infrastructure.security
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -36,6 +37,7 @@ class WebSecurityConfig(
         config.allowedMethods = listOf(HttpMethod.GET.name, HttpMethod.POST.name, HttpMethod.PUT.name, HttpMethod.DELETE.name, HttpMethod.OPTIONS.name)
         config.allowCredentials = true
         config.addAllowedHeader(CorsConfiguration.ALL)
+        config.addExposedHeader(HttpHeaders.CONTENT_DISPOSITION)
         val urlConfig = UrlBasedCorsConfigurationSource()
         urlConfig.registerCorsConfiguration("/**", config)
         return urlConfig

@@ -13,7 +13,7 @@
  */
 
 
-import { PersonalInfo } from './personal-info';
+import { PersonalInfoDto } from './personal-info-dto';
 import { Position } from './position';
 
 /**
@@ -22,6 +22,12 @@ import { Position } from './position';
  * @interface CreateComplaintRequest
  */
 export interface CreateComplaintRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateComplaintRequest
+     */
+    photo: string;
     /**
      * 
      * @type {string}
@@ -42,10 +48,10 @@ export interface CreateComplaintRequest {
     position?: Position;
     /**
      * 
-     * @type {PersonalInfo}
+     * @type {PersonalInfoDto}
      * @memberof CreateComplaintRequest
      */
-    personalInfo?: PersonalInfo;
+    personalInfo?: PersonalInfoDto;
 }
 
 

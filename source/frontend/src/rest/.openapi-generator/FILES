@@ -27,7 +27,6 @@ dto/file-id.ts
 dto/file-name.ts
 dto/first-name.ts
 dto/index.ts
-dto/inline-object.ts
 dto/last-name.ts
 dto/login-request.ts
 dto/model-file.ts
@@ -46,6 +45,7 @@ dto/page-municipality.ts
 dto/page-number.ts
 dto/page-registered-user.ts
 dto/page-size.ts
+dto/personal-info-dto.ts
 dto/personal-info.ts
 dto/phone.ts
 dto/position.ts
