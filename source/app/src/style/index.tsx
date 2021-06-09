@@ -192,6 +192,17 @@ const Styles: StyleProp<any> = {
     },
     rightText: {
         textAlign: 'right'
+    },
+    complaintPageImage: {
+        height: 440
+    },
+    infoDivider: {
+        marginTop: 5,
+        marginBottom: 5
+    },
+    infoSpaceSeparation: {
+        marginTop: 20,
+        marginBottom: 20
     }
 }
 
