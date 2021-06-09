@@ -21,6 +21,12 @@ const createComplaint = (request: CreateComplaintRequest) => {
     return axios.post(url, content)
 }
 
+const complaintsByIds = (ids: string[], page: number) => {
+    let url = `${Config.server}complaint/byIds?page=${page}`
+    ids.forEach(id => url += `&complaintId=${id}`)
+    return axios.get(url)
+}
+
 interface CreateComplaintRequest {
     photo: string,
     address: string,
@@ -33,4 +39,4 @@ interface CreateComplaintRequest {
     longitude?: number
 }
 
-export {createComplaint, CreateComplaintRequest}
+export {createComplaint, complaintsByIds, CreateComplaintRequest}

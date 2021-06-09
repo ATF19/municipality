@@ -35,7 +35,7 @@ const Home = ({navigation}: any) => (
               </View>
 
               <View style={[Styles.homeMenuCard, Styles.besideRightBorderdCard]}>
-                <TouchableOpacity onPress={() => alert("x")}>
+                <TouchableOpacity onPress={() => navigation.navigate('ComplaintList')}>
                   <View style={Styles.containerCenter}>
                     <Icon
                       style={Styles.homeMenuCardIcon}

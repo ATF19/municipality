@@ -3,6 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
 import Home from "../screen/home";
 import CreateComplaint from '../screen/createComplaint';
+import Complaint from '../screen/complaint';
+import ComplaintList from '../screen/complaintList';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +17,12 @@ const Router = () => (
             <Stack.Screen options={{title: "شكوى"}} 
                 name="CreateComplaint" 
                 component={CreateComplaint} />
+            <Stack.Screen options={{title: "شكوى"}} 
+                name="Complaint" 
+                component={Complaint} />
+            <Stack.Screen options={{title: "متابعة الشكاوي"}} 
+                name="ComplaintList" 
+                component={ComplaintList} />
         </Stack.Navigator>
     </NavigationContainer>
 )

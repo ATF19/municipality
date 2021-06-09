@@ -148,7 +148,7 @@ const Styles: StyleProp<any> = {
     toastTextStyle: {
         fontSize: 20
     },
-    loadingContainer: {
+    errorPageContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
@@ -156,8 +156,42 @@ const Styles: StyleProp<any> = {
     spinner: {
         borderColor: '#2d3436'
     },
-    loadingElementWithMarginTop: {
+    errorPageElementWithMarginTop: {
         marginTop: 20
+    },
+    noDataIcon: {
+        width: 30, 
+        height: 30
+    },
+    complaintCardContainer: {
+        marginBottom: 20
+    },
+    complaintCardImage: {
+        height: 220
+    },
+    flexRow: {
+        flexDirection: 'row'
+    },
+    complaintStatus: {
+        paddingTop: 15,
+        paddingBottom: 15,
+        paddingLeft: 25,
+        paddingRight: 25,
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 1.00,
+        elevation: 1
+
+    },
+    rightText: {
+        textAlign: 'right'
     }
 }
 

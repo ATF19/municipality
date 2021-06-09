@@ -11,8 +11,9 @@ import { validateEmail, validatePhone } from '../helper/validation';
 import Loading from '../component/loading';
 import { createComplaint, CreateComplaintRequest } from '../rest/complaint/complaintRestClient';
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
+import { addComplaintId, getComplaintIds } from '../helper/storage';
 
-const CreateComplaint = () => {
+const CreateComplaint = ({navigation}: any) => {
     const [loading, toggleLoading] = useState(false)
     const [photo, setPhoto] = useState<ImageInfo>()
     const [address, setAddress] = useState("")
@@ -105,7 +106,8 @@ const CreateComplaint = () => {
             let request: CreateComplaintRequest = {photo: photo.base64, address, comment, 
                 firstName, lastName, email, phone, latitude, longitude}
             createComplaint(request)
-            .then((response) => {
+            .then((response) => addComplaintId(response.data))
+            .then((complaint) => {
                 showSuccess("لقد تم إرسال شكواك بنجاح.")
                 setPhoto(undefined)
                 setAddress("")
@@ -114,6 +116,7 @@ const CreateComplaint = () => {
                 setFirstName("")
                 setLastName("")
                 setPhone("")
+                navigation.navigate('Complaint', {complaint})
             })
             .catch((error) => {
                 showError("لقد حدث عطب. الرجاء إعادة التجربة.")
