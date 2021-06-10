@@ -1,4 +1,4 @@
-import { AlertOutlined, ApartmentOutlined, BankOutlined, HeartTwoTone, LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
+import { AlertOutlined, ApartmentOutlined, BankOutlined, HeartTwoTone, InfoCircleOutlined, LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, message, Modal } from "antd";
 import { Content, Footer } from "antd/lib/layout/layout";
 import { BrowserRouter, Link } from 'react-router-dom';
@@ -78,6 +78,9 @@ const MainContainer = ({user}: MainContainerProps) => {
       selectedElement = "plaintes";
     else if(location.indexOf("404") > -1)
       selectedElement = "-1";
+    else if(location.indexOf("info") > -1)
+      selectedElement = "information";
+
     else
         selectedElement = userHomePage(user);
 
@@ -129,6 +132,16 @@ const MainContainer = ({user}: MainContainerProps) => {
                                 <Link to="/utilisateurs">
                                     <UsergroupAddOutlined className="menu-icon" />
                                     Utilisateurs
+                                </Link>
+                            </Menu.Item>
+                        )
+                    }
+                    {
+                        user.isAdmin && (
+                            <Menu.Item key="information">
+                                <Link to="/info">
+                                    <InfoCircleOutlined className="menu-icon" />
+                                    Informations
                                 </Link>
                             </Menu.Item>
                         )

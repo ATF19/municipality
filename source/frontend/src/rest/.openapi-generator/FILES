@@ -3,6 +3,7 @@ api/complaint-rest-service-api.ts
 api/district-rest-service-api.ts
 api/file-rest-service-api.ts
 api/health-rest-service-api.ts
+api/information-rest-service-api.ts
 api/municipality-rest-service-api.ts
 api/user-rest-service-api.ts
 base.ts
@@ -27,6 +28,7 @@ dto/file-id.ts
 dto/file-name.ts
 dto/first-name.ts
 dto/index.ts
+dto/information-dto.ts
 dto/last-name.ts
 dto/login-request.ts
 dto/model-file.ts

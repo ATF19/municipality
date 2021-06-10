@@ -4,6 +4,7 @@ import { Redirect, Route } from "react-router-dom";
 import { userHomePage } from "../helper/roles";
 import Complaints from "../page/complaints";
 import Districts from "../page/districts";
+import Information from "../page/information";
 import Municipalities from "../page/municipalities";
 import NotFound from "../page/notFound";
 import Profile from "../page/profile";
@@ -19,6 +20,7 @@ const Routes = () => (
         <Route path="/municipalites" exact component={Municipalities} />
         <Route path="/utilisateurs" exact component={Users} />
         <Route path="/profil" exact component={Profile} />
+        <Route path="/info" exact component={Information} />
         <Route path="/404" exact component={NotFound} />
         <Redirect to="/404" />
     </Switch>

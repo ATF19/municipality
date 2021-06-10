@@ -16,6 +16,7 @@ export * from './email';
 export * from './file-id';
 export * from './file-name';
 export * from './first-name';
+export * from './information-dto';
 export * from './last-name';
 export * from './login-request';
 export * from './model-file';

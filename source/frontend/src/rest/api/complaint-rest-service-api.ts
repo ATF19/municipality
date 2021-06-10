@@ -23,6 +23,8 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 // @ts-ignore
 import { ComplaintDto } from '../dto';
 // @ts-ignore
+import { ComplaintId } from '../dto';
+// @ts-ignore
 import { CreateComplaintRequest } from '../dto';
 // @ts-ignore
 import { PageDtoComplaintComplaintDto } from '../dto';
@@ -122,6 +124,47 @@ export const ComplaintRestServiceApiAxiosParamCreator = function (configuration?
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Array<ComplaintId>} complaintId 
+         * @param {number} [page] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        complaintsByIds: async (complaintId: Array<ComplaintId>, page?: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'complaintId' is not null or undefined
+            assertParamExists('complaintsByIds', 'complaintId', complaintId)
+            const localVarPath = `/complaint/byIds`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (complaintId) {
+                localVarQueryParameter['complaintId'] = complaintId;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
 
 
     
@@ -284,6 +327,17 @@ export const ComplaintRestServiceApiFp = function(configuration?: Configuration)
         },
         /**
          * 
+         * @param {Array<ComplaintId>} complaintId 
+         * @param {number} [page] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async complaintsByIds(complaintId: Array<ComplaintId>, page?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PageDtoComplaintComplaintDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.complaintsByIds(complaintId, page, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {CreateComplaintRequest} createComplaintRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -352,6 +406,16 @@ export const ComplaintRestServiceApiFactory = function (configuration?: Configur
         },
         /**
          * 
+         * @param {Array<ComplaintId>} complaintId 
+         * @param {number} [page] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        complaintsByIds(complaintId: Array<ComplaintId>, page?: number, options?: any): AxiosPromise<PageDtoComplaintComplaintDto> {
+            return localVarFp.complaintsByIds(complaintId, page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {CreateComplaintRequest} createComplaintRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -413,6 +477,16 @@ export interface ComplaintRestServiceApiInterface {
      * @memberof ComplaintRestServiceApiInterface
      */
     complaintById(complaintId: string, options?: any): AxiosPromise<ComplaintDto>;
+
+    /**
+     * 
+     * @param {Array<ComplaintId>} complaintId 
+     * @param {number} [page] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ComplaintRestServiceApiInterface
+     */
+    complaintsByIds(complaintId: Array<ComplaintId>, page?: number, options?: any): AxiosPromise<PageDtoComplaintComplaintDto>;
 
     /**
      * 
@@ -482,6 +556,18 @@ export class ComplaintRestServiceApi extends BaseAPI implements ComplaintRestSer
      */
     public complaintById(complaintId: string, options?: any) {
         return ComplaintRestServiceApiFp(this.configuration).complaintById(complaintId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {Array<ComplaintId>} complaintId 
+     * @param {number} [page] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ComplaintRestServiceApi
+     */
+    public complaintsByIds(complaintId: Array<ComplaintId>, page?: number, options?: any) {
+        return ComplaintRestServiceApiFp(this.configuration).complaintsByIds(complaintId, page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

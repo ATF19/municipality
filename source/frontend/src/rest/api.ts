@@ -18,6 +18,7 @@ export * from './api/complaint-rest-service-api';
 export * from './api/district-rest-service-api';
 export * from './api/file-rest-service-api';
 export * from './api/health-rest-service-api';
+export * from './api/information-rest-service-api';
 export * from './api/municipality-rest-service-api';
 export * from './api/user-rest-service-api';
 
