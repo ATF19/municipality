@@ -8,7 +8,7 @@ const NoData = ({dataTitle}: NoDataProps) => (
         <Icon
             style={Styles.noDataIcon}
             fill='#2d3436'
-            name='alert-triangle'
+            name='archive'
         />
         <Text style={Styles.errorPageElementWithMarginTop} category="h5">
             لا يوجد {dataTitle} ...

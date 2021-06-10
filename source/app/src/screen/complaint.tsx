@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Card, Divider, Icon, Input, Layout, Text } from '@ui-kitten/components';
+import React from 'react';
+import { Card, Divider, Layout, Text } from '@ui-kitten/components';
 import { ImageBackground, View } from 'react-native';
 import Styles from '../style';
 import { ScrollView } from 'react-native-gesture-handler';

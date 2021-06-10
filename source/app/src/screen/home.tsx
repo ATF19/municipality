@@ -50,7 +50,7 @@ const Home = ({navigation}: any) => (
 
             <View style={[Styles.row, Styles.bottomRow]}>
               <View style={[Styles.homeMenuCard, Styles.rightBorderdCard]}>
-                <TouchableOpacity onPress={() => alert("x")}>
+                <TouchableOpacity onPress={() => navigation.navigate("News")}>
                   <View style={Styles.containerCenter}>
                     <Icon
                       style={Styles.homeMenuCardIcon}
@@ -63,7 +63,7 @@ const Home = ({navigation}: any) => (
               </View>
 
               <View style={[Styles.homeMenuCard, Styles.besideRightBorderdCard]}>
-                <TouchableOpacity onPress={() => alert("x")}>
+                <TouchableOpacity onPress={() => navigation.navigate("Information")}>
                   <View style={Styles.containerCenter}>
                     <Icon
                       style={Styles.homeMenuCardIcon}

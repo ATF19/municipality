@@ -5,6 +5,8 @@ import Home from "../screen/home";
 import CreateComplaint from '../screen/createComplaint';
 import Complaint from '../screen/complaint';
 import ComplaintList from '../screen/complaintList';
+import Information from '../screen/information';
+import News from '../screen/news';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,13 @@ const Router = () => (
             <Stack.Screen options={{title: "متابعة الشكاوي"}} 
                 name="ComplaintList" 
                 component={ComplaintList} />
+            <Stack.Screen options={{title: "جديد"}} 
+                name="News" 
+                component={News} />
+            <Stack.Screen options={{title: "معلومات"}} 
+                name="Information" 
+                component={Information} />
+
         </Stack.Navigator>
     </NavigationContainer>
 )
