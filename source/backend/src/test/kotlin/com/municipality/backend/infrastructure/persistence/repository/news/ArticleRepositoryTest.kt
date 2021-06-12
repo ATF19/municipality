@@ -98,7 +98,12 @@ class ArticleRepositoryTest : AbstractIntegrationTest() {
         // then
         assertThat(ids.pageNumber.number).isEqualTo(1)
         assertThat(ids.totalPages).isEqualTo(2)
-        assertThat(ids.elements).containsExactlyInAnyOrder(articleWithoutTitle(article5), articleWithoutTitle(article4), articleWithoutTitle(article3), articleWithoutTitle(article2))
+        assertThat(ids.elements).containsExactlyInAnyOrder(
+            articleWithoutTitle(article5),
+            articleWithoutTitle(article4),
+            articleWithoutTitle(article3),
+            articleWithoutTitle(article2)
+        )
     }
 
     private fun articleWithoutTitle(article: Article) = ArticleWithoutContent(article.id, article.title)

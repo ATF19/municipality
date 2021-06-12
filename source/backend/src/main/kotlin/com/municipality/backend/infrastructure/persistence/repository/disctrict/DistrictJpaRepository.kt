@@ -11,5 +11,9 @@ import org.springframework.data.repository.query.Param
 
 interface DistrictJpaRepository : JpaRepository<District, DistrictId> {
     @Query("select d from District d where id in :ids or municipality_id in :municipalityIds")
-    fun findByIds(@Param("ids") ids: Set<DistrictId>, @Param("municipalityIds") municipalityIds: Set<MunicipalityId>, pageRequest: Pageable): Page<District>
+    fun findByIds(
+        @Param("ids") ids: Set<DistrictId>,
+        @Param("municipalityIds") municipalityIds: Set<MunicipalityId>,
+        pageRequest: Pageable
+    ): Page<District>
 }

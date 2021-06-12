@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("health")
 class HealthRestService(
-        private val logger: Logger
+    private val logger: Logger
 ) {
 
     @GetMapping

@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests
 import org.testng.annotations.BeforeSuite
 
-@SpringBootTest(classes = [ MunicipalityBackendApplication::class ])
+@SpringBootTest(classes = [MunicipalityBackendApplication::class])
 abstract class AbstractIntegrationTest : AbstractTestNGSpringContextTests() {
 
     @BeforeSuite(groups = [TestGroup.INTEGRATION])

@@ -5,8 +5,6 @@ import com.municipality.backend.domain.model.file.File
 import com.municipality.backend.domain.model.file.FileName
 import org.springframework.stereotype.Component
 import org.springframework.util.Base64Utils
-import org.springframework.util.StringUtils
-import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.util.*
 
@@ -21,8 +19,8 @@ class FileUtility {
     }
 
     fun asUrl(file: File): String = ServletUriComponentsBuilder
-            .fromCurrentContextPath()
-            .path("/file/")
-            .path(file.id.rawId.toString())
-            .toUriString()
+        .fromCurrentContextPath()
+        .path("/file/")
+        .path(file.id.rawId.toString())
+        .toUriString()
 }

@@ -29,9 +29,14 @@ class UserRestService(
 ) {
 
     @PostMapping
-    fun login(@RequestBody loginRequest: LoginRequest, httpServletResponse: HttpServletResponse): ResponseEntity<String> {
-        val session = userAppService.login(Username(loginRequest.username),
-            UnencryptedPassword(loginRequest.password))
+    fun login(
+        @RequestBody loginRequest: LoginRequest,
+        httpServletResponse: HttpServletResponse
+    ): ResponseEntity<String> {
+        val session = userAppService.login(
+            Username(loginRequest.username),
+            UnencryptedPassword(loginRequest.password)
+        )
         val cookie = Cookie(sessionCookieName, session.code)
         cookie.isHttpOnly = true
         cookie.path = "/"
@@ -41,9 +46,11 @@ class UserRestService(
 
     @PutMapping
     fun registerInternal(@RequestBody request: RegisterRequest): ResponseEntity<String> {
-        val command = RegisterInternalUserCommand(loggedInUserResolver.loggedIn(), Username(request.username), Email(request.email),
-        UnencryptedPassword(request.password), FirstName(request.firstName), LastName(request.lastName),
-            request.isAdmin)
+        val command = RegisterInternalUserCommand(
+            loggedInUserResolver.loggedIn(), Username(request.username), Email(request.email),
+            UnencryptedPassword(request.password), FirstName(request.firstName), LastName(request.lastName),
+            request.isAdmin
+        )
         userAppService.register(command)
         return ResponseEntity.ok().build()
     }
@@ -69,14 +76,24 @@ class UserRestService(
         var password: Optional<UnencryptedPassword> = Optional.empty()
         if (request.password != null)
             password = Optional.of(UnencryptedPassword(request.password))
-        val command = UpdateProfileCommand(loggedInUserResolver.loggedIn(), Email(request.email), password, FirstName(request.firstName), LastName(request.lastName))
+        val command = UpdateProfileCommand(
+            loggedInUserResolver.loggedIn(),
+            Email(request.email),
+            password,
+            FirstName(request.firstName),
+            LastName(request.lastName)
+        )
         userAppService.updateProfile(command)
         return ResponseEntity.ok().build()
     }
 
     @GetMapping("all")
     fun allUsers(@RequestParam("page") page: Int?): ResponseEntity<PageDto<RegisteredUser, UserDto>> {
-        val all = userAppService.all(loggedInUserResolver.loggedIn(), if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE)
+        val all = userAppService.all(
+            loggedInUserResolver.loggedIn(),
+            if (page == null) FIRST_PAGE else PageNumber(page),
+            DEFAULT_PAGE_SIZE
+        )
         return ResponseEntity.ok(PageDto(all, ::toDto))
     }
 
@@ -85,15 +102,22 @@ class UserRestService(
         var password: Optional<UnencryptedPassword> = Optional.empty()
         if (request.password != null)
             password = Optional.of(UnencryptedPassword(request.password))
-        val command = UpdateInternalUserCommand(loggedInUserResolver.loggedIn(), Email(request.email), password,
-            FirstName(request.firstName), LastName(request.lastName), request.isAdmin)
+        val command = UpdateInternalUserCommand(
+            loggedInUserResolver.loggedIn(), Email(request.email), password,
+            FirstName(request.firstName), LastName(request.lastName), request.isAdmin
+        )
         userAppService.updateInternalUser(command)
         return ResponseEntity.ok().build()
     }
 
     @DeleteMapping("{userId}")
     fun deleteUser(@PathVariable("userId") registeredUserId: String): ResponseEntity<String> {
-        userAppService.deleteUser(DeleteUserCommand(loggedInUserResolver.loggedIn(), RegisteredUserId(registeredUserId)))
+        userAppService.deleteUser(
+            DeleteUserCommand(
+                loggedInUserResolver.loggedIn(),
+                RegisteredUserId(registeredUserId)
+            )
+        )
         return ResponseEntity.ok().build()
     }
 
@@ -113,17 +137,39 @@ class UserRestService(
             }
         }
 
-        return UserDto(user.id.rawId.toString(), user.username.username!!, user.email.email!!, user.firstName.firstName!!,
-            user.lastName.lastName!!, user.isAdmin(), municipalitiesResponsible, municipalitiesAuditor, districtsResponsible, districtsAuditor)
+        return UserDto(
+            user.id.rawId.toString(),
+            user.username.username!!,
+            user.email.email!!,
+            user.firstName.firstName!!,
+            user.lastName.lastName!!,
+            user.isAdmin(),
+            municipalitiesResponsible,
+            municipalitiesAuditor,
+            districtsResponsible,
+            districtsAuditor
+        )
     }
 }
 
 data class LoginRequest(val username: String, val password: String)
-data class RegisterRequest(val username: String, val email: String, val password: String, val firstName: String, val lastName: String,
-                           val isAdmin: Boolean)
-data class UserDto(val id: String, val username: String, val email: String,
-                   val firstName: String, val lastName: String, val isAdmin: Boolean,
-                   val municipalitiesResponsible: Set<String>, val municipalitiesAuditor: Set<String>,
-                   val districtsResponsible: Set<String>, val districtsAuditor: Set<String>)
+data class RegisterRequest(
+    val username: String, val email: String, val password: String, val firstName: String, val lastName: String,
+    val isAdmin: Boolean
+)
+
+data class UserDto(
+    val id: String, val username: String, val email: String,
+    val firstName: String, val lastName: String, val isAdmin: Boolean,
+    val municipalitiesResponsible: Set<String>, val municipalitiesAuditor: Set<String>,
+    val districtsResponsible: Set<String>, val districtsAuditor: Set<String>
+)
+
 data class UpdateProfileRequest(val email: String, val password: String?, val firstName: String, val lastName: String)
-data class UpdateInternalUserRequest(val email: String, val password: String?, val firstName: String, val lastName: String, val isAdmin: Boolean)
+data class UpdateInternalUserRequest(
+    val email: String,
+    val password: String?,
+    val firstName: String,
+    val lastName: String,
+    val isAdmin: Boolean
+)

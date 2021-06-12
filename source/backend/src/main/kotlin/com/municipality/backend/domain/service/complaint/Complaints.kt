@@ -12,10 +12,16 @@ import com.municipality.backend.domain.model.municipality.MunicipalityId
 interface Complaints {
     fun exists(code: ComplaintCode): Boolean
     fun create(complaint: Complaint)
-    fun all(municipalities: Set<MunicipalityId>, districts: Set<DistrictId>,
-            pageNumber: PageNumber, pageSize: PageSize): Page<Complaint>
-    fun rejected(municipalities: Set<MunicipalityId>, districts: Set<DistrictId>,
-            pageNumber: PageNumber, pageSize: PageSize): Page<Complaint>
+    fun all(
+        municipalities: Set<MunicipalityId>, districts: Set<DistrictId>,
+        pageNumber: PageNumber, pageSize: PageSize
+    ): Page<Complaint>
+
+    fun rejected(
+        municipalities: Set<MunicipalityId>, districts: Set<DistrictId>,
+        pageNumber: PageNumber, pageSize: PageSize
+    ): Page<Complaint>
+
     fun by(complaintId: ComplaintId): Complaint
     fun by(complaintIds: List<ComplaintId>, pageNumber: PageNumber, pageSize: PageSize): Page<Complaint>
     fun by(complaintCode: ComplaintCode): Complaint

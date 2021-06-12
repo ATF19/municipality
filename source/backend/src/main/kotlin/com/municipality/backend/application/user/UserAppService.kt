@@ -11,7 +11,7 @@ import com.municipality.backend.domain.model.user.Email
 import com.municipality.backend.domain.model.user.RegisteredUser
 import com.municipality.backend.domain.model.user.User
 import com.municipality.backend.domain.model.user.Username
-import com.municipality.backend.domain.model.user.role.*
+import com.municipality.backend.domain.model.user.role.Admin
 import com.municipality.backend.domain.service.user.Users
 import org.springframework.stereotype.Component
 
@@ -115,7 +115,7 @@ class UserAppService(
     private fun verifyMissingUpdateInformation(command: UpdateProfileCommand) {
         if (command.email.email == null || command.email.email.isEmpty() ||
             (command.unencryptedPassword.isPresent && command.unencryptedPassword.get().password.isEmpty()) ||
-            command.firstName.firstName == null || command.firstName.firstName.isEmpty()||
+            command.firstName.firstName == null || command.firstName.firstName.isEmpty() ||
             command.lastName.lastName == null || command.lastName.lastName.isEmpty()
         )
             throw MissingInformationException()
@@ -124,7 +124,7 @@ class UserAppService(
     private fun verifyMissingUpdateInformation(command: UpdateInternalUserCommand) {
         if (command.email.email == null || command.email.email.isEmpty() ||
             (command.unencryptedPassword.isPresent && command.unencryptedPassword.get().password.isEmpty()) ||
-            command.firstName.firstName == null || command.firstName.firstName.isEmpty()||
+            command.firstName.firstName == null || command.firstName.firstName.isEmpty() ||
             command.lastName.lastName == null || command.lastName.lastName.isEmpty()
         )
             throw MissingInformationException()
@@ -134,7 +134,7 @@ class UserAppService(
         if (command.email.email == null || command.email.email.isEmpty() ||
             command.username.username == null || command.username.username.isEmpty() ||
             command.unencryptedPassword.password.isEmpty() ||
-            command.firstName.firstName == null || command.firstName.firstName.isEmpty()||
+            command.firstName.firstName == null || command.firstName.firstName.isEmpty() ||
             command.lastName.lastName == null || command.lastName.lastName.isEmpty()
         )
             throw MissingInformationException()

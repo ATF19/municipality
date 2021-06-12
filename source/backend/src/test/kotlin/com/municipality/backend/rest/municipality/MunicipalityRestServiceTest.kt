@@ -25,7 +25,9 @@ class MunicipalityRestServiceTest {
         val municipality1 = MunicipalityBuilder().build()
         val municipality2 = MunicipalityBuilder().build()
         val page = Page(listOf(municipality1, municipality2), PageNumber(1), DEFAULT_PAGE_SIZE, 1)
-        every { municipalityAppService.all(loggedInUserResolver.loggedIn(), PageNumber(1), DEFAULT_PAGE_SIZE) }.returns(page)
+        every { municipalityAppService.all(loggedInUserResolver.loggedIn(), PageNumber(1), DEFAULT_PAGE_SIZE) }.returns(
+            page
+        )
 
         // when
         val response = restService.allMunicipalities(1)

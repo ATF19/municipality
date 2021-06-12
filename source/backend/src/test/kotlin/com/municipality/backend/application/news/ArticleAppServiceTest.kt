@@ -132,7 +132,12 @@ class ArticleAppServiceTest {
         val article3 = ArticleBuilder().build()
         val pageNumber = PageNumber(2)
         val pageSize = PageSize(3)
-        val page = Page(listOf(articleWithoutTitle(article1), articleWithoutTitle(article2), articleWithoutTitle(article3)), pageNumber, pageSize, 1)
+        val page = Page(
+            listOf(articleWithoutTitle(article1), articleWithoutTitle(article2), articleWithoutTitle(article3)),
+            pageNumber,
+            pageSize,
+            1
+        )
         every { articles.all(pageNumber, pageSize) }.returns(page)
 
         // when

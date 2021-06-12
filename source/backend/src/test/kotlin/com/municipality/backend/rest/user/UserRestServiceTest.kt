@@ -32,7 +32,12 @@ class UserRestServiceTest {
         val cookieName = "TestCookie"
         val restService = UserRestService(cookieName, userAppService, loggedInUserResolver)
         val session = Session("test")
-        every { userAppService.login(Username(loginRequest.username), UnencryptedPassword(loginRequest.password)) }.returns(session)
+        every {
+            userAppService.login(
+                Username(loginRequest.username),
+                UnencryptedPassword(loginRequest.password)
+            )
+        }.returns(session)
 
         // when
         val response = restService.login(loginRequest, httpServletResponse)
@@ -103,8 +108,10 @@ class UserRestServiceTest {
         val cookieName = "TestCookie"
         val loggedInUserResolver = LoggedInUserForTest()
         val restService = UserRestService(cookieName, userAppService, loggedInUserResolver)
-        val registerRequest = RegisterRequest("atef", "demo@test.com", "myStrongPass",
-        "John", "Doe", true)
+        val registerRequest = RegisterRequest(
+            "atef", "demo@test.com", "myStrongPass",
+            "John", "Doe", true
+        )
 
         // when
         val response = restService.registerInternal(registerRequest)
@@ -129,8 +136,10 @@ class UserRestServiceTest {
         val cookieName = "TestCookie"
         val loggedInUserResolver = LoggedInUserForTest()
         val restService = UserRestService(cookieName, userAppService, loggedInUserResolver)
-        val request = UpdateProfileRequest("demo@test.com", "myStrongPass",
-            "John", "Doe")
+        val request = UpdateProfileRequest(
+            "demo@test.com", "myStrongPass",
+            "John", "Doe"
+        )
 
         // when
         val response = restService.updateProfile(request)
@@ -154,8 +163,10 @@ class UserRestServiceTest {
         val cookieName = "TestCookie"
         val loggedInUserResolver = LoggedInUserForTest()
         val restService = UserRestService(cookieName, userAppService, loggedInUserResolver)
-        val request = UpdateProfileRequest("demo@test.com", null,
-            "John", "Doe")
+        val request = UpdateProfileRequest(
+            "demo@test.com", null,
+            "John", "Doe"
+        )
 
         // when
         val response = restService.updateProfile(request)
@@ -175,8 +186,10 @@ class UserRestServiceTest {
         val cookieName = "TestCookie"
         val loggedInUserResolver = LoggedInUserForTest()
         val restService = UserRestService(cookieName, userAppService, loggedInUserResolver)
-        val request = UpdateInternalUserRequest("demo@test.com", "myStrongPass",
-            "John", "Doe", true)
+        val request = UpdateInternalUserRequest(
+            "demo@test.com", "myStrongPass",
+            "John", "Doe", true
+        )
 
         // when
         val response = restService.updateInternalUser(request)
@@ -215,7 +228,7 @@ class UserRestServiceTest {
         assertThat(response.body!!.size).isEqualTo(DEFAULT_PAGE_SIZE.size)
         assertThat(response.body!!.totalPages).isEqualTo(20)
         assertThat(response.body!!.elements)
-            .extracting({dto -> dto.id})
+            .extracting({ dto -> dto.id })
             .containsExactlyInAnyOrder(Tuple.tuple(user1.id.rawId.toString()), Tuple.tuple(user2.id.rawId.toString()))
     }
 

@@ -16,7 +16,8 @@ class DistrictAppService(
 ) {
     fun all(user: User<*>, pageNumber: PageNumber, pageSize: PageSize): Page<District> {
         if (!user.isAdmin() && !user.isMunicipalityResponsible() && !user.isMunicipalityAuditor()
-            && !user.isDistrictResponsible() && !user.isDistrictAuditor())
+            && !user.isDistrictResponsible() && !user.isDistrictAuditor()
+        )
             throw InsufficientPermissionException()
 
         if (user.isAdmin())

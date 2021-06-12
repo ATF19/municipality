@@ -10,12 +10,15 @@ class District : DomainEntity<DistrictId> {
 
     lateinit var name: DistrictName
     lateinit var nameInArabic: DistrictNameInArabic
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="municipality_id", nullable=false)
+    @JoinColumn(name = "municipality_id", nullable = false)
     lateinit var municipality: Municipality
 
-    @OneToMany(mappedBy="district",
-        cascade = [(CascadeType.ALL)], fetch = FetchType.EAGER)
+    @OneToMany(
+        mappedBy = "district",
+        cascade = [(CascadeType.ALL)], fetch = FetchType.EAGER
+    )
     var complaints: List<Complaint> = mutableListOf()
 
     constructor() : super(DistrictId())

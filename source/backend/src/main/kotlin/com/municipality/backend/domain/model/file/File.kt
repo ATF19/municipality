@@ -1,13 +1,16 @@
 package com.municipality.backend.domain.model.file
 
 import com.municipality.backend.domain.model.core.DomainEntity
-import javax.persistence.*
+import javax.persistence.Embeddable
+import javax.persistence.Entity
+import javax.persistence.Lob
 
 @Entity
 class File : DomainEntity<FileId> {
 
     lateinit var fileName: FileName
     var contentType: ContentType? = null
+
     @Lob
     lateinit var blob: ByteArray
 

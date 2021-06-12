@@ -33,13 +33,16 @@ class ComplaintRestService(
     fun createComplaint(@RequestBody request: CreateComplaintRequest): ResponseEntity<ComplaintDto> {
         val file = fileUtility.create(request.photo, ContentType("image/jpeg"))
         files.save(file)
-        val command = CreateComplaintCommand(loggedInUserResolver.loggedIn(),
+        val command = CreateComplaintCommand(
+            loggedInUserResolver.loggedIn(),
             Address(request.address),
             file,
             if (request.comment != null) Comment(request.comment) else null,
             request.position,
-            PersonalInfo(FirstName(request.personalInfo?.firstName), LastName(request.personalInfo?.lastName),
-                Phone(request.personalInfo?.phone), Email(request.personalInfo?.email))
+            PersonalInfo(
+                FirstName(request.personalInfo?.firstName), LastName(request.personalInfo?.lastName),
+                Phone(request.personalInfo?.phone), Email(request.personalInfo?.email)
+            )
         )
         val created = complaintAppService.create(command)
         return ResponseEntity.ok(toDto(created))
@@ -47,16 +50,20 @@ class ComplaintRestService(
 
     @GetMapping("all")
     fun allComplaints(@RequestParam("page") page: Int?): ResponseEntity<PageDto<Complaint, ComplaintDto>> {
-        val all = complaintAppService.all(loggedInUserResolver.loggedIn(),
-            if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE)
-        return ResponseEntity.ok(PageDto(all) {toDto(it)})
+        val all = complaintAppService.all(
+            loggedInUserResolver.loggedIn(),
+            if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE
+        )
+        return ResponseEntity.ok(PageDto(all) { toDto(it) })
     }
 
     @GetMapping("rejected")
     fun rejectedComplaints(@RequestParam("page") page: Int?): ResponseEntity<PageDto<Complaint, ComplaintDto>> {
-        val all = complaintAppService.rejected(loggedInUserResolver.loggedIn(),
-            if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE)
-        return ResponseEntity.ok(PageDto(all) {toDto(it)})
+        val all = complaintAppService.rejected(
+            loggedInUserResolver.loggedIn(),
+            if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE
+        )
+        return ResponseEntity.ok(PageDto(all) { toDto(it) })
     }
 
     @GetMapping("{complaintId}")
@@ -68,16 +75,28 @@ class ComplaintRestService(
         ResponseEntity.ok(toDto(complaintAppService.by(ComplaintCode(code))))
 
     @GetMapping("byIds")
-    fun complaintsByIds(@RequestParam("complaintId") complaintIds: List<ComplaintId>, @RequestParam("page") page: Int?): ResponseEntity<PageDto<Complaint, ComplaintDto>> {
-        val complaints = complaintAppService.by(complaintIds,
-            if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE)
-        return ResponseEntity.ok(PageDto(complaints) {toDto(it)})
+    fun complaintsByIds(
+        @RequestParam("complaintId") complaintIds: List<ComplaintId>,
+        @RequestParam("page") page: Int?
+    ): ResponseEntity<PageDto<Complaint, ComplaintDto>> {
+        val complaints = complaintAppService.by(
+            complaintIds,
+            if (page == null) FIRST_PAGE else PageNumber(page), DEFAULT_PAGE_SIZE
+        )
+        return ResponseEntity.ok(PageDto(complaints) { toDto(it) })
     }
 
     @PutMapping("{complaintId}")
-    fun updateComplaint(@PathVariable("complaintId") id: String, @RequestBody request: UpdateComplaintRequest): ResponseEntity<String> {
-        val command = UpdateComplaintCommand(loggedInUserResolver.loggedIn(), ComplaintId(id),
-            Status.valueOf(request.status), if (request.resultComment != null) ResultComment(request.resultComment) else null)
+    fun updateComplaint(
+        @PathVariable("complaintId") id: String,
+        @RequestBody request: UpdateComplaintRequest
+    ): ResponseEntity<String> {
+        val command = UpdateComplaintCommand(
+            loggedInUserResolver.loggedIn(),
+            ComplaintId(id),
+            Status.valueOf(request.status),
+            if (request.resultComment != null) ResultComment(request.resultComment) else null
+        )
         complaintAppService.update(command)
         return ResponseEntity.ok().build()
     }
@@ -99,10 +118,19 @@ class ComplaintRestService(
 }
 
 
+data class ComplaintDto(
+    val id: String, val code: String, val comment: String?, val address: String, val personalInfo: PersonalInfo?,
+    val position: Position?, val status: String, val resultComment: ResultComment?, val pictureUrl: String,
+    val districtId: String
+)
 
-data class ComplaintDto(val id: String, val code: String, val comment: String?, val address: String, val personalInfo: PersonalInfo?,
-                        val position: Position?, val status: String, val resultComment: ResultComment?, val pictureUrl: String,
-                        val districtId: String)
 data class PersonalInfoDto(val firstName: String?, val lastName: String?, val email: String?, val phone: String?)
-data class CreateComplaintRequest(val photo: String, val address: String, val comment: String?, val position: Position?, val personalInfo: PersonalInfoDto?)
+data class CreateComplaintRequest(
+    val photo: String,
+    val address: String,
+    val comment: String?,
+    val position: Position?,
+    val personalInfo: PersonalInfoDto?
+)
+
 data class UpdateComplaintRequest(val status: String, val resultComment: String?)

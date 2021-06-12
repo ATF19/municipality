@@ -52,7 +52,8 @@ class InformationRestServiceTest {
 
         // then
         assertThat(result.statusCode).isEqualTo(HttpStatus.OK)
-        val expectedCommand = SaveInformationCommand(loggedInUserResolver.loggedIn(),
+        val expectedCommand = SaveInformationCommand(
+            loggedInUserResolver.loggedIn(),
             Intro(informationDto.intro), Phone(informationDto.phone), Email(informationDto.email)
         )
         verify { appService.save(expectedCommand) }

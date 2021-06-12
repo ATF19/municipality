@@ -34,7 +34,13 @@ class WebSecurityConfig(
     fun corsConfigurationSource(): CorsConfigurationSource {
         val config = CorsConfiguration()
         config.allowedOrigins = listOf(allowedDomain)
-        config.allowedMethods = listOf(HttpMethod.GET.name, HttpMethod.POST.name, HttpMethod.PUT.name, HttpMethod.DELETE.name, HttpMethod.OPTIONS.name)
+        config.allowedMethods = listOf(
+            HttpMethod.GET.name,
+            HttpMethod.POST.name,
+            HttpMethod.PUT.name,
+            HttpMethod.DELETE.name,
+            HttpMethod.OPTIONS.name
+        )
         config.allowCredentials = true
         config.addAllowedHeader(CorsConfiguration.ALL)
         config.addExposedHeader(HttpHeaders.CONTENT_DISPOSITION)

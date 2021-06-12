@@ -21,14 +21,14 @@ class RegisteredUserBuilder {
     var lastName = LastName("Doe")
     var roles = Roles.empty()
 
-    fun admin() : RegisteredUserBuilder {
+    fun admin(): RegisteredUserBuilder {
         roles.grant(Admin())
         return this
     }
 
     fun municipalityResponsible() = municipalityResponsible(MunicipalityId())
 
-    fun municipalityResponsible(municipalityId: MunicipalityId) : RegisteredUserBuilder {
+    fun municipalityResponsible(municipalityId: MunicipalityId): RegisteredUserBuilder {
         roles.grant(MunicipalityResponsible(municipalityId))
         return this
     }

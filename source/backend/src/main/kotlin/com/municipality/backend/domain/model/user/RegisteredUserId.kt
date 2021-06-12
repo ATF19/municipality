@@ -5,7 +5,7 @@ import javax.persistence.Embeddable
 
 @Embeddable
 class RegisteredUserId : UserId {
-    constructor(): super()
-    constructor(uuid: UUID): super(uuid)
-    constructor(rawUuid: String): super(rawUuid)
+    constructor() : super()
+    constructor(uuid: UUID) : super(uuid)
+    constructor(rawUuid: String) : super(rawUuid)
 }

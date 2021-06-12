@@ -10,7 +10,7 @@ import kotlin.reflect.jvm.jvmName
 
 @Configuration
 @EnableTransactionManagement
-class DataSourceProvider (
+class DataSourceProvider(
     private val dataSourceProperties: DataSourceProperties
 ) {
     @Bean

@@ -34,8 +34,10 @@ class ArticleRestService(
 
     @PostMapping
     fun createArticle(@RequestBody request: CreateArticleRequest): ResponseEntity<String> {
-        val command = CreateArticleCommand(loggedInUserResolver.loggedIn(),
-            Title(request.title), Content(request.content))
+        val command = CreateArticleCommand(
+            loggedInUserResolver.loggedIn(),
+            Title(request.title), Content(request.content)
+        )
         articleAppService.create(command)
         return ResponseEntity.ok().build()
     }
@@ -49,7 +51,13 @@ class ArticleRestService(
     @GetMapping("/{articleId}")
     fun getArticle(@PathVariable("articleId") articleId: String): ResponseEntity<ArticleDto> {
         val article = articleAppService.by(ArticleId(articleId))
-        return ResponseEntity.ok(ArticleDto(article.id.rawId.toString(), article.title.title!!, article.content.content!!))
+        return ResponseEntity.ok(
+            ArticleDto(
+                article.id.rawId.toString(),
+                article.title.title!!,
+                article.content.content!!
+            )
+        )
     }
 }
 

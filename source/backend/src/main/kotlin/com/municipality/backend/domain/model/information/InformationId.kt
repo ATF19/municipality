@@ -13,7 +13,7 @@ class InformationId : Id {
         val DEFAULT = InformationId(UUID.nameUUIDFromBytes(DEFAULT_INFO_ID.toByteArray()))
     }
 
-    constructor(): super()
-    constructor(uuid: UUID): super(uuid)
-    constructor(rawUuid: String): super(rawUuid)
+    constructor() : super()
+    constructor(uuid: UUID) : super(uuid)
+    constructor(rawUuid: String) : super(rawUuid)
 }

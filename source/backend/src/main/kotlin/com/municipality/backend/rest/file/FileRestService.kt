@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController
 class FileRestService(
     private val files: Files
 ) {
-    @GetMapping("{fileId}", produces = [MediaType.IMAGE_JPEG_VALUE,
-        MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE])
+    @GetMapping(
+        "{fileId}", produces = [MediaType.IMAGE_JPEG_VALUE,
+            MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE]
+    )
     fun fileById(@PathVariable("fileId") id: String): ByteArray =
         files.by(FileId(id)).blob
 }

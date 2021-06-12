@@ -10,7 +10,7 @@ class Article : DomainEntity<ArticleId> {
 
     lateinit var title: Title
 
-    @Column(name="content", columnDefinition="TEXT")
+    @Column(name = "content", columnDefinition = "TEXT")
     lateinit var content: Content
 
     constructor() : super(ArticleId())

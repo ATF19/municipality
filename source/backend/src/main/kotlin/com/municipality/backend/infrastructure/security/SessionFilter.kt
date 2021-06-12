@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
-class SessionFilter (
+class SessionFilter(
     @Value("\${municipality.session.cookie}")
     val sessionCookieName: String,
     private val sessions: Sessions

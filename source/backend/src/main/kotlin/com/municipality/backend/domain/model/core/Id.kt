@@ -3,7 +3,6 @@ package com.municipality.backend.domain.model.core
 import java.io.Serializable
 import java.util.*
 import javax.persistence.Column
-import javax.persistence.Embeddable
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass

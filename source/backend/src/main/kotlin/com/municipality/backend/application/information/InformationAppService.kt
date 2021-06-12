@@ -1,6 +1,5 @@
 package com.municipality.backend.application.information
 
-import com.municipality.backend.application.user.EmailAlreadyExistsException
 import com.municipality.backend.application.user.InvalidEmailException
 import com.municipality.backend.application.utility.EmailUtility
 import com.municipality.backend.domain.model.core.error.InsufficientPermissionException

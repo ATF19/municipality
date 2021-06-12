@@ -87,7 +87,7 @@ class ComplaintAppService(
 
     private fun verifyNoMissingInformation(command: CreateComplaintCommand) {
         if (command.address.address == null || command.address.address.isEmpty())
-                throw MissingInformationException()
+            throw MissingInformationException()
     }
 
     private fun verifyNoMissingInformation(command: UpdateComplaintCommand) {

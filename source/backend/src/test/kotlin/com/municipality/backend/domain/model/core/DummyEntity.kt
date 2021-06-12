@@ -5,7 +5,7 @@ import javax.persistence.Entity
 
 @Entity
 @Audited
-class DummyEntity: DomainEntity<DummyId>(DummyId()) {
+class DummyEntity : DomainEntity<DummyId>(DummyId()) {
     lateinit var dummyName: DummyName
     lateinit var dummyNumber: DummyNumber
 

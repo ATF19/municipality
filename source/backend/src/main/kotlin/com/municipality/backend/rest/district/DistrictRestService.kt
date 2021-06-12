@@ -42,5 +42,7 @@ class DistrictRestService(
     }
 }
 
-data class DistrictDto(val id: String, val name: String, val nameInArabic: String,
-    val municipalityId: String, val municipalityName: String, val municipalityNameInArabic: String)
+data class DistrictDto(
+    val id: String, val name: String, val nameInArabic: String,
+    val municipalityId: String, val municipalityName: String, val municipalityNameInArabic: String
+)

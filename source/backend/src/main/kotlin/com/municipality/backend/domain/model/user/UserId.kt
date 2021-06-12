@@ -6,9 +6,9 @@ import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
 abstract class UserId : Id {
-    constructor(): super()
-    constructor(uuid: UUID): super(uuid)
-    constructor(rawUuid: String): super(rawUuid)
+    constructor() : super()
+    constructor(uuid: UUID) : super(uuid)
+    constructor(rawUuid: String) : super(rawUuid)
 
     fun isSystemId() = rawId == SystemUserId.instance.rawId
     fun isAnonymousId() = rawId == AnonymousUserId.instance.rawId

@@ -45,7 +45,7 @@ class UserRolesConverter : AttributeConverter<Roles, String> {
     }
 
     private fun mapRoleToString(role: Role): String {
-        return when(role) {
+        return when (role) {
             is Admin -> ADMIN_ROLE
             is MunicipalityResponsible -> serialzeRole(MUNICIPALITY_RESPONSIBLE_ROLE, role.municipalityId)
             is MunicipalityAuditor -> serialzeRole(MUNICIPALITY_AUDITOR_ROLE, role.municipalityId)
@@ -64,7 +64,7 @@ class UserRolesConverter : AttributeConverter<Roles, String> {
         val splittedRoleId = serializedRole.split(ROLE_ID_SEPARATOR)
         val id = splittedRoleId[1]
         return Optional.ofNullable(
-            when(splittedRoleId[0]) {
+            when (splittedRoleId[0]) {
                 MUNICIPALITY_RESPONSIBLE_ROLE -> MunicipalityResponsible(MunicipalityId(id))
                 MUNICIPALITY_AUDITOR_ROLE -> MunicipalityAuditor(MunicipalityId(id))
                 DISTRICT_RESPONSIBLE_ROLE -> DistrictResponsible(DistrictId(id))

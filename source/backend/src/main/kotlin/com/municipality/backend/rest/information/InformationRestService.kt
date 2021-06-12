@@ -21,14 +21,20 @@ class InformationRestService(
     @GetMapping
     fun getInformation(): ResponseEntity<InformationDto> {
         val information = informationAppService.get()
-        return ResponseEntity.ok(InformationDto(information.intro.intro.orEmpty(), information.phone.phoneNumber.orEmpty(),
-            information.email.email.orEmpty()))
+        return ResponseEntity.ok(
+            InformationDto(
+                information.intro.intro.orEmpty(), information.phone.phoneNumber.orEmpty(),
+                information.email.email.orEmpty()
+            )
+        )
     }
 
     @PostMapping
     fun saveInformation(@RequestBody informationDto: InformationDto): ResponseEntity<String> {
-        val command = SaveInformationCommand(loggedInUserResolver.loggedIn(), Intro(informationDto.intro),
-            Phone(informationDto.phone), Email(informationDto.email))
+        val command = SaveInformationCommand(
+            loggedInUserResolver.loggedIn(), Intro(informationDto.intro),
+            Phone(informationDto.phone), Email(informationDto.email)
+        )
         informationAppService.save(command)
         return ResponseEntity.ok("")
     }

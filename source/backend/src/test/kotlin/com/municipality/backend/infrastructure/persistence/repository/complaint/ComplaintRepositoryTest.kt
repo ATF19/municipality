@@ -95,7 +95,7 @@ class ComplaintRepositoryTest : AbstractIntegrationTest() {
         val result = complaints.all(emptySet(), setOf(complaint1.district.id), PageNumber(1), DEFAULT_PAGE_SIZE)
 
         // then
-        assertThat(result.elements.map {it.id}).containsExactlyInAnyOrder(complaint1.id, complaint2.id, complaint4.id)
+        assertThat(result.elements.map { it.id }).containsExactlyInAnyOrder(complaint1.id, complaint2.id, complaint4.id)
     }
 
     @Test(groups = [TestGroup.INTEGRATION])
@@ -124,7 +124,7 @@ class ComplaintRepositoryTest : AbstractIntegrationTest() {
         val result = complaints.rejected(emptySet(), setOf(complaint1.district.id), PageNumber(1), DEFAULT_PAGE_SIZE)
 
         // then
-        assertThat(result.elements.map {it.id}).containsExactlyInAnyOrder(complaint1.id, complaint3.id)
+        assertThat(result.elements.map { it.id }).containsExactlyInAnyOrder(complaint1.id, complaint3.id)
     }
 
     @Test(groups = [TestGroup.INTEGRATION])

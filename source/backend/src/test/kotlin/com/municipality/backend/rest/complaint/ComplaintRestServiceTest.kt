@@ -46,7 +46,8 @@ class ComplaintRestServiceTest {
         dummyFile.contentType = contentType
         dummyFile.blob = content.encodeToByteArray()
         every { fileUtility.create(request.photo, contentType) }.returns(dummyFile)
-        val expectedCommand = CreateComplaintCommand(loggedInUserResolver.loggedIn(), Address(request.address), dummyFile,
+        val expectedCommand = CreateComplaintCommand(
+            loggedInUserResolver.loggedIn(), Address(request.address), dummyFile,
             Comment(request.comment), null, PersonalInfo(FirstName(), LastName(), Phone(), Email())
         )
         val complaint = ComplaintBuilder().build()
@@ -92,7 +93,11 @@ class ComplaintRestServiceTest {
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response.body!!.elements).hasSize(3)
         assertThat(response.body!!.elements.map { it.id })
-            .containsExactlyInAnyOrder(complaint1.id.rawId.toString(), complaint2.id.rawId.toString(), complaint3.id.rawId.toString())
+            .containsExactlyInAnyOrder(
+                complaint1.id.rawId.toString(),
+                complaint2.id.rawId.toString(),
+                complaint3.id.rawId.toString()
+            )
     }
 
     @Test(groups = [TestGroup.UNIT])
@@ -118,7 +123,11 @@ class ComplaintRestServiceTest {
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response.body!!.elements).hasSize(3)
         assertThat(response.body!!.elements.map { it.id })
-            .containsExactlyInAnyOrder(complaint1.id.rawId.toString(), complaint2.id.rawId.toString(), complaint3.id.rawId.toString())
+            .containsExactlyInAnyOrder(
+                complaint1.id.rawId.toString(),
+                complaint2.id.rawId.toString(),
+                complaint3.id.rawId.toString()
+            )
     }
 
     @Test(groups = [TestGroup.UNIT])
@@ -171,8 +180,10 @@ class ComplaintRestServiceTest {
         val fileUtility = mockk<FileUtility>()
         val restService = ComplaintRestService(appService, files, fileUtility, loggedInUserResolver)
         val complaint = ComplaintBuilder().build()
-        val expectedCommand = UpdateComplaintCommand(loggedInUserResolver.loggedIn(), complaint.id, Status.IN_PROGRESS,
-            ResultComment("WIP"))
+        val expectedCommand = UpdateComplaintCommand(
+            loggedInUserResolver.loggedIn(), complaint.id, Status.IN_PROGRESS,
+            ResultComment("WIP")
+        )
         val request = UpdateComplaintRequest(Status.IN_PROGRESS.name, "WIP")
 
         // when
@@ -197,15 +208,26 @@ class ComplaintRestServiceTest {
         val complaint2 = ComplaintBuilder().build()
         val complaint3 = ComplaintBuilder().build()
         val page = Page(listOf(complaint1, complaint2, complaint3), pageNumber, DEFAULT_PAGE_SIZE, 1)
-        every { appService.by(listOf(complaint1.id, complaint2.id, complaint3.id), pageNumber, DEFAULT_PAGE_SIZE) }.returns(page)
+        every {
+            appService.by(
+                listOf(complaint1.id, complaint2.id, complaint3.id),
+                pageNumber,
+                DEFAULT_PAGE_SIZE
+            )
+        }.returns(page)
 
         // when
-        val response = restService.complaintsByIds(listOf(complaint1.id, complaint2.id, complaint3.id), pageNumber.number)
+        val response =
+            restService.complaintsByIds(listOf(complaint1.id, complaint2.id, complaint3.id), pageNumber.number)
 
         // then
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response.body!!.elements).hasSize(3)
         assertThat(response.body!!.elements.map { it.id })
-            .containsExactlyInAnyOrder(complaint1.id.rawId.toString(), complaint2.id.rawId.toString(), complaint3.id.rawId.toString())
+            .containsExactlyInAnyOrder(
+                complaint1.id.rawId.toString(),
+                complaint2.id.rawId.toString(),
+                complaint3.id.rawId.toString()
+            )
     }
 }

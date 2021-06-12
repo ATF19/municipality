@@ -9,12 +9,15 @@ class Municipality : DomainEntity<MunicipalityId> {
 
     lateinit var name: MunicipalityName
     lateinit var nameInArabic: MunicipalityNameInArabic
-    @OneToMany(mappedBy="municipality",
-        cascade = [(CascadeType.ALL)], fetch = FetchType.EAGER)
+
+    @OneToMany(
+        mappedBy = "municipality",
+        cascade = [(CascadeType.ALL)], fetch = FetchType.EAGER
+    )
     var districts: List<District> = mutableListOf()
 
-    constructor(): super(MunicipalityId())
-    constructor(id: MunicipalityId): super(id)
+    constructor() : super(MunicipalityId())
+    constructor(id: MunicipalityId) : super(id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -22,7 +22,11 @@ class MunicipalityRepository(
         .findById(municipalityId)
         .orElseThrow { NoSuchElementException("No municipality exists with the ID '${municipalityId.rawId}'") }
 
-    override fun by(municipalityIds: Set<MunicipalityId>, pageNumber: PageNumber, pageSize: PageSize): Page<Municipality> {
+    override fun by(
+        municipalityIds: Set<MunicipalityId>,
+        pageNumber: PageNumber,
+        pageSize: PageSize
+    ): Page<Municipality> {
         val byIds =
             municipalityJpaRepository.findByIds(municipalityIds, PageBuilder.builder.build(pageNumber, pageSize))
         return Page(byIds.content, pageNumber, pageSize, byIds.totalPages)

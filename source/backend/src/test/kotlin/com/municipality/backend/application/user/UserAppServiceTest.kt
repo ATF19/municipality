@@ -531,7 +531,7 @@ class UserAppServiceTest {
         // when
 
         // then
-        assertThatThrownBy { appService.all(user, PageNumber(0), PageSize(10))}
+        assertThatThrownBy { appService.all(user, PageNumber(0), PageSize(10)) }
             .isInstanceOf(InsufficientPermissionException::class.java)
     }
 
@@ -580,7 +580,7 @@ class UserAppServiceTest {
         // when
 
         // then
-        assertThatThrownBy { appService.updateInternalUser(command)}
+        assertThatThrownBy { appService.updateInternalUser(command) }
             .isInstanceOf(InsufficientPermissionException::class.java)
     }
 
@@ -625,7 +625,7 @@ class UserAppServiceTest {
         // when
 
         // then
-        assertThatThrownBy { appService.deleteUser(command)}
+        assertThatThrownBy { appService.deleteUser(command) }
             .isInstanceOf(InsufficientPermissionException::class.java)
     }
 

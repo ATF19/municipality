@@ -9,6 +9,12 @@ import com.municipality.backend.domain.model.municipality.MunicipalityId
 
 interface Districts {
     fun by(id: DistrictId): District
-    fun by(ids: Set<DistrictId>, municipalityIds: Set<MunicipalityId>, pageNumber: PageNumber, pageSize: PageSize): Page<District>
+    fun by(
+        ids: Set<DistrictId>,
+        municipalityIds: Set<MunicipalityId>,
+        pageNumber: PageNumber,
+        pageSize: PageSize
+    ): Page<District>
+
     fun all(pageNumber: PageNumber, pageSize: PageSize): Page<District>
 }

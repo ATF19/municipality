@@ -5,6 +5,6 @@ import javax.persistence.Embeddable
 
 @Embeddable
 class FileId : Id {
-    constructor(): super()
-    constructor(rawUuid: String): super(rawUuid)
+    constructor() : super()
+    constructor(rawUuid: String) : super(rawUuid)
 }

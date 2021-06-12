@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-data class DataSourceProperties (
+data class DataSourceProperties(
     @Value("\${municipality.datasource.host}")
     val host: String,
 

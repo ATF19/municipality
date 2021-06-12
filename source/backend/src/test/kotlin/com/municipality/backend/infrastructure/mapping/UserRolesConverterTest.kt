@@ -50,9 +50,14 @@ class UserRolesConverterTest {
 
         // then
         val serializedRoles = result.split(";")
-        assertThat(serializedRoles).containsExactlyInAnyOrder("ADMIN", "MUNICIPALITY_RESPONSIBLE|${mResponsible.municipalityId.rawId}",
-            "MUNICIPALITY_AUDITOR|${mAuditor1.municipalityId.rawId}", "MUNICIPALITY_AUDITOR|${mAuditor2.municipalityId.rawId}",
-            "DISTRICT_RESPONSIBLE|${dResponsible.districtId.rawId}", "DISTRICT_AUDITOR|${dAuditor.districtId.rawId}")
+        assertThat(serializedRoles).containsExactlyInAnyOrder(
+            "ADMIN",
+            "MUNICIPALITY_RESPONSIBLE|${mResponsible.municipalityId.rawId}",
+            "MUNICIPALITY_AUDITOR|${mAuditor1.municipalityId.rawId}",
+            "MUNICIPALITY_AUDITOR|${mAuditor2.municipalityId.rawId}",
+            "DISTRICT_RESPONSIBLE|${dResponsible.districtId.rawId}",
+            "DISTRICT_AUDITOR|${dAuditor.districtId.rawId}"
+        )
     }
 
     @Test(groups = [TestGroup.UNIT])
@@ -88,8 +93,9 @@ class UserRolesConverterTest {
         val districtId1 = DistrictId()
         val districtId2 = DistrictId()
         val districtId3 = DistrictId()
-        val serialzed = "DISTRICT_AUDITOR|${districtId1.rawId};DISTRICT_AUDITOR|${districtId2.rawId};DISTRICT_RESPONSIBLE|${districtId3.rawId};" +
-                "MUNICIPALITY_RESPONSIBLE|${municipalityId1.rawId};ADMIN;MUNICIPALITY_RESPONSIBLE|${municipalityId2.rawId};MUNICIPALITY_AUDITOR|${municipalityId3.rawId}"
+        val serialzed =
+            "DISTRICT_AUDITOR|${districtId1.rawId};DISTRICT_AUDITOR|${districtId2.rawId};DISTRICT_RESPONSIBLE|${districtId3.rawId};" +
+                    "MUNICIPALITY_RESPONSIBLE|${municipalityId1.rawId};ADMIN;MUNICIPALITY_RESPONSIBLE|${municipalityId2.rawId};MUNICIPALITY_AUDITOR|${municipalityId3.rawId}"
         val userRolesConverter = UserRolesConverter()
 
         // when
@@ -97,7 +103,13 @@ class UserRolesConverterTest {
 
         // then
         assertThat(result.all()).containsExactlyInAnyOrder(
-            Admin(), MunicipalityResponsible(municipalityId1), MunicipalityResponsible(municipalityId2), DistrictResponsible(districtId3),
-            DistrictAuditor(districtId1), DistrictAuditor(districtId2), MunicipalityAuditor(municipalityId3))
+            Admin(),
+            MunicipalityResponsible(municipalityId1),
+            MunicipalityResponsible(municipalityId2),
+            DistrictResponsible(districtId3),
+            DistrictAuditor(districtId1),
+            DistrictAuditor(districtId2),
+            MunicipalityAuditor(municipalityId3)
+        )
     }
 }

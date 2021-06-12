@@ -3,8 +3,6 @@ package com.municipality.backend.domain.model.information
 import com.municipality.backend.domain.model.complaint.Phone
 import com.municipality.backend.domain.model.core.DomainEntity
 import com.municipality.backend.domain.model.user.Email
-import org.hibernate.annotations.OptimisticLockType
-import org.hibernate.annotations.OptimisticLocking
 import javax.persistence.Column
 import javax.persistence.Embeddable
 import javax.persistence.Entity
@@ -12,7 +10,7 @@ import javax.persistence.Entity
 @Entity
 class Information : DomainEntity<InformationId>(InformationId.DEFAULT) {
 
-    @Column(name="intro", columnDefinition="TEXT")
+    @Column(name = "intro", columnDefinition = "TEXT")
     lateinit var intro: Intro
     lateinit var phone: Phone
     lateinit var email: Email

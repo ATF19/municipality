@@ -19,7 +19,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         val status: HttpStatus
         val error: ErrorCode
 
-        when(exception) {
+        when (exception) {
             is InsufficientPermissionException -> {
                 status = HttpStatus.UNAUTHORIZED
                 error = ErrorCode.UNAUTHORIZED

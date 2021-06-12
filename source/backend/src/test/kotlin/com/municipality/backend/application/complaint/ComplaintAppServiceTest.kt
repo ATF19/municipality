@@ -113,7 +113,14 @@ class ComplaintAppServiceTest {
         val pageNumber = PageNumber(1)
         val complaint = ComplaintBuilder().build()
         val page = Page(listOf(complaint), pageNumber, pageSize, 1)
-        every { complaints.all(user.roles.municipalities(), user.roles.districts(), pageNumber, pageSize) }.returns(page)
+        every {
+            complaints.all(
+                user.roles.municipalities(),
+                user.roles.districts(),
+                pageNumber,
+                pageSize
+            )
+        }.returns(page)
 
         // when
         val all = appService.all(user, pageNumber, pageSize)
@@ -160,7 +167,14 @@ class ComplaintAppServiceTest {
         val pageNumber = PageNumber(1)
         val complaint = ComplaintBuilder().build()
         val page = Page(listOf(complaint), pageNumber, pageSize, 1)
-        every { complaints.rejected(user.roles.municipalities(), user.roles.districts(), pageNumber, pageSize) }.returns(page)
+        every {
+            complaints.rejected(
+                user.roles.municipalities(),
+                user.roles.districts(),
+                pageNumber,
+                pageSize
+            )
+        }.returns(page)
 
         // when
         val all = appService.rejected(user, pageNumber, pageSize)

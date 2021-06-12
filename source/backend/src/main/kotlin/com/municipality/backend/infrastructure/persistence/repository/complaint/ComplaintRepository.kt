@@ -73,9 +73,13 @@ class ComplaintRepository(
     }
 }
 
-interface ComplaintJpaRepository: JpaRepository<Complaint, ComplaintId> {
+interface ComplaintJpaRepository : JpaRepository<Complaint, ComplaintId> {
     fun existsByCode(complaintCode: ComplaintCode): Boolean
     fun findAllByStatusIn(status: Set<Status>, pageable: Pageable): org.springframework.data.domain.Page<Complaint>
-    fun findAllByIdIn(complaintIds: List<ComplaintId>, pageable: Pageable): org.springframework.data.domain.Page<Complaint>
+    fun findAllByIdIn(
+        complaintIds: List<ComplaintId>,
+        pageable: Pageable
+    ): org.springframework.data.domain.Page<Complaint>
+
     fun findFirstByCode(complaintCode: ComplaintCode): Optional<Complaint>
 }

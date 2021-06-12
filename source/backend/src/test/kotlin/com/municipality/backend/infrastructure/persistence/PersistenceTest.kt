@@ -53,7 +53,7 @@ class PersistenceTest : AbstractIntegrationTest() {
         val result = repository.getById(dummyEntity.id)
         assertThat(result).isEqualTo(entityFromDb)
         assertThat(result.version).isEqualTo(2)
-        assertThat(result.modifiedAt).isNotNull()
+        assertThat(result.modifiedAt).isNotNull
         assertThat(result.modifiedAt).isNotEqualTo(result.createdAt)
     }
 

@@ -16,9 +16,9 @@ class RegisteredUser : DomainEntity<RegisteredUserId>, User<RegisteredUserId> {
     lateinit var lastName: LastName
     val roles: Roles = Roles.empty()
 
-    constructor(): super(RegisteredUserId())
+    constructor() : super(RegisteredUserId())
 
-    constructor(id: RegisteredUserId): super(id)
+    constructor(id: RegisteredUserId) : super(id)
 
     override fun id() = id
 

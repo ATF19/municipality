@@ -22,6 +22,7 @@ class AuditConfiguration(
     fun auditorAware(): AuditorAware<String> = HttpSessionAuditAware()
 
     private class HttpSessionAuditAware : AuditorAware<String> {
-        override fun getCurrentAuditor(): Optional<String> = Optional.of(SecurityContextHolder.getContext().authentication.name)
+        override fun getCurrentAuditor(): Optional<String> =
+            Optional.of(SecurityContextHolder.getContext().authentication.name)
     }
 }

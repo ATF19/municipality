@@ -241,8 +241,10 @@ class RolesTest {
         val result = roles.municipalities()
 
         // then
-        assertThat(result).containsExactlyInAnyOrder(mResponsible.municipalityId, mAuditor1.municipalityId,
-            mAuditor2.municipalityId)
+        assertThat(result).containsExactlyInAnyOrder(
+            mResponsible.municipalityId, mAuditor1.municipalityId,
+            mAuditor2.municipalityId
+        )
     }
 
     @Test(groups = [TestGroup.UNIT])

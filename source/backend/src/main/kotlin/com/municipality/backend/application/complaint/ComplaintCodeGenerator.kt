@@ -4,7 +4,6 @@ import com.municipality.backend.domain.model.complaint.ComplaintCode
 import com.municipality.backend.domain.service.complaint.Complaints
 import org.springframework.stereotype.Component
 import java.security.SecureRandom
-import java.util.concurrent.locks.ReentrantLock
 
 const val LENGTH = 8
 const val UPPERCASES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -27,7 +26,7 @@ class ComplaintCodeGenerator(
         val complaintCode = ComplaintCode(String(buffer))
 
         if (complaints.exists(complaintCode))
-            return generate();
+            return generate()
 
         return complaintCode
     }

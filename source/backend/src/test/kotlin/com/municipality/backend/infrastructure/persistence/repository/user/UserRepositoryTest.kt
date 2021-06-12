@@ -173,8 +173,10 @@ class UserRepositoryTest : AbstractIntegrationTest() {
         val thirdPage = repository.all(PageNumber(3), DEFAULT_PAGE_SIZE)
 
         // then
-        assertThat(firstPage.elements).containsExactlyInAnyOrder(user12, user11, user10, user9, user8, user7,
-        user6, user5, user4, user3)
+        assertThat(firstPage.elements).containsExactlyInAnyOrder(
+            user12, user11, user10, user9, user8, user7,
+            user6, user5, user4, user3
+        )
         assertThat(firstPage.pageNumber.number).isEqualTo(1)
         assertThat(firstPage.totalPages).isEqualTo(2)
         assertThat(secondPage.elements).containsExactlyInAnyOrder(user2, user1)

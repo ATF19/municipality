@@ -26,7 +26,8 @@ class JwtSessionProvider(
     @Value("\${municipality.session.secret}")
     val jwtSecret: String,
 
-    private val users: Users) : Sessions {
+    private val users: Users
+) : Sessions {
 
     override fun create(user: RegisteredUser): Session {
         val currentTimeMillis = System.currentTimeMillis()
