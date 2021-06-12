@@ -245,6 +245,7 @@ class UserRestServiceTest {
         val response = restService.deleteUser(registeredUserId.rawId.toString())
 
         // then
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         verify { userAppService.deleteUser(DeleteUserCommand(loggedInUserResolver.loggedIn(), registeredUserId)) }
     }
 }

@@ -189,7 +189,6 @@ class ComplaintAppServiceTest {
     @Test(groups = [TestGroup.UNIT])
     fun get_by_id() {
         // given
-        val user = RegisteredUserBuilder.DEFAULT
         val complaints = mockk<Complaints>(relaxed = true)
         val districts = mockk<Districts>()
         val complaintCodeGenerator = mockk<ComplaintCodeGenerator>()
@@ -208,7 +207,6 @@ class ComplaintAppServiceTest {
     @Test(groups = [TestGroup.UNIT])
     fun get_by_code() {
         // given
-        val user = RegisteredUserBuilder.DEFAULT
         val complaints = mockk<Complaints>(relaxed = true)
         val districts = mockk<Districts>()
         val complaintCodeGenerator = mockk<ComplaintCodeGenerator>()
