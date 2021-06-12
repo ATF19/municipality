@@ -1,5 +1,5 @@
 const Config = {
-    server: 'http://192.168.1.102:9001/'
+    server: 'https://communaute-service.yimno.tn/'
 }
 
 export default Config;

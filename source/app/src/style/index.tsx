@@ -23,7 +23,7 @@ const Styles: StyleProp<any> = {
         },
         shadowOpacity: 0.18,
         shadowRadius: 1.00,
-        elevation: 1
+        elevation: 0
     },
     homeMenuContainer: {
         flex: 1,
@@ -43,7 +43,7 @@ const Styles: StyleProp<any> = {
         },
         shadowOpacity: 0.5,
         shadowRadius: 1.00,
-        elevation: 1
+        elevation: 0
     },
     homeMenuCard: {
         width: 140,
@@ -187,7 +187,7 @@ const Styles: StyleProp<any> = {
         },
         shadowOpacity: 0.1,
         shadowRadius: 1.00,
-        elevation: 1
+        elevation: 0
 
     },
     rightText: {
