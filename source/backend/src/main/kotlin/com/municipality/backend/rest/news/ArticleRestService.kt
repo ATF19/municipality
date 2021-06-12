@@ -55,12 +55,13 @@ class ArticleRestService(
             ArticleDto(
                 article.id.rawId.toString(),
                 article.title.title!!,
-                article.content.content!!
+                article.content.content!!,
+                article.createdAt.toString()
             )
         )
     }
 }
 
 data class ArticleWithoutContentDto(val id: String, val title: String)
-data class ArticleDto(val id: String, val title: String, val content: String)
+data class ArticleDto(val id: String, val title: String, val content: String, val createdAt: String)
 data class CreateArticleRequest(val title: String, val content: String)
