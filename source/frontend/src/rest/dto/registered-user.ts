@@ -116,6 +116,12 @@ export interface RegisteredUser {
      * @type {boolean}
      * @memberof RegisteredUser
      */
+    admin: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RegisteredUser
+     */
     municipalityResponsible: boolean;
     /**
      * 
@@ -135,12 +141,6 @@ export interface RegisteredUser {
      * @memberof RegisteredUser
      */
     districtAuditor: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUser
-     */
-    admin: boolean;
     /**
      * 
      * @type {boolean}

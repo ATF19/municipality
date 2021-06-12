@@ -14,6 +14,7 @@
 
 
 
+export * from './api/article-rest-service-api';
 export * from './api/complaint-rest-service-api';
 export * from './api/district-rest-service-api';
 export * from './api/file-rest-service-api';

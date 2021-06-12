@@ -17,33 +17,15 @@
 /**
  * 
  * @export
- * @interface RegisteredUserId
+ * @interface ArticleId
  */
-export interface RegisteredUserId {
+export interface ArticleId {
     /**
      * 
      * @type {string}
-     * @memberof RegisteredUserId
+     * @memberof ArticleId
      */
     rawId: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    anonymousId: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    registeredUserId: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    systemId: boolean;
 }
 
 

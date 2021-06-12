@@ -17,33 +17,15 @@
 /**
  * 
  * @export
- * @interface RegisteredUserId
+ * @interface Title
  */
-export interface RegisteredUserId {
+export interface Title {
     /**
      * 
      * @type {string}
-     * @memberof RegisteredUserId
+     * @memberof Title
      */
-    rawId: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    anonymousId: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    registeredUserId: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    systemId: boolean;
+    title?: string;
 }
 
 

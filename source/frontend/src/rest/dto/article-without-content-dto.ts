@@ -17,33 +17,21 @@
 /**
  * 
  * @export
- * @interface RegisteredUserId
+ * @interface ArticleWithoutContentDto
  */
-export interface RegisteredUserId {
+export interface ArticleWithoutContentDto {
     /**
      * 
      * @type {string}
-     * @memberof RegisteredUserId
+     * @memberof ArticleWithoutContentDto
      */
-    rawId: string;
+    id: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
+     * @type {string}
+     * @memberof ArticleWithoutContentDto
      */
-    anonymousId: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    registeredUserId: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    systemId: boolean;
+    title: string;
 }
 
 

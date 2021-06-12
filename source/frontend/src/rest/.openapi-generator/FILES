@@ -1,4 +1,5 @@
 api.ts
+api/article-rest-service-api.ts
 api/complaint-rest-service-api.ts
 api/district-rest-service-api.ts
 api/file-rest-service-api.ts
@@ -10,12 +11,17 @@ base.ts
 common.ts
 configuration.ts
 dto/address.ts
+dto/article-dto.ts
+dto/article-id.ts
+dto/article-without-content-dto.ts
+dto/article-without-content.ts
 dto/comment.ts
 dto/complaint-code.ts
 dto/complaint-dto.ts
 dto/complaint-id.ts
 dto/complaint.ts
 dto/content-type.ts
+dto/create-article-request.ts
 dto/create-complaint-request.ts
 dto/crypted-password.ts
 dto/district-dto.ts
@@ -37,8 +43,10 @@ dto/municipality-id.ts
 dto/municipality-name-in-arabic.ts
 dto/municipality-name.ts
 dto/municipality.ts
+dto/page-article-without-content.ts
 dto/page-complaint.ts
 dto/page-district.ts
+dto/page-dto-article-without-content-article-without-content-dto.ts
 dto/page-dto-complaint-complaint-dto.ts
 dto/page-dto-district-district-dto.ts
 dto/page-dto-municipality-municipality-dto.ts
@@ -56,6 +64,7 @@ dto/registered-user-id.ts
 dto/registered-user.ts
 dto/result-comment.ts
 dto/roles.ts
+dto/title.ts
 dto/update-complaint-request.ts
 dto/update-internal-user-request.ts
 dto/update-profile-request.ts

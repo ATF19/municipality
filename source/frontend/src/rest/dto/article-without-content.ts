@@ -13,37 +13,27 @@
  */
 
 
+import { ArticleId } from './article-id';
+import { Title } from './title';
 
 /**
  * 
  * @export
- * @interface RegisteredUserId
+ * @interface ArticleWithoutContent
  */
-export interface RegisteredUserId {
+export interface ArticleWithoutContent {
     /**
      * 
-     * @type {string}
-     * @memberof RegisteredUserId
+     * @type {ArticleId}
+     * @memberof ArticleWithoutContent
      */
-    rawId: string;
+    id: ArticleId;
     /**
      * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
+     * @type {Title}
+     * @memberof ArticleWithoutContent
      */
-    anonymousId: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    registeredUserId: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisteredUserId
-     */
-    systemId: boolean;
+    title: Title;
 }
 
 
