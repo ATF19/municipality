@@ -1,5 +1,5 @@
 const Config = {
-    apiHost: "https://communaute-service.yimno.tn"
+    apiHost: "http://localhost:9001"
 }
 
 export default Config;

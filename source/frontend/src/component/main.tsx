@@ -1,4 +1,4 @@
-import { AlertOutlined, ApartmentOutlined, BankOutlined, HeartTwoTone, InfoCircleOutlined, LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
+import { AlertOutlined, ApartmentOutlined, BankOutlined, CommentOutlined, ContactsOutlined, ControlOutlined, HeartTwoTone, InfoCircleOutlined, LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, message, Modal } from "antd";
 import { Content, Footer } from "antd/lib/layout/layout";
 import { BrowserRouter, Link } from 'react-router-dom';
@@ -80,6 +80,8 @@ const MainContainer = ({user}: MainContainerProps) => {
       selectedElement = "-1";
     else if(location.indexOf("info") > -1)
       selectedElement = "information";
+    else if(location.indexOf("nouveautes") > -1)
+      selectedElement = "nouveautes";
 
     else
         selectedElement = userHomePage(user);
@@ -98,64 +100,74 @@ const MainContainer = ({user}: MainContainerProps) => {
                     </Menu.Item>
                     {
                         canSeeComplaints(user) && (
-                            <Menu.Item key="plaintes">
+                            <Menu.Item key="plaintes" icon={<AlertOutlined />}>
                                 <Link to="/plaintes">
-                                    <AlertOutlined className="menu-icon" />
                                     Plaintes
                                 </Link>
                             </Menu.Item>
                         )
                     }
                     {
-                        canSeeDistricts(user) && (
-                            <Menu.Item key="arrondissements">
-                                <Link to="/arrondissements">
-                                    <ApartmentOutlined className="menu-icon" />
-                                    Arrondissements
-                                </Link>
-                            </Menu.Item>
-                        )
-                    }
-                    {
-                        canSeeMunicipalities(user) && (
-                            <Menu.Item key="municipalites">
-                                <Link to="/municipalites">
-                                    <BankOutlined className="menu-icon" />
-                                    Municipalités
+                        user.isAdmin && (
+                            <Menu.Item key="nouveautes" icon={<CommentOutlined />}>
+                                <Link to="/nouveautes">
+                                    Nouveautés
                                 </Link>
                             </Menu.Item>
                         )
                     }
                     {
                         user.isAdmin && (
-                            <Menu.Item key="utilisateurs">
-                                <Link to="/utilisateurs">
-                                    <UsergroupAddOutlined className="menu-icon" />
-                                    Utilisateurs
-                                </Link>
-                            </Menu.Item>
-                        )
-                    }
-                    {
-                        user.isAdmin && (
-                            <Menu.Item key="information">
+                            <Menu.Item key="information" icon={<InfoCircleOutlined />}>
                                 <Link to="/info">
-                                    <InfoCircleOutlined className="menu-icon" />
                                     Informations
                                 </Link>
                             </Menu.Item>
                         )
                     }
-                    <Menu.Item key="profil">
-                        <Link to="/profil">
-                            <UserOutlined className="menu-icon" />
-                            Mon Profil
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key="logout" onClick={showLogoutConfirm}>
-                        <LogoutOutlined className="menu-icon" />
-                        Déconnecter
-                    </Menu.Item>
+                    {  
+                        (canSeeDistricts(user) || canSeeMunicipalities(user)) && (
+                            <Menu.SubMenu key="masterdata" icon={<ControlOutlined />} title="Données de Base">
+                                {
+                                    canSeeMunicipalities(user) && (
+                                        <Menu.Item key="municipalites" icon={<BankOutlined />}>
+                                            <Link to="/municipalites">
+                                                Municipalités
+                                            </Link>
+                                        </Menu.Item>
+                                    )
+                                }
+                                {
+                                    canSeeDistricts(user) && (
+                                        <Menu.Item key="arrondissements" icon={<ApartmentOutlined />}>
+                                            <Link to="/arrondissements">
+                                                Arrondissements
+                                            </Link>
+                                        </Menu.Item>
+                                    )
+                                }
+                                {
+                                    user.isAdmin && (
+                                        <Menu.Item key="utilisateurs" icon={<UsergroupAddOutlined />}>
+                                            <Link to="/utilisateurs">
+                                                Utilisateurs
+                                            </Link>
+                                        </Menu.Item>
+                                    )
+                                }
+                            </Menu.SubMenu>
+                        )
+                    }
+                    <Menu.SubMenu key="me" icon={<ContactsOutlined />} title="Mon Compte">
+                        <Menu.Item key="profil" icon={<UserOutlined />}>
+                            <Link to="/profil">
+                                Mon Profil
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="logout" onClick={showLogoutConfirm} icon={<LogoutOutlined />}>
+                            Déconnecter
+                        </Menu.Item>
+                    </Menu.SubMenu>
                 </Menu>
             <Content
                 style={{
