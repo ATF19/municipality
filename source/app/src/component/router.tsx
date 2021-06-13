@@ -7,6 +7,7 @@ import Complaint from '../screen/complaint';
 import ComplaintList from '../screen/complaintList';
 import Information from '../screen/information';
 import News from '../screen/news';
+import Article from '../screen/article';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,9 @@ const Router = () => (
             <Stack.Screen options={{title: "جديد"}} 
                 name="News" 
                 component={News} />
+            <Stack.Screen options={{title: "جديد"}} 
+                name="Article" 
+                component={Article} />
             <Stack.Screen options={{title: "معلومات"}} 
                 name="Information" 
                 component={Information} />

@@ -204,9 +204,15 @@ const Styles: StyleProp<any> = {
         marginTop: 20,
         marginBottom: 20
     },
+    articleSpaceSeparation: {
+        marginTop: 20
+    },
     infoIcon: {
         width: 100,
         height: 100
+    },
+    marginBottom: {
+        marginBottom: 15
     }
 }
 
