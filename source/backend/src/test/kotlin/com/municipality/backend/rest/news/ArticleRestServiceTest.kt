@@ -42,7 +42,9 @@ class ArticleRestServiceTest {
         assertThat(response.body).isEqualTo(PageDto(page) {
             ArticleWithoutContentDto(
                 it.id.rawId.toString(),
-                it.title.title!!
+                it.title.title!!,
+                it.createdAt.toString(),
+                it.createdBy
             )
         })
     }

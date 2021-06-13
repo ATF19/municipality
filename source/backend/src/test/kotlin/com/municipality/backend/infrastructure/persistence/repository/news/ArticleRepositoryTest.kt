@@ -90,7 +90,7 @@ class ArticleRepositoryTest : AbstractIntegrationTest() {
     }
 
     @Test(groups = [TestGroup.INTEGRATION])
-    fun retrieve_article_by_ids() {
+    fun retrieve_articles() {
         // given
         articleJpaRepository.deleteAll()
         val article1 = ArticleBuilder().build()
@@ -113,12 +113,12 @@ class ArticleRepositoryTest : AbstractIntegrationTest() {
         assertThat(ids.pageNumber.number).isEqualTo(1)
         assertThat(ids.totalPages).isEqualTo(2)
         assertThat(ids.elements).containsExactlyInAnyOrder(
-            articleWithoutTitle(article5),
-            articleWithoutTitle(article4),
-            articleWithoutTitle(article3),
-            articleWithoutTitle(article2)
+            articleWithoutTitle(articles.by(article5.id)),
+            articleWithoutTitle(articles.by(article4.id)),
+            articleWithoutTitle(articles.by(article3.id)),
+            articleWithoutTitle(articles.by(article2.id))
         )
     }
 
-    private fun articleWithoutTitle(article: Article) = ArticleWithoutContent(article.id, article.title)
+    private fun articleWithoutTitle(article: Article) = ArticleWithoutContent(article.id, article.title, article.createdAt, article.createdBy)
 }

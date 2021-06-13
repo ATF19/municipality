@@ -43,7 +43,13 @@ export interface ArticleDto {
      * @type {string}
      * @memberof ArticleDto
      */
-    createdAt: string;
+    createdAt?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleDto
+     */
+    createdBy?: string;
 }
 
 

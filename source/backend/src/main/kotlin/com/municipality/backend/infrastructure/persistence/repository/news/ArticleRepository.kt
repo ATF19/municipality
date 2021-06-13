@@ -19,7 +19,7 @@ class ArticleRepository(
     override fun all(pageNumber: PageNumber, pageSize: PageSize): Page<ArticleWithoutContent> {
         val all = articleJpaRepository
             .findAll(PageBuilder.builder.build(pageNumber, pageSize))
-            .map { ArticleWithoutContent(it.id, it.title) }
+            .map { ArticleWithoutContent(it.id, it.title, it.createdAt, it.createdBy) }
         return Page(all.content, pageNumber, pageSize, all.totalPages)
     }
 

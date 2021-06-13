@@ -34,6 +34,18 @@ export interface ArticleWithoutContent {
      * @memberof ArticleWithoutContent
      */
     title: Title;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleWithoutContent
+     */
+    createdAt?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleWithoutContent
+     */
+    createdBy?: string;
 }
 
 

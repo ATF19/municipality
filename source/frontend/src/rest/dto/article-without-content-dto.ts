@@ -32,6 +32,18 @@ export interface ArticleWithoutContentDto {
      * @memberof ArticleWithoutContentDto
      */
     title: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleWithoutContentDto
+     */
+    createdAt?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleWithoutContentDto
+     */
+    createdBy?: string;
 }
 
 

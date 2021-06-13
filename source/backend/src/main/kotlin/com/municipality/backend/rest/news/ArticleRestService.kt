@@ -29,7 +29,7 @@ class ArticleRestService(
             if (page == null) FIRST_PAGE else PageNumber(page),
             DEFAULT_PAGE_SIZE
         )
-        val pageDto = PageDto(all) { ArticleWithoutContentDto(it.id.rawId.toString(), it.title.title!!) }
+        val pageDto = PageDto(all) { ArticleWithoutContentDto(it.id.rawId.toString(), it.title.title!!, it.createdAt.toString(), it.createdBy) }
         return ResponseEntity.ok(pageDto)
     }
 
@@ -67,12 +67,13 @@ class ArticleRestService(
                 article.id.rawId.toString(),
                 article.title.title!!,
                 article.content.content!!,
-                article.createdAt.toString()
+                article.createdAt.toString(),
+                article.createdBy
             )
         )
     }
 }
 
-data class ArticleWithoutContentDto(val id: String, val title: String)
-data class ArticleDto(val id: String, val title: String, val content: String, val createdAt: String)
+data class ArticleWithoutContentDto(val id: String, val title: String, val createdAt: String?, val createdBy: String?)
+data class ArticleDto(val id: String, val title: String, val content: String, val createdAt: String?, val createdBy: String?)
 data class CreateOrUpdateArticleRequest(val title: String, val content: String)

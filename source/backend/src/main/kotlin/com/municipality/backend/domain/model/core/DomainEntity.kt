@@ -11,7 +11,7 @@ import javax.persistence.*
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-abstract class DomainEntity<T : com.municipality.backend.domain.model.core.Id>(
+abstract class DomainEntity<T : Id>(
     @EmbeddedId
     val id: T
 ) {

@@ -1,5 +1,7 @@
 package com.municipality.backend.domain.model.news
 
+import java.time.Instant
+
 class ArticleBuilder {
 
     var id = ArticleId()
@@ -13,5 +15,5 @@ class ArticleBuilder {
         return article
     }
 
-    fun buildWithoutContent() = ArticleWithoutContent(id, title)
+    fun buildWithoutContent() = ArticleWithoutContent(id, title, Instant.now(), "testUser")
 }

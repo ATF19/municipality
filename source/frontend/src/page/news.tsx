@@ -5,6 +5,7 @@ import { Redirect } from "react-router";
 import Context from "../component/context";
 import ApiConfig from "../configuration/apiConfig";
 import { ArticleRestServiceApi, ArticleWithoutContentDto, CreateOrUpdateArticleRequest } from "../rest";
+import moment from 'moment'
 
 const News = () => {
     const { user } = useContext(Context)
@@ -116,7 +117,17 @@ const News = () => {
         {
             title: "Titre",
             dataIndex: 'title',
-            width: "70%"
+            width: "50%"
+        },
+        {
+            title: "Crée par",
+            dataIndex: 'createdBy'
+        },
+        {
+            title: "Date de creation",
+            render: (text: string, record: ArticleWithoutContentDto) => (
+                <p>{moment(record.createdAt).format("DD/MM/yyyy hh:mm")}</p>
+            )
         },
         {
             title: "Actions",
