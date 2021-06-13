@@ -2,6 +2,7 @@ package com.municipality.backend.rest.news
 
 import com.municipality.backend.application.news.ArticleAppService
 import com.municipality.backend.application.news.CreateArticleCommand
+import com.municipality.backend.application.news.UpdateArticleCommand
 import com.municipality.backend.application.user.LoggedInUserResolver
 import com.municipality.backend.domain.model.core.DEFAULT_PAGE_SIZE
 import com.municipality.backend.domain.model.core.FIRST_PAGE
@@ -33,12 +34,22 @@ class ArticleRestService(
     }
 
     @PostMapping
-    fun createArticle(@RequestBody request: CreateArticleRequest): ResponseEntity<String> {
+    fun createArticle(@RequestBody request: CreateOrUpdateArticleRequest): ResponseEntity<String> {
         val command = CreateArticleCommand(
             loggedInUserResolver.loggedIn(),
             Title(request.title), Content(request.content)
         )
         articleAppService.create(command)
+        return ResponseEntity.ok().build()
+    }
+
+    @PutMapping("/{articleId}")
+    fun updateArticle(@PathVariable("articleId") articleId: String, @RequestBody request: CreateOrUpdateArticleRequest): ResponseEntity<String> {
+        val command = UpdateArticleCommand(
+            loggedInUserResolver.loggedIn(),
+            ArticleId(articleId), Title(request.title), Content(request.content)
+        )
+        articleAppService.update(command)
         return ResponseEntity.ok().build()
     }
 
@@ -64,4 +75,4 @@ class ArticleRestService(
 
 data class ArticleWithoutContentDto(val id: String, val title: String)
 data class ArticleDto(val id: String, val title: String, val content: String, val createdAt: String)
-data class CreateArticleRequest(val title: String, val content: String)
+data class CreateOrUpdateArticleRequest(val title: String, val content: String)

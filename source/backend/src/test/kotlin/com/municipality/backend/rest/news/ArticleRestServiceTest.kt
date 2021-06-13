@@ -2,6 +2,7 @@ package com.municipality.backend.rest.news
 
 import com.municipality.backend.application.news.ArticleAppService
 import com.municipality.backend.application.news.CreateArticleCommand
+import com.municipality.backend.application.news.UpdateArticleCommand
 import com.municipality.backend.application.user.LoggedInUserResolver
 import com.municipality.backend.domain.model.core.DEFAULT_PAGE_SIZE
 import com.municipality.backend.domain.model.core.Page
@@ -53,7 +54,7 @@ class ArticleRestServiceTest {
         every { loggedInUserResolver.loggedIn() }.returns(LoggedInUserForTest.user)
         val appService = mockk<ArticleAppService>(relaxed = true)
         val restService = ArticleRestService(appService, loggedInUserResolver)
-        val request = CreateArticleRequest("Test title", "Test content")
+        val request = CreateOrUpdateArticleRequest("Test title", "Test content")
 
         // when
         val response = restService.createArticle(request)
@@ -64,6 +65,30 @@ class ArticleRestServiceTest {
         verify { appService.create(capture(captor)) }
         val command = captor.captured
         assertThat(command.user).isEqualTo(loggedInUserResolver.loggedIn())
+        assertThat(command.title.title).isEqualTo(request.title)
+        assertThat(command.content.content).isEqualTo(request.content)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
+    fun update_article() {
+        // given
+        val loggedInUserResolver = mockk<LoggedInUserResolver>()
+        every { loggedInUserResolver.loggedIn() }.returns(LoggedInUserForTest.user)
+        val appService = mockk<ArticleAppService>(relaxed = true)
+        val restService = ArticleRestService(appService, loggedInUserResolver)
+        val id = ArticleId()
+        val request = CreateOrUpdateArticleRequest("Test title", "Test content")
+
+        // when
+        val response = restService.updateArticle(id.rawId.toString(), request)
+
+        // then
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        val captor = slot<UpdateArticleCommand>()
+        verify { appService.update(capture(captor)) }
+        val command = captor.captured
+        assertThat(command.user).isEqualTo(loggedInUserResolver.loggedIn())
+        assertThat(command.articleId).isEqualTo(id)
         assertThat(command.title.title).isEqualTo(request.title)
         assertThat(command.content.content).isEqualTo(request.content)
     }

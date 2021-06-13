@@ -23,7 +23,7 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 // @ts-ignore
 import { ArticleDto } from '../dto';
 // @ts-ignore
-import { CreateArticleRequest } from '../dto';
+import { CreateOrUpdateArticleRequest } from '../dto';
 // @ts-ignore
 import { PageDtoArticleWithoutContentArticleWithoutContentDto } from '../dto';
 /**
@@ -68,13 +68,13 @@ export const ArticleRestServiceApiAxiosParamCreator = function (configuration?: 
         },
         /**
          * 
-         * @param {CreateArticleRequest} createArticleRequest 
+         * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createArticle: async (createArticleRequest: CreateArticleRequest, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'createArticleRequest' is not null or undefined
-            assertParamExists('createArticle', 'createArticleRequest', createArticleRequest)
+        createArticle: async (createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createOrUpdateArticleRequest' is not null or undefined
+            assertParamExists('createArticle', 'createOrUpdateArticleRequest', createOrUpdateArticleRequest)
             const localVarPath = `/articles`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -94,7 +94,7 @@ export const ArticleRestServiceApiAxiosParamCreator = function (configuration?: 
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(createArticleRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(createOrUpdateArticleRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -167,6 +167,45 @@ export const ArticleRestServiceApiAxiosParamCreator = function (configuration?: 
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} articleId 
+         * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateArticle: async (articleId: string, createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'articleId' is not null or undefined
+            assertParamExists('updateArticle', 'articleId', articleId)
+            // verify required parameter 'createOrUpdateArticleRequest' is not null or undefined
+            assertParamExists('updateArticle', 'createOrUpdateArticleRequest', createOrUpdateArticleRequest)
+            const localVarPath = `/articles/{articleId}`
+                .replace(`{${"articleId"}}`, encodeURIComponent(String(articleId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createOrUpdateArticleRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -189,12 +228,12 @@ export const ArticleRestServiceApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {CreateArticleRequest} createArticleRequest 
+         * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createArticle(createArticleRequest: CreateArticleRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createArticle(createArticleRequest, options);
+        async createArticle(createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createArticle(createOrUpdateArticleRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -215,6 +254,17 @@ export const ArticleRestServiceApiFp = function(configuration?: Configuration) {
          */
         async getArticle(articleId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ArticleDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getArticle(articleId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} articleId 
+         * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateArticle(articleId: string, createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateArticle(articleId, createOrUpdateArticleRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -238,12 +288,12 @@ export const ArticleRestServiceApiFactory = function (configuration?: Configurat
         },
         /**
          * 
-         * @param {CreateArticleRequest} createArticleRequest 
+         * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createArticle(createArticleRequest: CreateArticleRequest, options?: any): AxiosPromise<string> {
-            return localVarFp.createArticle(createArticleRequest, options).then((request) => request(axios, basePath));
+        createArticle(createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options?: any): AxiosPromise<string> {
+            return localVarFp.createArticle(createOrUpdateArticleRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -262,6 +312,16 @@ export const ArticleRestServiceApiFactory = function (configuration?: Configurat
          */
         getArticle(articleId: string, options?: any): AxiosPromise<ArticleDto> {
             return localVarFp.getArticle(articleId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} articleId 
+         * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateArticle(articleId: string, createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options?: any): AxiosPromise<string> {
+            return localVarFp.updateArticle(articleId, createOrUpdateArticleRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -283,12 +343,12 @@ export interface ArticleRestServiceApiInterface {
 
     /**
      * 
-     * @param {CreateArticleRequest} createArticleRequest 
+     * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ArticleRestServiceApiInterface
      */
-    createArticle(createArticleRequest: CreateArticleRequest, options?: any): AxiosPromise<string>;
+    createArticle(createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options?: any): AxiosPromise<string>;
 
     /**
      * 
@@ -307,6 +367,16 @@ export interface ArticleRestServiceApiInterface {
      * @memberof ArticleRestServiceApiInterface
      */
     getArticle(articleId: string, options?: any): AxiosPromise<ArticleDto>;
+
+    /**
+     * 
+     * @param {string} articleId 
+     * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ArticleRestServiceApiInterface
+     */
+    updateArticle(articleId: string, createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options?: any): AxiosPromise<string>;
 
 }
 
@@ -330,13 +400,13 @@ export class ArticleRestServiceApi extends BaseAPI implements ArticleRestService
 
     /**
      * 
-     * @param {CreateArticleRequest} createArticleRequest 
+     * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ArticleRestServiceApi
      */
-    public createArticle(createArticleRequest: CreateArticleRequest, options?: any) {
-        return ArticleRestServiceApiFp(this.configuration).createArticle(createArticleRequest, options).then((request) => request(this.axios, this.basePath));
+    public createArticle(createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options?: any) {
+        return ArticleRestServiceApiFp(this.configuration).createArticle(createOrUpdateArticleRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -359,5 +429,17 @@ export class ArticleRestServiceApi extends BaseAPI implements ArticleRestService
      */
     public getArticle(articleId: string, options?: any) {
         return ArticleRestServiceApiFp(this.configuration).getArticle(articleId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} articleId 
+     * @param {CreateOrUpdateArticleRequest} createOrUpdateArticleRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ArticleRestServiceApi
+     */
+    public updateArticle(articleId: string, createOrUpdateArticleRequest: CreateOrUpdateArticleRequest, options?: any) {
+        return ArticleRestServiceApiFp(this.configuration).updateArticle(articleId, createOrUpdateArticleRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }

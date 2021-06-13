@@ -31,6 +31,10 @@ class ArticleRepository(
         articleJpaRepository.save(article)
     }
 
+    override fun update(article: Article) {
+        articleJpaRepository.save(article)
+    }
+
     override fun delete(article: Article) {
         articleJpaRepository.delete(article)
     }

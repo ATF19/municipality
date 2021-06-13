@@ -11,5 +11,6 @@ interface Articles {
     fun all(pageNumber: PageNumber, pageSize: PageSize): Page<ArticleWithoutContent>
     fun by(articleId: ArticleId): Article
     fun create(article: Article)
+    fun update(article: Article)
     fun delete(article: Article)
 }

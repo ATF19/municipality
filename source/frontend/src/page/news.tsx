@@ -4,7 +4,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import Context from "../component/context";
 import ApiConfig from "../configuration/apiConfig";
-import { ArticleRestServiceApi, ArticleWithoutContentDto, CreateArticleRequest } from "../rest";
+import { ArticleRestServiceApi, ArticleWithoutContentDto, CreateOrUpdateArticleRequest } from "../rest";
 
 const News = () => {
     const { user } = useContext(Context)
@@ -38,26 +38,35 @@ const News = () => {
     useEffect(() => { loadArticles(1) }, [loadArticles])
 
     const addOrUpdateArticle= () => {
+        const request: CreateOrUpdateArticleRequest = {
+            title: modalTitle,
+            content: modalContent
+        }
+        const articleApi = new ArticleRestServiceApi(ApiConfig());
+        toggleModalBtnLoading(true)
         if (!modalId || modalId === "") {
-            const request: CreateArticleRequest = {
-                title: modalTitle,
-                content: modalContent
-            }
-            const articleApi = new ArticleRestServiceApi(ApiConfig());
-            toggleModalBtnLoading(true)
             articleApi.createArticle(request)
             .then(() => {
                 closeModal()
                 loadArticles(currentPage || 1)
                 message.success("L'article a été crée avec succès.")
             })
-            .catch((error) => {
+            .catch(() => {
                 message.error("Il y a eu une erreur lors de la création de l'article. Veuillez réessayer.")
             })
             .finally(() => toggleModalBtnLoading(false))
         }
         else {
-            alert("Update")
+            articleApi.updateArticle(modalId, request)
+            .then(() => {
+                closeModal()
+                loadArticles(currentPage || 1)
+                message.success("L'article a été mis à jour avec succès.")
+            })
+            .catch(() => {
+                message.error("Il y a eu une erreur lors de la mise à jour de l'article. Veuillez réessayer.")
+            })
+            .finally(() => toggleModalBtnLoading(false))
         }
     }
 

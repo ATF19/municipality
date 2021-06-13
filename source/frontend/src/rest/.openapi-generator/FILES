@@ -21,8 +21,8 @@ dto/complaint-dto.ts
 dto/complaint-id.ts
 dto/complaint.ts
 dto/content-type.ts
-dto/create-article-request.ts
 dto/create-complaint-request.ts
+dto/create-or-update-article-request.ts
 dto/crypted-password.ts
 dto/district-dto.ts
 dto/district-id.ts

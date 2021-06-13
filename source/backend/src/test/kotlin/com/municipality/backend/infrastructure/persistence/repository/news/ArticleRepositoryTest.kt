@@ -2,10 +2,7 @@ package com.municipality.backend.infrastructure.persistence.repository.news
 
 import com.municipality.backend.domain.model.core.PageNumber
 import com.municipality.backend.domain.model.core.PageSize
-import com.municipality.backend.domain.model.news.Article
-import com.municipality.backend.domain.model.news.ArticleBuilder
-import com.municipality.backend.domain.model.news.ArticleId
-import com.municipality.backend.domain.model.news.ArticleWithoutContent
+import com.municipality.backend.domain.model.news.*
 import com.municipality.backend.domain.service.news.Articles
 import com.municipality.backend.shared_code_for_tests.AbstractIntegrationTest
 import com.municipality.backend.shared_code_for_tests.TestGroup
@@ -33,6 +30,23 @@ class ArticleRepositoryTest : AbstractIntegrationTest() {
         // then
         val byId = articleJpaRepository.getById(article.id)
         assertThat(byId.title).isEqualTo(article.title)
+        assertThat(byId.content).isEqualTo(article.content)
+    }
+
+    @Test(groups = [TestGroup.INTEGRATION])
+    fun update_article() {
+        // given
+        val article = ArticleBuilder().build()
+        articles.create(article)
+        val articleToUpdate = articleJpaRepository.getById(article.id)
+        articleToUpdate.title = Title("New title")
+
+        // when
+        articles.update(articleToUpdate)
+
+        // then
+        val byId = articleJpaRepository.getById(article.id)
+        assertThat(byId.title).isEqualTo(articleToUpdate.title)
         assertThat(byId.content).isEqualTo(article.content)
     }
 

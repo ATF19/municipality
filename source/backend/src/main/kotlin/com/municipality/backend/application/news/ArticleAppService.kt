@@ -8,6 +8,7 @@ import com.municipality.backend.domain.model.core.error.InsufficientPermissionEx
 import com.municipality.backend.domain.model.news.Article
 import com.municipality.backend.domain.model.news.ArticleId
 import com.municipality.backend.domain.model.news.Content
+import com.municipality.backend.domain.model.news.Title
 import com.municipality.backend.domain.model.user.User
 import com.municipality.backend.domain.service.news.Articles
 import org.springframework.stereotype.Component
@@ -21,11 +22,22 @@ class ArticleAppService(
         if (!command.user.isAdmin())
             throw InsufficientPermissionException()
 
-        verifyNoMissingInformation(command)
+        verifyNoMissingInformation(command.title, command.content)
         val article = Article()
         article.title = command.title
         article.content = Content(HtmlSanitizer.sanitze(command.content.content!!))
         articles.create(article)
+    }
+
+    fun update(command: UpdateArticleCommand) {
+        if (!command.user.isAdmin())
+            throw InsufficientPermissionException()
+
+        verifyNoMissingInformation(command.title, command.content)
+        val article = articles.by(command.articleId)
+        article.title = command.title
+        article.content = Content(HtmlSanitizer.sanitze(command.content.content!!))
+        articles.update(article)
     }
 
     fun delete(user: User<*>, articleId: ArticleId) {
@@ -40,8 +52,8 @@ class ArticleAppService(
 
     fun all(pageNumber: PageNumber, pageSize: PageSize) = articles.all(pageNumber, pageSize)
 
-    private fun verifyNoMissingInformation(command: CreateArticleCommand) {
-        if (command.title.title.isNullOrEmpty() || command.content.content.isNullOrEmpty())
+    private fun verifyNoMissingInformation(title: Title, content: Content) {
+        if (title.title.isNullOrEmpty() || content.content.isNullOrEmpty())
             throw MissingInformationException()
     }
 }

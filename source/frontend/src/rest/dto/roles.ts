@@ -31,12 +31,6 @@ export interface Roles {
      * @type {boolean}
      * @memberof Roles
      */
-    admin: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Roles
-     */
     municipalityResponsible: boolean;
     /**
      * 
@@ -56,6 +50,12 @@ export interface Roles {
      * @memberof Roles
      */
     districtAuditor: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Roles
+     */
+    admin: boolean;
 }
 
 

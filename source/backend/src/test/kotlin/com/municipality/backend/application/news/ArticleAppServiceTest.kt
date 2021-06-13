@@ -75,6 +75,30 @@ class ArticleAppServiceTest {
     }
 
     @Test(groups = [TestGroup.UNIT])
+    fun update_an_article() {
+        // given
+        val user = RegisteredUserBuilder().admin().build()
+        val articles = mockk<Articles>(relaxed = true)
+        val appService = ArticleAppService(articles)
+        val article = ArticleBuilder().build()
+        every { articles.by(article.id) }.returns(article)
+        val title = Title("Test new title")
+        val content = Content("Test new content")
+        val command = UpdateArticleCommand(user, article.id, title, content)
+
+        // when
+        appService.update(command)
+
+        // then
+        val captor = slot<Article>()
+        verify { articles.update(capture(captor)) }
+        val result = captor.captured
+        assertThat(result.id).isEqualTo(article.id)
+        assertThat(result.title).isEqualTo(title)
+        assertThat(result.content).isEqualTo(content)
+    }
+
+    @Test(groups = [TestGroup.UNIT])
     fun throw_exception_when_non_admin_tries_to_delete_an_article() {
         // given
         val user = RegisteredUserBuilder().build()
